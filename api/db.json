@@ -16,10 +16,16 @@
       "balancePoint": "headHeavy",
       "weight": "4U",
       "length": "675mm",
-      "createdAt": "",
-      "updatedAt": "",
-      "thumbnailUrl": "",
-      "gallery": []
+      "createdAt": "2025-11-02T10:00:00Z",
+      "updatedAt": "2025-11-02T10:00:00Z",
+
+      "thumbnailUrl": "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang_1758652101.webp",
+
+      "gallery": [
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-1_1758652130.webp",
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-2_1758652136.webp",
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-3_1758652144.webp"
+      ]
     }
   ],
   "users": [
@@ -63,82 +69,22 @@
     }
   ],
   "orders": [
+  ],
+  "homePage": [
     {
-      "id": "1",
-      "userId": 2,
-      "products": [
-        {
-          "productId": 1,
-          "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
-          "price": 455000,
-          "quantity": 1,
-          "thumbnailUrl": "/images/vot-cau-long-yonex-astrox-100-game.webp"
-        }
-      ],
-      "total": 455000,
-      "status": "pending",
-      "createdAt": "2025-11-02T17:00:00Z"
+      "id": 1,
+      "imageUrl": "/images/banner/1000z-launch-website-banner_1695177885.webp",
+      "alt": "Yonex 1000Z Launch"
     },
     {
-      "id": "2",
-      "userId": 2,
-      "products": [
-        {
-          "productId": 2,
-          "title": "Vợt Cầu Lông Li-Ning Turbo X",
-          "price": 350000,
-          "quantity": 1,
-          "thumbnailUrl": "/images/vot-cau-long-vnb-carbon-training-150g-5.webp"
-        }
-      ],
-      "total": 350000,
-      "status": "shipping",
-      "createdAt": "2025-11-01T14:30:00Z"
+      "id": 2,
+      "imageUrl": "/images/banner/victor-axelsen_1759089349.webp",
+      "alt": "Victor Axelsen"
     },
     {
-      "id": "3",
-      "userId": 3,
-      "products": [
-        {
-          "productId": 2,
-          "title": "Vợt Cầu Lông Li-Ning Turbo X",
-          "price": 350000,
-          "quantity": 2,
-          "thumbnailUrl": "/images/vot-cau-long-lining-turbo-x.webp"
-        }
-      ],
-      "total": 700000,
-      "status": "done",
-      "createdAt": "2025-11-01T10:00:00Z"
-    },
-    {
-      "id": "fb18",
-      "userId": 2,
-      "products": [
-        {
-          "productId": 1,
-          "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
-          "price": 455000,
-          "quantity": 1,
-          "thumbnailUrl": "/images/vot-cau-long-yonex-astrox-100-game.webp"
-        },
-        {
-          "productId": 2,
-          "title": "Vợt Cầu Lông Li-Ning Turbo X",
-          "price": 350000,
-          "quantity": 1,
-          "thumbnailUrl": "/images/vot-cau-long-vnb-carbon-training-150g-5.webp"
-        }
-      ],
-      "total": 805000,
-      "status": "pending",
-      "createdAt": "2025-11-02T14:22:06.520Z",
-      "shippingInfo": {
-        "fullName": "Minh Kha",
-        "phone": "0854453340",
-        "address": "Đường 3/2 Phường An Khánh, Quận Ninh Kiều, Cần Thơ",
-        "note": "Giao nhanh nhanh nha"
-      }
+      "id": 3,
+      "imageUrl": "/images/banner/yonex-astrox-99_1757731351.webp",
+      "alt": "Yonex Astrox 99"
     }
   ]
 }
