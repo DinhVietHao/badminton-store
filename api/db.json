@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
       "sku": "YX-AX100ZZ-KR",
       "description": "Là cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ đáng kinh ngạc. Phù hợp cho người chơi chuyên nghiệp và phong trào có lực cổ tay tốt.",
@@ -30,7 +30,7 @@
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "password": "Admin123@",
       "email": "nguyenvana@gmail.com",
@@ -39,7 +39,7 @@
       "role": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "dinhviethao1902",
       "password": "Hao190204#",
       "email": "dvhaoce190204@gmail.com",
@@ -48,8 +48,28 @@
       "role": "customer"
     }
   ],
-  "cart": [],
-  "orders": [],
+  "cart": [
+    {
+      "id": "1",
+      "userId": 2,
+      "productId": 1,
+      "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
+      "price": 455000,
+      "quantity": 1,
+      "thumbnailUrl": "/images/vot-cau-long-yonex-astrox-100-game.webp"
+    },
+    {
+      "id": "2",
+      "userId": 3,
+      "productId": 2,
+      "title": "Vợt Cầu Lông Li-Ning Turbo X",
+      "price": 350000,
+      "quantity": 9,
+      "thumbnailUrl": "/images/vot-cau-long-vnb-carbon-training-150g-5.webp"
+    }
+  ],
+  "orders": [
+  ],
   "homePage": [
     {
       "id": 1,
