@@ -1,12 +1,4 @@
-import {
-  Container,
-  Row,
-  Col,
-  Spinner,
-  Alert,
-  Card,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert, Card } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import ProductSidebar from "../components/layouts/ProductSidebar";
 import { ProductContext } from "../context/ProductContext";
@@ -174,7 +166,7 @@ const ProductPage = () => {
   return (
     <Container fluid className="mt-3">
       <Row>
-        <Col md={3}>
+        <Col md={2}>
           <ProductSidebar
             filters={selectedFilters}
             onFilterChange={handleFilterChange}
@@ -183,7 +175,7 @@ const ProductPage = () => {
           />
         </Col>
 
-        <Col md={9}>
+        <Col md={10}>
           <h2>Danh sách sản phẩm</h2>
           {isFiltering ? (
             <div className="text-center">
@@ -191,7 +183,7 @@ const ProductPage = () => {
               <p>Đang lọc...</p>
             </div>
           ) : (
-            <Row xs={1} md={2} lg={3} className="g-4">
+            <Row xs={2} md={3} lg={5} className="g-4">
               {filteredProducts.map((product) => {
                 const original = product.originalPrice;
                 const sale = Number(product.salePrice) || 0;
@@ -199,6 +191,10 @@ const ProductPage = () => {
                   original > 0 && sale > 0 && original > sale
                     ? Math.round(((original - sale) / original) * 100)
                     : 0;
+
+                const hasSale = discountPercent > 0;
+                const displayPrice = hasSale ? sale : original;
+                const strikethroughPrice = hasSale ? original : null;
 
                 return (
                   <Col key={product.id}>
@@ -222,14 +218,13 @@ const ProductPage = () => {
                           "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)";
                       }}
                     >
-                      {/* 🎀 Ribbon giảm giá */}
                       {discountPercent > 0 && (
                         <div
                           className="position-absolute text-white fw-bold d-flex align-items-center justify-content-center"
                           style={{
                             top: "10px",
                             left: "10px",
-                            backgroundColor: "#d0021b", // đỏ tươi kiểu TMĐT
+                            backgroundColor: "#d0021b",
                             borderTopRightRadius: "20px",
                             borderBottomRightRadius: "20px",
                             height: "28px",
@@ -240,7 +235,7 @@ const ProductPage = () => {
                             position: "relative",
                           }}
                         >
-                          -{discountPercent}%{/* Cái đuôi nhỏ bên trái */}
+                          -{discountPercent}%
                           <div
                             style={{
                               content: '""',
@@ -256,7 +251,6 @@ const ProductPage = () => {
                         </div>
                       )}
 
-                      {/* Hình ảnh sản phẩm */}
                       <div
                         className="d-flex align-items-center justify-content-center bg-white"
                         style={{ height: "200px", overflow: "hidden" }}
@@ -280,29 +274,30 @@ const ProductPage = () => {
 
                       <Card.Body>
                         <Card.Title
-                          className="fs-6 text-truncate"
+                          className="fs-6"
                           title={product.title}
+                          style={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            minHeight: "3rem",
+                          }}
                         >
                           {product.title}
                         </Card.Title>
 
                         <div className="mb-2">
                           <span className="text-danger fw-bold">
-                            {fmt(sale)}₫
+                            {fmt(displayPrice)}₫
                           </span>{" "}
-                          {original > 0 && (
+                          {strikethroughPrice && (
                             <span className="text-muted text-decoration-line-through small">
-                              {fmt(original)}₫
+                              {fmt(strikethroughPrice)}₫
                             </span>
                           )}
                         </div>
-
-                        <Button
-                          variant="warning"
-                          className="w-100 text-white fw-bold"
-                        >
-                          Thêm vào giỏ
-                        </Button>
                       </Card.Body>
                     </Card>
                   </Col>

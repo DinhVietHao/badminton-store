@@ -1,13 +1,6 @@
-import { useEffect, useState } from "react";
-import {
-  Carousel as BSCarousel,
-  Card,
-  Button,
-  Spinner,
-  Badge,
-} from "react-bootstrap";
-import Carousel from "react-multi-carousel";
+import { Carousel as BSCarousel, Card, Button, Spinner } from "react-bootstrap";
 import "react-multi-carousel/lib/styles.css";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import {
   FaShippingFast,
@@ -64,13 +57,6 @@ const HomePage = () => {
     typeof value === "number" && !Number.isNaN(value)
       ? value.toLocaleString()
       : "0";
-
-  const responsive = {
-    superLargeDesktop: { breakpoint: { max: 4000, min: 1200 }, items: 5 },
-    desktop: { breakpoint: { max: 1200, min: 992 }, items: 4 },
-    tablet: { breakpoint: { max: 992, min: 768 }, items: 3 },
-    mobile: { breakpoint: { max: 768, min: 0 }, items: 2 },
-  };
 
   return (
     <div>
