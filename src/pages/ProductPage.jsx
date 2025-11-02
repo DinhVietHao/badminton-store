@@ -1,4 +1,12 @@
-import { Container, Row, Col, Spinner, Alert, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Spinner,
+  Alert,
+  Card,
+  Button,
+} from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import ProductSidebar from "../components/layouts/ProductSidebar";
 import { ProductContext } from "../context/ProductContext";
@@ -158,6 +166,11 @@ const ProductPage = () => {
     );
   }
 
+  const fmt = (value) =>
+    typeof value === "number" && !Number.isNaN(value)
+      ? value.toLocaleString()
+      : "0";
+
   return (
     <Container fluid className="mt-3">
       <Row>
@@ -179,19 +192,122 @@ const ProductPage = () => {
             </div>
           ) : (
             <Row xs={1} md={2} lg={3} className="g-4">
-              {filteredProducts.map((product) => (
-                <Col key={product.id}>
-                  <Card>
-                    <Card.Img variant="top" src={product.thumbnailUrl} />
-                    <Card.Body>
-                      <Card.Title>{product.title}</Card.Title>
-                      <Card.Text>
-                        {product.salePrice || product.originalPrice} VNĐ
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
+              {filteredProducts.map((product) => {
+                const original = product.originalPrice;
+                const sale = Number(product.salePrice) || 0;
+                const discountPercent =
+                  original > 0 && sale > 0 && original > sale
+                    ? Math.round(((original - sale) / original) * 100)
+                    : 0;
+
+                return (
+                  <Col key={product.id}>
+                    <Card
+                      className="h-100 border-0 rounded-4 position-relative overflow-hidden"
+                      style={{
+                        backgroundColor: "#fff",
+                        boxShadow:
+                          "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)",
+                        transform: "translateY(0)",
+                        transition: "all 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-8px)";
+                        e.currentTarget.style.boxShadow =
+                          "0 10px 20px rgba(0,0,0,0.25), 0 15px 35px rgba(0,0,0,0.20)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "translateY(0)";
+                        e.currentTarget.style.boxShadow =
+                          "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)";
+                      }}
+                    >
+                      {/* 🎀 Ribbon giảm giá */}
+                      {discountPercent > 0 && (
+                        <div
+                          className="position-absolute text-white fw-bold d-flex align-items-center justify-content-center"
+                          style={{
+                            top: "10px",
+                            left: "10px",
+                            backgroundColor: "#d0021b", // đỏ tươi kiểu TMĐT
+                            borderTopRightRadius: "20px",
+                            borderBottomRightRadius: "20px",
+                            height: "28px",
+                            padding: "0 12px 0 16px",
+                            fontSize: "13px",
+                            zIndex: 10,
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
+                            position: "relative",
+                          }}
+                        >
+                          -{discountPercent}%{/* Cái đuôi nhỏ bên trái */}
+                          <div
+                            style={{
+                              content: '""',
+                              position: "absolute",
+                              left: "-6px",
+                              width: "0",
+                              height: "0",
+                              borderTop: "7px solid transparent",
+                              borderBottom: "7px solid transparent",
+                              borderRight: "6px solid #d0021b",
+                            }}
+                          ></div>
+                        </div>
+                      )}
+
+                      {/* Hình ảnh sản phẩm */}
+                      <div
+                        className="d-flex align-items-center justify-content-center bg-white"
+                        style={{ height: "200px", overflow: "hidden" }}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={
+                            product.thumbnailUrl
+                              ? product.thumbnailUrl
+                              : "/images/no-image.png"
+                          }
+                          alt={product.title}
+                          className="p-3"
+                          style={{
+                            maxHeight: "180px",
+                            objectFit: "contain",
+                            width: "auto",
+                          }}
+                        />
+                      </div>
+
+                      <Card.Body>
+                        <Card.Title
+                          className="fs-6 text-truncate"
+                          title={product.title}
+                        >
+                          {product.title}
+                        </Card.Title>
+
+                        <div className="mb-2">
+                          <span className="text-danger fw-bold">
+                            {fmt(sale)}₫
+                          </span>{" "}
+                          {original > 0 && (
+                            <span className="text-muted text-decoration-line-through small">
+                              {fmt(original)}₫
+                            </span>
+                          )}
+                        </div>
+
+                        <Button
+                          variant="warning"
+                          className="w-100 text-white fw-bold"
+                        >
+                          Thêm vào giỏ
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                );
+              })}
             </Row>
           )}
         </Col>

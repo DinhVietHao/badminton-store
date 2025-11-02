@@ -18,10 +18,11 @@
       "length": "675mm",
       "createdAt": "2025-10-01T10:00:00Z",
       "updatedAt": "2025-10-25T10:00:00Z",
-      "thumbnailUrl": "https://placehold.co/600x600/EBF5FB/17202A?text=VNB-V200",
+      "thumbnailUrl": "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang_1758652101.webp",
       "gallery": [
-        "https://placehold.co/600x600/EBF5FB/17202A?text=VNB-V200_1",
-        "https://placehold.co/600x600/EBF5FB/17202A?text=VNB-V200_2"
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-1_1758652130.webp",
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-2_1758652136.webp",
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-3_1758652144.webp"
       ]
     },
     {
@@ -259,5 +260,22 @@
     }
   ],
   "cart": [],
-  "orders": []
+  "orders": [],
+  "homePage": [
+    {
+      "id": 1,
+      "imageUrl": "/images/banner/1000z-launch-website-banner_1695177885.webp",
+      "alt": "Yonex 1000Z Launch"
+    },
+    {
+      "id": 2,
+      "imageUrl": "/images/banner/victor-axelsen_1759089349.webp",
+      "alt": "Victor Axelsen"
+    },
+    {
+      "id": 3,
+      "imageUrl": "/images/banner/yonex-astrox-99_1757731351.webp",
+      "alt": "Yonex Astrox 99"
+    }
+  ]
 }
