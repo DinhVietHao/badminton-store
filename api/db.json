@@ -1,6 +1,7 @@
 {
   "products": [
     {
+<<<<<<< HEAD
       "id": 1,
       "title": "Vợt cầu lông VNB V200 Xanh (Chính Hãng)",
       "sku": "VNB-V200-X",
@@ -14,6 +15,22 @@
       "playingStyle": "Toàn diện",
       "shaftFlexibility": "Dẻo",
       "balancePoint": "Cân bằng",
+=======
+      "id": "1",
+      "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
+      "sku": "YX-AX100ZZ-KR",
+      "description": "Là cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ đáng kinh ngạc. Phù hợp cho người chơi chuyên nghiệp và phong trào có lực cổ tay tốt.",
+      "brand": "Yonex",
+      "status": "inStock",
+      "quantity": 100,
+      "originalPrice": 4800000,
+      "salePrice": 4550000,
+      "playerLevel": "advanced",
+      "playType": "both",
+      "playingStyle": "offensive",
+      "shaftFlexibility": "extraStiff",
+      "balancePoint": "headHeavy",
+>>>>>>> 7f681ff156dec5533560019b3fce89ae7ba67f06
       "weight": "4U",
       "length": "675mm",
       "createdAt": "2025-10-01T10:00:00Z",
@@ -248,7 +265,7 @@
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "password": "Admin123@",
       "email": "nguyenvana@gmail.com",
@@ -257,7 +274,7 @@
       "role": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "dinhviethao1902",
       "password": "Hao190204#",
       "email": "dvhaoce190204@gmail.com",
@@ -266,8 +283,28 @@
       "role": "customer"
     }
   ],
-  "cart": [],
-  "orders": [],
+  "cart": [
+    {
+      "id": "1",
+      "userId": 2,
+      "productId": 1,
+      "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
+      "price": 455000,
+      "quantity": 1,
+      "thumbnailUrl": "/images/vot-cau-long-yonex-astrox-100-game.webp"
+    },
+    {
+      "id": "2",
+      "userId": 3,
+      "productId": 2,
+      "title": "Vợt Cầu Lông Li-Ning Turbo X",
+      "price": 350000,
+      "quantity": 9,
+      "thumbnailUrl": "/images/vot-cau-long-vnb-carbon-training-150g-5.webp"
+    }
+  ],
+  "orders": [
+  ],
   "homePage": [
     {
       "id": 1,
