@@ -7,6 +7,7 @@
       "description": "Là cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ đáng kinh ngạc. Phù hợp cho người chơi chuyên nghiệp và phong trào có lực cổ tay tốt.",
       "brand": "Yonex",
       "status": "inStock",
+      "quantity": 100,
       "originalPrice": 4800000,
       "salePrice": 4550000,
       "playerLevel": "advanced",

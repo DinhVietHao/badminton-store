@@ -491,20 +491,20 @@ const HomePage = () => {
                     </div>
                   )}
                   <Nav.Link to={`/product/${product.id}`} as={Link}>
-                    {/* Hình sản phẩm */}
-                    <div className="ratio ratio-1x1 bg-white">
-                      <Card.Img
-                        variant="top"
-                        src={
-                          product.thumbnailUrl
-                            ? product.thumbnailUrl
-                            : "/images/no-image.png"
-                        }
-                        alt={product.title}
-                        className="object-fit-contain p-3"
-                      />
-                    </div>
-                  </Nav.Link>
+                  {/* Hình sản phẩm */}
+                  <div className="ratio ratio-1x1 bg-white">
+                    <Card.Img
+                      variant="top"
+                      src={
+                        product.thumbnailUrl
+                          ? product.thumbnailUrl
+                          : "/images/no-image.png"
+                      }
+                      alt={product.title}
+                      className="object-fit-contain p-3"
+                    />
+                  </div>
+
                   <Card.Body>
                     <Card.Title
                       className="fs-6 text-truncate"
