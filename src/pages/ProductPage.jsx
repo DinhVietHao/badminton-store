@@ -37,14 +37,19 @@ const ProductPage = () => {
   const [isFiltering, setIsFiltering] = useState(false);
 
   const filterOptions = useMemo(() => {
-    const getUniqueOptions = (key) => {
+    const STATUS_MAP = {
+      "IN-STOCK": "Còn hàng",
+      "OUT-OF-STOCK": "Hết hàng",
+    };
+
+    const getUniqueOptions = (key, map = null) => {
       if (!allProducts || allProducts.length === 0) return [];
       const allValues = allProducts.map((p) => p[key]).filter(Boolean);
       const uniqueValues = [...new Set(allValues)];
       return uniqueValues
         .map((value) => ({
           value: value,
-          label: value,
+          label: map ? map[value] || value : value,
         }))
         .sort((a, b) => a.label.localeCompare(b.label, "vi"));
     };
@@ -52,7 +57,7 @@ const ProductPage = () => {
     return {
       price: PRICE_OPTIONS,
       brand: getUniqueOptions("brand"),
-      status: getUniqueOptions("status"),
+      status: getUniqueOptions("status", STATUS_MAP),
       playerLevel: getUniqueOptions("playerLevel"),
       playType: getUniqueOptions("playType"),
       playingStyle: getUniqueOptions("playingStyle"),
