@@ -9,6 +9,7 @@ import AdminPage from "../pages/AdminPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
+
 import ProductDetailPage from "../pages/ProductDetail";
 
 const AppRoutes = () => {
