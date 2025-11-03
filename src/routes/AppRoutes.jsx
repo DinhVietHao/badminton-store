@@ -9,6 +9,7 @@ import AdminPage from "../pages/AdminPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import EditProfileInfo from "../pages/EditProfileInfo";
 
 const AppRoutes = () => {
   return (
@@ -18,12 +19,13 @@ const AppRoutes = () => {
         <Route path="products" element={<ProductPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="orders" element={<OrderPage />} />
-        <Route path="account" element={<AccountPage />} />
+        {/* 👇 thêm :id */}
+        <Route path="profile/:id" element={<AccountPage />} />
         <Route path="admin" element={<AdminPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="/profile/:id/edit" element={<EditProfileInfo />} />
       </Route>
-
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

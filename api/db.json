@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
       "sku": "YX-AX100ZZ-KR",
       "description": "Là cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ đáng kinh ngạc. Phù hợp cho người chơi chuyên nghiệp và phong trào có lực cổ tay tốt.",
@@ -19,13 +19,12 @@
       "createdAt": "",
       "updatedAt": "",
       "thumbnailUrl": "",
-      "gallery": [
-      ]
+      "gallery": []
     }
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin",
       "password": "Admin123@",
       "email": "nguyenvana@gmail.com",
@@ -34,13 +33,27 @@
       "role": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "dinhviethao1902",
       "password": "Hao190204#",
       "email": "dvhaoce190204@gmail.com",
       "fullName": "Đinh Việt Hào",
       "avatarUrl": "",
       "role": "customer"
+    },
+    {
+      "id": "3",
+      "username": "Dư Triệu Phú",
+      "email": "phudt.ce192043@gmail.com",
+      "phone": "0916161667",
+      "password": "dutrieuphu9A4@",
+      "fullName": "Dư Triệu Phú",
+      "role": "customer",
+      "avatarUrl": "",
+      "address": "ABC",
+      "gender": "male",
+      "birthday": "2025-11-03",
+      "fullname": "Dư Triệu Phú"
     }
   ],
   "cart": [],
