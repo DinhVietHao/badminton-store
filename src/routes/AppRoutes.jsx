@@ -9,7 +9,11 @@ import AdminPage from "../pages/AdminPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
+<<<<<<< HEAD
 import EditProfileInfo from "../pages/EditProfileInfo";
+=======
+import OrderDetailPage from "../pages/OrderDetailPage";
+>>>>>>> c20e7500ab8f916633a955ae3dfa8da6b044773c
 import ProductDetailPage from "../pages/ProductDetail";
 
 const AppRoutes = () => {
@@ -21,8 +25,13 @@ const AppRoutes = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="orders" element={<OrderPage />} />
+<<<<<<< HEAD
         {/* 👇 thêm :id */}
         <Route path="profile/:id" element={<AccountPage />} />
+=======
+        <Route path="orders/:id" element={<OrderDetailPage />} />
+        <Route path="account" element={<AccountPage />} />
+>>>>>>> c20e7500ab8f916633a955ae3dfa8da6b044773c
         <Route path="admin" element={<AdminPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
