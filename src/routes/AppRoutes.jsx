@@ -1,16 +1,20 @@
 import { Route, Routes } from "react-router";
 import MainLayout from "../layouts/MainLayout";
-import HomePage from "../pages/HomePage";
-import ProductPage from "../pages/ProductPage";
-import CartPage from "../pages/CartPage";
-import OrderPage from "../pages/OrderPage";
-import AccountPage from "../pages/AccountPage";
-import AdminPage from "../pages/AdminPage";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
+import HomePage from "../pages/user/HomePage";
+import ProductPage from "../pages/user/ProductPage";
+import CartPage from "../pages/user/CartPage";
+import OrderPage from "../pages/user/OrderPage";
+import AccountPage from "../pages/user/AccountPage";
+import LoginPage from "../pages/user/LoginPage";
+import RegisterPage from "../pages/user/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import OrderDetailPage from "../pages/OrderDetailPage";
-import ProductDetailPage from "../pages/ProductDetail";
+import ProductDetailPage from "../pages/user/ProductDetail";
+import AdminLayout from "../layouts/AdminLayout";
+import Dashboard from "../pages/admin/Dashboard";
+import ProductManager from "../pages/admin/ProductManager";
+import UserManager from "../pages/admin/UserManager";
+import OrderManager from "../pages/admin/OrderManager";
+import OrderDetailPage from "../pages/user/OrderDetailPage";
 
 const AppRoutes = () => {
   return (
@@ -23,7 +27,13 @@ const AppRoutes = () => {
         <Route path="orders" element={<OrderPage />} />
         <Route path="orders/:id" element={<OrderDetailPage />} />
         <Route path="account" element={<AccountPage />} />
-        <Route path="admin" element={<AdminPage />} />
+      </Route>
+
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="products" element={<ProductManager />} />
+        <Route path="users" element={<UserManager />} />
+        <Route path="orders" element={<OrderManager />} />
       </Route>
 
       <Route path="/login" element={<LoginPage />} />

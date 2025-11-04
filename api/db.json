@@ -1,8 +1,8 @@
 {
   "products": [
     {
-      "id": 1,
-      "title": "Vợt cầu lông VNB V200 Xanh (Chính Hãng)",
+      "id": "1",
+      "title": "Vợt cầu lông VNB V200 Xanh (Chính hãng)",
       "sku": "VNB-V200-X",
       "description": "VNB V200 là mẫu vợt cân bằng, dễ chơi, phù hợp cho người mới bắt đầu hoặc người chơi phong trào. Công nghệ khung tối ưu giúp vợt ổn định và giảm rung.",
       "brand": "VNB",
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
       "sku": "YX-AX100ZZ-KR",
       "description": "Cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ tuyệt vời. Phù hợp cho người chơi chuyên nghiệp hoặc người chơi phong trào có cổ tay khỏe.",
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Vợt Cầu Lông Lining Axforce 90 Max (Rồng)",
       "sku": "LN-AX90-MAX",
       "description": "Dòng vợt tấn công cao cấp của Lining, được vận động viên Chen Long sử dụng. Thiết kế nặng đầu, thân cứng giúp tạo ra những cú đập cầu mạnh mẽ.",
@@ -82,7 +82,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Vợt Cầu Lông Yonex Arcsaber 11 Pro",
       "sku": "YX-ARC11-PRO",
       "description": "Biểu tượng của dòng vợt Arcsaber – cân bằng, kiểm soát cầu tốt, điều hướng chính xác. Phiên bản Pro được nâng cấp công nghệ giúp tăng độ chính xác và cảm giác đánh.",
@@ -108,7 +108,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Vợt Cầu Lông Victor Auraspeed 90K II",
       "sku": "VC-ARS90K-II",
       "description": "Dòng vợt thiên về tốc độ, phản tạt nhanh và phòng thủ linh hoạt. Thích hợp cho người chơi đánh đôi, đặc biệt là vị trí trên lưới.",
@@ -135,7 +135,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Vợt Cầu Lông VNB V88 (Cam Đen)",
       "sku": "VNB-V88-CD",
       "description": "VNB V88 là mẫu vợt giá rẻ, bền bỉ, thiết kế đẹp mắt. Vợt dẻo, trợ lực tốt, phù hợp cho học sinh, sinh viên hoặc người mới tập chơi.",
@@ -161,7 +161,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Vợt Cầu Lông Mizuno Fortius 50 Swift",
       "sku": "MZ-FT50-SW",
       "description": "Cây vợt siêu nhẹ (5U) đến từ thương hiệu Mizuno. Fortius 50 Swift linh hoạt, xoay trở nhanh, phù hợp cho nữ hoặc người có cổ tay yếu.",
@@ -187,7 +187,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Vợt Cầu Lông Yonex Nanoflare 800 Pro",
       "sku": "YX-NF800-PRO",
       "description": "Dòng vợt phòng thủ và phản tạt tốc độ cao mới nhất của Yonex. Khung vợt mỏng, lướt gió nhanh, giúp người chơi phản đòn chớp nhoáng.",
@@ -214,7 +214,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": "9",
       "title": "Vợt Cầu Lông Lining Tectonic 7",
       "sku": "LN-TEC7",
       "description": "Dòng vợt Tectonic nổi tiếng với khung vợt đặc biệt, giúp tăng cường sức mạnh và tốc độ ở các điểm tấn công. Tectonic 7 là cây vợt cân bằng, trợ lực tốt, phù hợp cả tấn công lẫn phòng thủ.",
@@ -239,7 +239,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": "10",
       "title": "Vợt Cầu Lông Victor Thruster F (Claw)",
       "sku": "VC-TKF-CLAW",
       "description": "Biệt danh 'Móng vuốt', cây vợt tấn công mạnh mẽ của Victor. Thiết kế khung đặc biệt giúp tăng lực đập, phù hợp với người chơi thích áp đặt lối đánh.",
