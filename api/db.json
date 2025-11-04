@@ -284,6 +284,20 @@
       "fullName": "Đinh Việt Hào",
       "avatarUrl": "",
       "role": "customer"
+    },
+    {
+      "id": "3",
+      "username": "Dư Triệu Phú",
+      "email": "phudt.ce192043@gmail.com",
+      "phone": "0916161667",
+      "password": "dutrieuphu9A4@",
+      "fullName": "Dư Triệu Phú",
+      "role": "customer",
+      "avatarUrl": "",
+      "address": "ABC",
+      "gender": "male",
+      "birthday": "2025-11-03",
+      "fullname": "Dư Triệu Phú"
     }
   ],
   "cart": [
