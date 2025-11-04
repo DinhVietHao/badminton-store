@@ -37,16 +37,6 @@ const Header = () => {
             </Nav.Link>
           </Nav>
 
-          <Form className="d-flex mx-auto">
-            <FormControl
-              type="search"
-              placeholder="Tìm kiếm sản phẩm..."
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-
           <Nav>
             <Nav.Link as={Link} to="/cart">
               Giỏ hàng
