@@ -52,7 +52,7 @@ const ProductDetailPage = () => {
       </Container>
     );
 
-  if (product.length === 0)
+  if (products.length === 0)
     return (
       <div className="text-center my-5">
         <Spinner animation="border" variant="primary" />
@@ -67,7 +67,7 @@ const ProductDetailPage = () => {
       </Container>
     );
 
-  const fmt = (v) => Number(v).toLocaleString("vi-VN");
+  const fmt = (v) => v.toLocaleString("vi-VN");
 
   const discount =
     product.originalPrice > product.salePrice

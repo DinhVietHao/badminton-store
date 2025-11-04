@@ -15,7 +15,7 @@ import {
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState({});
+  const [products, setProducts] = useState({});
   const [activeImage, setActiveImage] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [error, setError] = useState("");
@@ -27,7 +27,11 @@ const ProductDetailPage = () => {
         method: "GET",
       });
       const data = await res.json();
-      setProduct(data);
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else {
+        setError("Dữ liệu sản phẩm không hợp lệ");
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -36,7 +40,9 @@ const ProductDetailPage = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
-  console.log("hiihihihih" + product);
+  console.log("hiihihihih" + products);
+  // tìm product theo id
+  const product = products.find((p) => p.id == id);
 
   // cập nhật ảnh chính khi có product
   useEffect(() => {
@@ -52,7 +58,7 @@ const ProductDetailPage = () => {
       </Container>
     );
 
-  if (product.length === 0)
+  if (products.length === 0)
     return (
       <div className="text-center my-5">
         <Spinner animation="border" variant="primary" />
@@ -67,7 +73,7 @@ const ProductDetailPage = () => {
       </Container>
     );
 
-  const fmt = (v) => Number(v).toLocaleString("vi-VN");
+  const fmt = (v) => v.toLocaleString("vi-VN");
 
   const discount =
     product.originalPrice > product.salePrice

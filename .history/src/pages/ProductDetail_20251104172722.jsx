@@ -67,7 +67,7 @@ const ProductDetailPage = () => {
       </Container>
     );
 
-  const fmt = (v) => Number(v).toLocaleString("vi-VN");
+ 
 
   const discount =
     product.originalPrice > product.salePrice
