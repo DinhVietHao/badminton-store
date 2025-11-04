@@ -15,35 +15,32 @@ import {
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [activeImage, setActiveImage] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [error, setError] = useState("");
-  const [isTabVisible, setIsTabVisible] = useState(true);
 
-  const fetchProducts = async () => {
+  const fetchProductById = async () => {
     try {
       const res = await fetch(`http://localhost:5000/products/${id}`, {
         method: "GET",
       });
+
+      if (!res.ok) {
+        throw new Error(`Không tìm thấy sản phẩm có id = ${id}`);
+      }
+
       const data = await res.json();
       setProduct(data);
+      setActiveImage(data.thumbnailUrl);
     } catch (err) {
       setError(err.message);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
-  console.log("hiihihihih" + product);
-
-  // cập nhật ảnh chính khi có product
-  useEffect(() => {
-    if (product && !activeImage) {
-      setActiveImage(product.thumbnailUrl);
-    }
-  }, [product]);
+    fetchProductById();
+  }, [id]);
 
   if (error)
     return (
@@ -52,7 +49,7 @@ const ProductDetailPage = () => {
       </Container>
     );
 
-  if (product.length === 0)
+  if (!product)
     return (
       <div className="text-center my-5">
         <Spinner animation="border" variant="primary" />
@@ -60,14 +57,7 @@ const ProductDetailPage = () => {
       </div>
     );
 
-  if (!product)
-    return (
-      <Container className="my-5 text-center">
-        <Alert variant="warning">Sản phẩm không tồn tại</Alert>
-      </Container>
-    );
-
-  const fmt = (v) => Number(v).toLocaleString("vi-VN");
+  const fmt = (v) => v.toLocaleString("vi-VN");
 
   const discount =
     product.originalPrice > product.salePrice
