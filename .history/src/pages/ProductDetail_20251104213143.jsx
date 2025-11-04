@@ -36,9 +36,7 @@ const ProductDetailPage = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
-  console.log("hiihihihih" + product);
-
-  // cập nhật ảnh chính khi có product
+  
   useEffect(() => {
     if (product && !activeImage) {
       setActiveImage(product.thumbnailUrl);

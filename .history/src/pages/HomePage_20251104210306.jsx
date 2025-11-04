@@ -257,7 +257,14 @@ const HomePage = () => {
                       </Nav.Link>
                       <Card.Body>
                         <Card.Title
-                          className="fs-6 text-truncate"
+                          className="fs-6 mb-2"
+                          style={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2, 
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            minHeight: "40px", // giữ chiều cao đồng đều
+                          }}
                           title={product.title}
                         >
                           {product.title}

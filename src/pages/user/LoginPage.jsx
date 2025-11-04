@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LoginPage = () => {
   const { login } = useAuth();
