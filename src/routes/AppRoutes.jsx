@@ -8,6 +8,7 @@ import AccountPage from "../pages/user/AccountPage";
 import LoginPage from "../pages/user/LoginPage";
 import RegisterPage from "../pages/user/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import EditProfileInfo from "../pages/EditProfileInfo";
 import ProductDetailPage from "../pages/user/ProductDetail";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../pages/admin/Dashboard";
@@ -25,8 +26,12 @@ const AppRoutes = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="orders" element={<OrderPage />} />
+        <Route path="profile/:id" element={<AccountPage />} />
         <Route path="orders/:id" element={<OrderDetailPage />} />
         <Route path="account" element={<AccountPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="/profile/:id/edit" element={<EditProfileInfo />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>
@@ -35,9 +40,6 @@ const AppRoutes = () => {
         <Route path="users" element={<UserManager />} />
         <Route path="orders" element={<OrderManager />} />
       </Route>
-
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
