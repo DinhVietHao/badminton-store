@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { getProductById, updateProductStock } from "../service/productApi";
+import { createOrder } from "../service/orderApi";
+import { deleteCartItem } from "../service/cartApi";
 
 const CheckoutForm = ({ total, cartItems, setCartItems, setShowCheckout }) => {
   const navigate = useNavigate();
@@ -34,6 +37,17 @@ const CheckoutForm = ({ total, cartItems, setCartItems, setShowCheckout }) => {
       setLoading(false);
       return;
     }
+
+    for (const item of cartItems) {
+      const product = await getProductById(item.productId);
+
+      if (!product || product.quantity < item.quantity) {
+        toast.error(`Sản phẩm "${item.title}" không đủ hàng!`);
+        setLoading(false);
+        return;
+      }
+    }
+
     const newOrder = {
       userId: 2,
       products: cartItems.map((item) => ({
@@ -50,18 +64,21 @@ const CheckoutForm = ({ total, cartItems, setCartItems, setShowCheckout }) => {
       shippingInfo: formData,
     };
     try {
-      const res = await fetch("http://localhost:5000/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newOrder),
-      });
+      await createOrder(newOrder);
 
       for (const item of cartItems) {
-        await fetch(`http://localhost:5000/cart/${item.id}`, {
-          method: "DELETE",
-        });
+        const product = await getProductById(item.productId);
+
+        await updateProductStock(
+          item.productId,
+          product.quantity - item.quantity,
+          (product.soldCount || 0) + item.quantity
+        );
       }
-      if (!res.ok) throw new Error("Tạo đơn hàng thất bại");
+
+      for (const item of cartItems) {
+        await deleteCartItem(item.id);
+      }
 
       toast.success("Đặt hàng thành công!");
       setCartItems([]);
