@@ -39,7 +39,8 @@ const CheckoutForm = ({ total, cartItems, setCartItems, setShowCheckout }) => {
       products: cartItems.map((item) => ({
         productId: item.productId,
         title: item.title,
-        price: item.price,
+        originalPrice: item.originalPrice,
+        salePrice: item.salePrice,
         quantity: item.quantity,
         thumbnailUrl: item.thumbnailUrl,
       })),
