@@ -8,13 +8,13 @@ import {
   Spinner,
   Table,
 } from "react-bootstrap";
-import CheckoutForm from "../components/CheckoutForm";
-import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import CheckoutForm from "../../components/layouts-user/CheckoutForm";
+import DeleteConfirmModal from "../../components/layouts-user/DeleteConfirmModal";
 import {
   deleteCartItem,
   getCartItems,
   updateCartItemQuantity,
-} from "../service/cartService";
+} from "../../service/cartService";
 import toast from "react-hot-toast";
 
 const CartPage = () => {

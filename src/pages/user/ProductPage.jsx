@@ -1,7 +1,7 @@
 import { Container, Row, Col, Spinner, Alert, Card } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import ProductSidebar from "../components/layouts/ProductSidebar";
-import { ProductContext } from "../context/ProductContext";
+import ProductSidebar from "../../components/layouts-user/ProductSidebar";
+import { ProductContext } from "../../contexts/ProductContext";
 
 const INITIAL_FILTERS = {
   search: "",
