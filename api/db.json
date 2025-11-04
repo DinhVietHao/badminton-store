@@ -34,8 +34,8 @@
       "description": "Cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ tuyệt vời. Phù hợp cho người chơi chuyên nghiệp hoặc người chơi phong trào có cổ tay khỏe.",
       "brand": "Yonex",
       "status": "IN-STOCK",
-      "quantity": 95,
-      "soldCount": 5,
+      "quantity": 89,
+      "soldCount": 11,
       "originalPrice": 4850000,
       "salePrice": 4690000,
       "playerLevel": "Chuyên nghiệp",
@@ -46,7 +46,7 @@
       "weight": "4U",
       "length": "675mm",
       "createdAt": "2025-10-02T11:00:00Z",
-      "updatedAt": "2025-11-04T16:08:30.586Z",
+      "updatedAt": "2025-11-04T17:32:50.144Z",
       "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp",
       "gallery": [
         "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-4.webp",
@@ -308,47 +308,23 @@
       "fullName": "Minh Kha",
       "role": "customer",
       "avatarUrl": ""
-    }
-  ],
-  "cart": [
-    {
-      "id": "1713",
-      "userId": 2,
-      "productId": 3,
-      "title": "Vợt Cầu Lông Lining Axforce 90 Max (Rồng)",
-      "originalPrice": 5200000,
-      "salePrice": 5200000,
-      "quantity": 1,
-      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-7.webp",
-      "createdAt": "2025-11-04T16:08:45.541Z"
     },
     {
-      "id": "0127",
-      "userId": 2,
-      "productId": 5,
-      "title": "Vợt Cầu Lông Victor Auraspeed 90K II",
-      "originalPrice": 4350000,
-      "salePrice": 4190000,
-      "quantity": 1,
-      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang_1761184395.webp",
-      "createdAt": "2025-11-04T16:08:49.814Z"
-    },
-    {
-      "id": "5935",
-      "userId": 4,
-      "productId": 2,
-      "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
-      "originalPrice": 4850000,
-      "salePrice": 4690000,
-      "quantity": 1,
-      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp",
-      "createdAt": "2025-11-04T16:57:15.447Z"
+      "id": 5,
+      "username": "Minh Kha",
+      "email": "khalmce182100@fpt.edu.vn",
+      "phone": "0854453340",
+      "password": "123",
+      "fullName": "Minh Kha",
+      "role": "customer",
+      "avatarUrl": ""
     }
   ],
+  "cart": [],
   "orders": [
     {
-      "id": "3975",
-      "userId": 2,
+      "id": "f865",
+      "userId": 5,
       "products": [
         {
           "productId": 2,
@@ -361,73 +337,11 @@
       ],
       "total": 4690000,
       "status": "pending",
-      "createdAt": "2025-11-04T13:35:49.727Z",
+      "createdAt": "2025-11-04T17:32:50.133Z",
       "shippingInfo": {
-        "fullName": "Lê Minh Kha",
+        "fullName": "Kha nè",
         "phone": "0854453340",
         "address": "abc",
-        "note": ""
-      }
-    },
-    {
-      "id": "9cba",
-      "userId": 2,
-      "products": [
-        {
-          "productId": 2,
-          "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
-          "originalPrice": 4850000,
-          "salePrice": 4690000,
-          "quantity": 1,
-          "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp"
-        },
-        {
-          "productId": 5,
-          "title": "Vợt Cầu Lông Victor Auraspeed 90K II",
-          "originalPrice": 4350000,
-          "salePrice": 4190000,
-          "quantity": 1,
-          "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang_1761184395.webp"
-        }
-      ],
-      "total": 8880000,
-      "status": "pending",
-      "createdAt": "2025-11-04T13:36:41.178Z",
-      "shippingInfo": {
-        "fullName": "Lê Minh Kha",
-        "phone": "0854453340",
-        "address": "abc",
-        "note": ""
-      }
-    },
-    {
-      "id": "065b",
-      "userId": 2,
-      "products": [
-        {
-          "productId": 2,
-          "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
-          "originalPrice": 4850000,
-          "salePrice": 4690000,
-          "quantity": 5,
-          "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp"
-        },
-        {
-          "productId": 1,
-          "title": "Vợt cầu lông VNB V200 Xanh (Chính Hãng)",
-          "originalPrice": 890000,
-          "salePrice": 799000,
-          "quantity": 1,
-          "thumbnailUrl": "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang_1758652101.webp"
-        }
-      ],
-      "total": 24249000,
-      "status": "pending",
-      "createdAt": "2025-11-04T16:08:30.579Z",
-      "shippingInfo": {
-        "fullName": "Minh Kha Nè",
-        "phone": "0854453340",
-        "address": "ÃãÃ",
         "note": ""
       }
     }

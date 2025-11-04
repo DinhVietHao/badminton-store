@@ -15,6 +15,7 @@ import {
   FaHeadset,
 } from "react-icons/fa";
 import { Link } from "react-router";
+import { useAddToCart } from "../../hooks/useAddToCart";
 
 const HomePage = () => {
   const [images, setImages] = useState([]);
@@ -23,6 +24,7 @@ const HomePage = () => {
   const [error, setError] = useState("");
   const [showMore, setShowMore] = useState(false);
 
+  const { addToCart } = useAddToCart();
   const fetchHomePage = async () => {
     try {
       const res = await fetch("http://localhost:5000/homePage");
@@ -284,6 +286,7 @@ const HomePage = () => {
                         <Button
                           variant="warning"
                           className="w-100 text-white fw-bold"
+                          onClick={() => addToCart(product.id)}
                         >
                           Thêm vào giỏ
                         </Button>
@@ -532,6 +535,7 @@ const HomePage = () => {
                     <Button
                       variant="warning"
                       className="w-100 text-white fw-bold"
+                      onClick={() => addToCart(product.id)}
                     >
                       Thêm vào giỏ
                     </Button>

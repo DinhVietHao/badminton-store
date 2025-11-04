@@ -9,7 +9,7 @@ import { deleteCartItem } from "../../service/cartApi";
 const CheckoutForm = ({ total, cartItems, setCartItems, setShowCheckout }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -49,7 +49,7 @@ const CheckoutForm = ({ total, cartItems, setCartItems, setShowCheckout }) => {
     }
 
     const newOrder = {
-      userId: 2,
+      userId: userId,
       products: cartItems.map((item) => ({
         productId: item.productId,
         title: item.title,

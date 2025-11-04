@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Col,
@@ -17,6 +17,7 @@ import {
 } from "../../service/cartApi";
 import toast from "react-hot-toast";
 import { getProductById } from "../../service/productApi";
+import { useNavigate } from "react-router";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -24,8 +25,17 @@ const CartPage = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
-  const userId = JSON.parse(localStorage.getItem("user"))?.id || 2;
+  const hasShownToast = useRef(false);
+  const navigate = useNavigate();
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
+
   useEffect(() => {
+    if (!userId && !hasShownToast.current) {
+      toast.error("Vui lòng đăng nhập để xem giỏ hàng!");
+      hasShownToast.current = true;
+      navigate("/login");
+      return;
+    }
     const fetchCart = async () => {
       try {
         const data = await getCartItems(userId);
@@ -33,7 +43,6 @@ const CartPage = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setCartItems(sorted);
-        console.log(cartItems);
       } catch (err) {
         toast.error("Lỗi load giỏ hàng!");
         console.error("Chi tiết lỗi load giỏ hàng:", err);
@@ -42,7 +51,7 @@ const CartPage = () => {
       }
     };
     fetchCart();
-  }, [userId]);
+  }, [userId, navigate]);
 
   const handleUpdateQuantity = async (id, delta) => {
     const item = cartItems.find((i) => i.id === id);
