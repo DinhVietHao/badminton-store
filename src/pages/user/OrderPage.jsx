@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Card, Badge, Spinner, Nav } from "react-bootstrap";
-import "../styles/OrderPage.css";
+import "../../styles/OrderPage.css";
 import { Link } from "react-router";
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
