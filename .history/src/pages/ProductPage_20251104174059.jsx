@@ -6,7 +6,6 @@ import {
   Alert,
   Card,
   Nav,
-  Button,
 } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import ProductSidebar from "../components/layouts/ProductSidebar";
@@ -212,60 +211,60 @@ const ProductPage = () => {
                 const strikethroughPrice = hasSale ? original : null;
 
                 return (
-                  <Col key={product.id}>
-                    <Card
-                      className="h-100 border-0 rounded-4 position-relative overflow-hidden"
-                      style={{
-                        backgroundColor: "#fff",
-                        boxShadow:
-                          "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)",
-                        transform: "translateY(0)",
-                        transition: "all 0.3s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = "translateY(-8px)";
-                        e.currentTarget.style.boxShadow =
-                          "0 10px 20px rgba(0,0,0,0.25), 0 15px 35px rgba(0,0,0,0.20)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.boxShadow =
-                          "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)";
-                      }}
-                    >
-                      {discountPercent > 0 && (
-                        <div
-                          className="position-absolute text-white fw-bold d-flex align-items-center justify-content-center"
-                          style={{
-                            top: "10px",
-                            left: "10px",
-                            backgroundColor: "#d0021b",
-                            borderTopRightRadius: "20px",
-                            borderBottomRightRadius: "20px",
-                            height: "28px",
-                            padding: "0 12px 0 16px",
-                            fontSize: "13px",
-                            zIndex: 10,
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
-                            position: "relative",
-                          }}
-                        >
-                          -{discountPercent}%
+                    <Col key={product.id}>
+                      <Card
+                        className="h-100 border-0 rounded-4 position-relative overflow-hidden"
+                        style={{
+                          backgroundColor: "#fff",
+                          boxShadow:
+                            "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)",
+                          transform: "translateY(0)",
+                          transition: "all 0.3s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = "translateY(-8px)";
+                          e.currentTarget.style.boxShadow =
+                            "0 10px 20px rgba(0,0,0,0.25), 0 15px 35px rgba(0,0,0,0.20)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = "translateY(0)";
+                          e.currentTarget.style.boxShadow =
+                            "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)";
+                        }}
+                      >
+                        {discountPercent > 0 && (
                           <div
+                            className="position-absolute text-white fw-bold d-flex align-items-center justify-content-center"
                             style={{
-                              content: '""',
-                              position: "absolute",
-                              left: "-6px",
-                              width: "0",
-                              height: "0",
-                              borderTop: "7px solid transparent",
-                              borderBottom: "7px solid transparent",
-                              borderRight: "6px solid #d0021b",
+                              top: "10px",
+                              left: "10px",
+                              backgroundColor: "#d0021b",
+                              borderTopRightRadius: "20px",
+                              borderBottomRightRadius: "20px",
+                              height: "28px",
+                              padding: "0 12px 0 16px",
+                              fontSize: "13px",
+                              zIndex: 10,
+                              boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
+                              position: "relative",
                             }}
-                          ></div>
-                        </div>
-                      )}
-                      <Nav.Link to={`/product/${product.id}`} as={Link}>
+                          >
+                            -{discountPercent}%
+                            <div
+                              style={{
+                                content: '""',
+                                position: "absolute",
+                                left: "-6px",
+                                width: "0",
+                                height: "0",
+                                borderTop: "7px solid transparent",
+                                borderBottom: "7px solid transparent",
+                                borderRight: "6px solid #d0021b",
+                              }}
+                            ></div>
+                          </div>
+                        )}
+                        <Nav.Link to={`/product/${product.id}`} as={Link}>
                         <div
                           className="d-flex align-items-center justify-content-center bg-white"
                           style={{ height: "200px", overflow: "hidden" }}
@@ -286,43 +285,37 @@ const ProductPage = () => {
                             }}
                           />
                         </div>
-                      </Nav.Link>
-                      <Card.Body>
-                        <Card.Title
-                          className="fs-6"
-                          title={product.title}
-                          style={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            minHeight: "3rem",
-                          }}
-                        >
-                          {product.title}
-                        </Card.Title>
 
-                        <div className="mb-2">
-                          <span className="text-danger fw-bold">
-                            {fmt(displayPrice)}₫
-                          </span>{" "}
-                          {strikethroughPrice && (
-                            <span className="text-muted text-decoration-line-through small">
-                              {fmt(strikethroughPrice)}₫
-                            </span>
-                          )}
-                        </div>
+                        <Card.Body>
+                          <Card.Title
+                            className="fs-6"
+                            title={product.title}
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              minHeight: "3rem",
+                            }}
+                          >
+                            {product.title}
+                          </Card.Title>
 
-                        <Button
-                          variant="warning"
-                          className="w-100 text-white fw-bold"
-                        >
-                          Thêm vào giỏ
-                        </Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
+                          <div className="mb-2">
+                            <span className="text-danger fw-bold">
+                              {fmt(displayPrice)}₫
+                            </span>{" "}
+                            {strikethroughPrice && (
+                              <span className="text-muted text-decoration-line-through small">
+                                {fmt(strikethroughPrice)}₫
+                              </span>
+                            )}
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  
                 );
               })}
             </Row>

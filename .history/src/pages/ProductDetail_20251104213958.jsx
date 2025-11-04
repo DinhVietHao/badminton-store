@@ -36,7 +36,7 @@ const ProductDetailPage = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
-
+  
   useEffect(() => {
     if (product && !activeImage) {
       setActiveImage(product.thumbnailUrl);
@@ -180,6 +180,7 @@ const ProductDetailPage = () => {
 
           {/* ====== Buttons ====== */}
           <div className="d-flex gap-3 mt-4">
+            
             <Button
               variant="outline-warning"
               size="lg"
