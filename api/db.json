@@ -284,6 +284,30 @@
       "fullName": "Đinh Việt Hào",
       "avatarUrl": "",
       "role": "customer"
+    },
+    {
+      "id": "3",
+      "username": "Dư Triệu Phú",
+      "email": "phudt.ce192043@gmail.com",
+      "phone": "0916161667",
+      "password": "dutrieuphu9A4@",
+      "fullName": "Dư Triệu Phú",
+      "role": "customer",
+      "avatarUrl": "",
+      "address": "ABC",
+      "gender": "male",
+      "birthday": "2025-11-03",
+      "fullname": "Dư Triệu Phú"
+    },
+    {
+      "id": 4,
+      "username": "Minh Kha",
+      "email": "leminhkhafc28@gmail.com",
+      "phone": "0854453340",
+      "password": "123",
+      "fullName": "Minh Kha",
+      "role": "customer",
+      "avatarUrl": ""
     }
   ],
   "cart": [
@@ -308,6 +332,17 @@
       "quantity": 1,
       "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang_1761184395.webp",
       "createdAt": "2025-11-04T16:08:49.814Z"
+    },
+    {
+      "id": "5935",
+      "userId": 4,
+      "productId": 2,
+      "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
+      "originalPrice": 4850000,
+      "salePrice": 4690000,
+      "quantity": 1,
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp",
+      "createdAt": "2025-11-04T16:57:15.447Z"
     }
   ],
   "orders": [

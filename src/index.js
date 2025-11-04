@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "slick-carousel/slick/slick-theme.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import ProductProvider from "./context/ProductContext";
+import ProductProvider from "./contexts/ProductContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
