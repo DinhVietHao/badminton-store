@@ -9,8 +9,8 @@ import {
   Button,
 } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import ProductSidebar from "../components/layouts/ProductSidebar";
-import { ProductContext } from "../context/ProductContext";
+import ProductSidebar from "../../components/layouts-user/ProductSidebar";
+import { ProductContext } from "../../contexts/ProductContext";
 import { Link } from "react-router";
 
 const INITIAL_FILTERS = {

@@ -8,13 +8,13 @@ import {
   Spinner,
   Table,
 } from "react-bootstrap";
-import CheckoutForm from "../components/CheckoutForm";
-import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import CheckoutForm from "../../components/layouts-user/CheckoutForm";
+import DeleteConfirmModal from "../../components/layouts-user/DeleteConfirmModal";
 import {
   deleteCartItem,
   getCartItems,
   updateCartItemQuantity,
-} from "../service/cartService";
+} from "../../service/cartService";
 import toast from "react-hot-toast";
 
 const CartPage = () => {
@@ -62,7 +62,7 @@ const CartPage = () => {
   };
 
   const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.salePrice * item.quantity,
     0
   );
 
@@ -125,7 +125,21 @@ const CartPage = () => {
                         </div>
                       </td>
                       <td className="text-center">
-                        {item.price.toLocaleString("vi-VN")}đ
+                        {item.originalPrice &&
+                        item.originalPrice > item.salePrice ? (
+                          <>
+                            <div className="order-item-old-price">
+                              {item.originalPrice.toLocaleString("vi-VN")} ₫
+                            </div>
+                            <div className="order-item-new-price">
+                              {item.salePrice.toLocaleString("vi-VN")} ₫
+                            </div>
+                          </>
+                        ) : (
+                          <div className="order-item-new-price">
+                            {item.salePrice.toLocaleString("vi-VN")} ₫
+                          </div>
+                        )}
                       </td>
                       <td className="text-center">
                         <div className="d-flex justify-content-center align-items-center">
@@ -147,7 +161,10 @@ const CartPage = () => {
                         </div>
                       </td>
                       <td className="text-center">
-                        {(item.price * item.quantity).toLocaleString("vi-VN")}đ
+                        {(item.salePrice * item.quantity).toLocaleString(
+                          "vi-VN"
+                        )}
+                        đ
                       </td>
                       <td className="text-center">
                         <Button
