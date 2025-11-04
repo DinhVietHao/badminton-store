@@ -11,7 +11,6 @@ import {
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import ProductSidebar from "../../components/layouts-user/ProductSidebar";
 import { ProductContext } from "../../contexts/ProductContext";
-import { Link } from "react-router";
 
 const INITIAL_FILTERS = {
   search: "",

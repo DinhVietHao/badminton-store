@@ -273,9 +273,9 @@ const HomePage = () => {
                         <div className="mb-2">
                           <span className="text-danger fw-bold">
                             {fmt(sale)}₫
-                          </span>
-                          {showOriginalPrice && (
-                            <span className="text-muted text-decoration-line-through small ms-2">
+                          </span>{" "}
+                          {original > 0 && (
+                            <span className="text-muted text-decoration-line-through small">
                               {fmt(original)}₫
                             </span>
                           )}

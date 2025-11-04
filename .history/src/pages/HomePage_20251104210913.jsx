@@ -177,7 +177,7 @@ const HomePage = () => {
                   original > 0 && sale > 0 && original > sale
                     ? Math.round(((original - sale) / original) * 100)
                     : 0;
-                const showOriginalPrice = original > sale;
+
                 return (
                   <div key={product.id} className="p-2">
                     <Card
@@ -273,9 +273,9 @@ const HomePage = () => {
                         <div className="mb-2">
                           <span className="text-danger fw-bold">
                             {fmt(sale)}₫
-                          </span>
-                          {showOriginalPrice && (
-                            <span className="text-muted text-decoration-line-through small ms-2">
+                          </span>{" "}
+                          {original > 0 && (
+                            <span className="text-muted text-decoration-line-through small">
                               {fmt(original)}₫
                             </span>
                           )}
@@ -303,7 +303,7 @@ const HomePage = () => {
                   original > 0 && sale > 0 && original > sale
                     ? Math.round(((original - sale) / original) * 100)
                     : 0;
-                const showOriginalPrice = original > sale;
+
                 return (
                   <div
                     key={product.id}
@@ -394,9 +394,9 @@ const HomePage = () => {
                           <div className="mb-2">
                             <span className="text-danger fw-bold">
                               {fmt(sale)}₫
-                            </span>
-                            {showOriginalPrice && (
-                              <span className="text-muted text-decoration-line-through small ms-2">
+                            </span>{" "}
+                            {original > 0 && (
+                              <span className="text-muted text-decoration-line-through small">
                                 {fmt(original)}₫
                               </span>
                             )}
@@ -521,9 +521,9 @@ const HomePage = () => {
                     </Card.Title>
 
                     <div className="mb-2">
-                      <span className="text-danger fw-bold">{fmt(sale)}₫</span>
-                      {showOriginalPrice && (
-                        <span className="text-muted text-decoration-line-through small ms-2">
+                      <span className="text-danger fw-bold">{fmt(sale)}₫</span>{" "}
+                      {original > 0 && (
+                        <span className="text-muted text-decoration-line-through small">
                           {fmt(original)}₫
                         </span>
                       )}

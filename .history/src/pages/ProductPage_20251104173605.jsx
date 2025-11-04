@@ -1,17 +1,7 @@
-import {
-  Container,
-  Row,
-  Col,
-  Spinner,
-  Alert,
-  Card,
-  Nav,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Spinner, Alert, Card } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import ProductSidebar from "../../components/layouts-user/ProductSidebar";
-import { ProductContext } from "../../contexts/ProductContext";
-import { Link } from "react-router";
+import ProductSidebar from "../components/layouts/ProductSidebar";
+import { ProductContext } from "../context/ProductContext";
 
 const INITIAL_FILTERS = {
   search: "",
@@ -287,6 +277,7 @@ const ProductPage = () => {
                           />
                         </div>
                       </Nav.Link>
+
                       <Card.Body>
                         <Card.Title
                           className="fs-6"
@@ -313,13 +304,6 @@ const ProductPage = () => {
                             </span>
                           )}
                         </div>
-
-                        <Button
-                          variant="warning"
-                          className="w-100 text-white fw-bold"
-                        >
-                          Thêm vào giỏ
-                        </Button>
                       </Card.Body>
                     </Card>
                   </Col>

@@ -9,9 +9,14 @@ import {
   Button,
 } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
+<<<<<<< HEAD:src/pages/ProductPage.jsx
+import ProductSidebar from "../components/layouts/ProductSidebar";
+import { ProductContext } from "../context/ProductContext";
+import { Link } from "react-router";
+=======
 import ProductSidebar from "../../components/layouts-user/ProductSidebar";
 import { ProductContext } from "../../contexts/ProductContext";
-import { Link } from "react-router";
+>>>>>>> d6dc7976a9e0d99b7bb816688549b52d6a368f70:src/pages/user/ProductPage.jsx
 
 const INITIAL_FILTERS = {
   search: "",

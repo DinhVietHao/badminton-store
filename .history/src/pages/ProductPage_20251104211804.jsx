@@ -6,11 +6,10 @@ import {
   Alert,
   Card,
   Nav,
-  Button,
 } from "react-bootstrap";
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import ProductSidebar from "../../components/layouts-user/ProductSidebar";
-import { ProductContext } from "../../contexts/ProductContext";
+import ProductSidebar from "../components/layouts/ProductSidebar";
+import { ProductContext } from "../context/ProductContext";
 import { Link } from "react-router";
 
 const INITIAL_FILTERS = {
@@ -286,41 +285,37 @@ const ProductPage = () => {
                             }}
                           />
                         </div>
+
+                        <Card.Body>
+                          <Card.Title
+                            className="fs-6"
+                            title={product.title}
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              minHeight: "3rem",
+                            }}
+                          >
+                            {product.title}
+                          </Card.Title>
+
+                          <div className="mb-2">
+                            <span className="text-danger fw-bold">
+                              {fmt(displayPrice)}₫
+                            </span>{" "}
+                            {strikethroughPrice && (
+                              <span className="text-muted text-decoration-line-through small">
+                                {fmt(strikethroughPrice)}₫
+                              </span>
+                            )}
+                          </div>
+                          
+                          
+                        </Card.Body>
                       </Nav.Link>
-                      <Card.Body>
-                        <Card.Title
-                          className="fs-6"
-                          title={product.title}
-                          style={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            minHeight: "3rem",
-                          }}
-                        >
-                          {product.title}
-                        </Card.Title>
-
-                        <div className="mb-2">
-                          <span className="text-danger fw-bold">
-                            {fmt(displayPrice)}₫
-                          </span>{" "}
-                          {strikethroughPrice && (
-                            <span className="text-muted text-decoration-line-through small">
-                              {fmt(strikethroughPrice)}₫
-                            </span>
-                          )}
-                        </div>
-
-                        <Button
-                          variant="warning"
-                          className="w-100 text-white fw-bold"
-                        >
-                          Thêm vào giỏ
-                        </Button>
-                      </Card.Body>
                     </Card>
                   </Col>
                 );
