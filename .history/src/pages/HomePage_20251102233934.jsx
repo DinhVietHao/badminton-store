@@ -64,6 +64,13 @@ const HomePage = () => {
       ? value.toLocaleString()
       : "0";
 
+  const responsive = {
+    superLargeDesktop: { breakpoint: { max: 4000, min: 1200 }, items: 5 },
+    desktop: { breakpoint: { max: 1200, min: 992 }, items: 4 },
+    tablet: { breakpoint: { max: 992, min: 768 }, items: 3 },
+    mobile: { breakpoint: { max: 768, min: 0 }, items: 2 },
+  };
+
   return (
     <div>
       {/* ========== Banner Carousel ========== */}
@@ -484,20 +491,20 @@ const HomePage = () => {
                     </div>
                   )}
                   <Nav.Link to={`/product/${product.id}`} as={Link}>
-                    {/* Hình sản phẩm */}
-                    <div className="ratio ratio-1x1 bg-white">
-                      <Card.Img
-                        variant="top"
-                        src={
-                          product.thumbnailUrl
-                            ? product.thumbnailUrl
-                            : "/images/no-image.png"
-                        }
-                        alt={product.title}
-                        className="object-fit-contain p-3"
-                      />
-                    </div>
-                  </Nav.Link>
+                  {/* Hình sản phẩm */}
+                  <div className="ratio ratio-1x1 bg-white">
+                    <Card.Img
+                      variant="top"
+                      src={
+                        product.thumbnailUrl
+                          ? product.thumbnailUrl
+                          : "/images/no-image.png"
+                      }
+                      alt={product.title}
+                      className="object-fit-contain p-3"
+                    />
+                  </div>
+
                   <Card.Body>
                     <Card.Title
                       className="fs-6 text-truncate"

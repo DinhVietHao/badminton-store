@@ -64,6 +64,13 @@ const HomePage = () => {
       ? value.toLocaleString()
       : "0";
 
+  const responsive = {
+    superLargeDesktop: { breakpoint: { max: 4000, min: 1200 }, items: 5 },
+    desktop: { breakpoint: { max: 1200, min: 992 }, items: 4 },
+    tablet: { breakpoint: { max: 992, min: 768 }, items: 3 },
+    mobile: { breakpoint: { max: 768, min: 0 }, items: 2 },
+  };
+
   return (
     <div>
       {/* ========== Banner Carousel ========== */}
@@ -200,39 +207,41 @@ const HomePage = () => {
                           "0 4px 8px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.10)";
                       }}
                     >
-                      {discountPercent > 0 && (
-                        <div
-                          className="position-absolute text-white fw-bold d-flex align-items-center justify-content-center"
-                          style={{
-                            top: "10px",
-                            left: "10px",
-                            backgroundColor: "#d0021b", // đỏ tươi kiểu TMĐT
-                            borderTopRightRadius: "20px",
-                            borderBottomRightRadius: "20px",
-                            height: "28px",
-                            padding: "0 12px 0 16px",
-                            fontSize: "13px",
-                            zIndex: 10,
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
-                            position: "relative",
-                          }}
-                        >
-                          -{discountPercent}%{/* Cái đuôi nhỏ bên trái */}
-                          <div
-                            style={{
-                              content: '""',
-                              position: "absolute",
-                              left: "-6px",
-                              width: "0",
-                              height: "0",
-                              borderTop: "7px solid transparent",
-                              borderBottom: "7px solid transparent",
-                              borderRight: "6px solid #d0021b",
-                            }}
-                          ></div>
-                        </div>
-                      )}
                       <Nav.Link to={`/product/${product.id}`} as={Link}>
+                        {/* 🎀 Ribbon giảm giá */}
+                        {discountPercent > 0 && (
+                          <div
+                            className="position-absolute text-white fw-bold d-flex align-items-center justify-content-center"
+                            style={{
+                              top: "10px",
+                              left: "10px",
+                              backgroundColor: "#d0021b", // đỏ tươi kiểu TMĐT
+                              borderTopRightRadius: "20px",
+                              borderBottomRightRadius: "20px",
+                              height: "28px",
+                              padding: "0 12px 0 16px",
+                              fontSize: "13px",
+                              zIndex: 10,
+                              boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
+                              position: "relative",
+                            }}
+                          >
+                            -{discountPercent}%{/* Cái đuôi nhỏ bên trái */}
+                            <div
+                              style={{
+                                content: '""',
+                                position: "absolute",
+                                left: "-6px",
+                                width: "0",
+                                height: "0",
+                                borderTop: "7px solid transparent",
+                                borderBottom: "7px solid transparent",
+                                borderRight: "6px solid #d0021b",
+                              }}
+                            ></div>
+                          </div>
+                        )}
+
                         {/* Hình ảnh sản phẩm */}
                         <div
                           className="d-flex align-items-center justify-content-center bg-white"
@@ -254,33 +263,34 @@ const HomePage = () => {
                             }}
                           />
                         </div>
+
+                        <Card.Body>
+                          <Card.Title
+                            className="fs-6 text-truncate"
+                            title={product.title}
+                          >
+                            {product.title}
+                          </Card.Title>
+
+                          <div className="mb-2">
+                            <span className="text-danger fw-bold">
+                              {fmt(sale)}₫
+                            </span>{" "}
+                            {original > 0 && (
+                              <span className="text-muted text-decoration-line-through small">
+                                {fmt(original)}₫
+                              </span>
+                            )}
+                          </div>
+
+                          <Button
+                            variant="warning"
+                            className="w-100 text-white fw-bold"
+                          >
+                            Thêm vào giỏ
+                          </Button>
+                        </Card.Body>
                       </Nav.Link>
-                      <Card.Body>
-                        <Card.Title
-                          className="fs-6 text-truncate"
-                          title={product.title}
-                        >
-                          {product.title}
-                        </Card.Title>
-
-                        <div className="mb-2">
-                          <span className="text-danger fw-bold">
-                            {fmt(sale)}₫
-                          </span>{" "}
-                          {original > 0 && (
-                            <span className="text-muted text-decoration-line-through small">
-                              {fmt(original)}₫
-                            </span>
-                          )}
-                        </div>
-
-                        <Button
-                          variant="warning"
-                          className="w-100 text-white fw-bold"
-                        >
-                          Thêm vào giỏ
-                        </Button>
-                      </Card.Body>
                     </Card>
                   </div>
                 );
@@ -355,53 +365,52 @@ const HomePage = () => {
                           ></div>
                         </div>
                       )}
-                      <Nav.Link to={`/product/${product.id}`} as={Link}>
-                        <div
-                          className="d-flex align-items-center justify-content-center bg-white"
-                          style={{ height: "200px", overflow: "hidden" }}
+
+                      <div
+                        className="d-flex align-items-center justify-content-center bg-white"
+                        style={{ height: "200px", overflow: "hidden" }}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={
+                            product.thumbnailUrl
+                              ? product.thumbnailUrl
+                              : "/images/no-image.png"
+                          }
+                          alt={product.title}
+                          className="p-3"
+                          style={{
+                            maxHeight: "180px",
+                            objectFit: "contain",
+                            width: "auto",
+                          }}
+                        />
+                      </div>
+
+                      <Card.Body>
+                        <Card.Title
+                          className="fs-6 text-truncate"
+                          title={product.title}
                         >
-                          <Card.Img
-                            variant="top"
-                            src={
-                              product.thumbnailUrl
-                                ? product.thumbnailUrl
-                                : "/images/no-image.png"
-                            }
-                            alt={product.title}
-                            className="p-3"
-                            style={{
-                              maxHeight: "180px",
-                              objectFit: "contain",
-                              width: "auto",
-                            }}
-                          />
+                          {product.title}
+                        </Card.Title>
+                        <div className="mb-2">
+                          <span className="text-danger fw-bold">
+                            {fmt(sale)}₫
+                          </span>{" "}
+                          {original > 0 && (
+                            <span className="text-muted text-decoration-line-through small">
+                              {fmt(original)}₫
+                            </span>
+                          )}
                         </div>
-                        <Nav.Link />
-                        <Card.Body>
-                          <Card.Title
-                            className="fs-6 text-truncate"
-                            title={product.title}
-                          >
-                            {product.title}
-                          </Card.Title>
-                          <div className="mb-2">
-                            <span className="text-danger fw-bold">
-                              {fmt(sale)}₫
-                            </span>{" "}
-                            {original > 0 && (
-                              <span className="text-muted text-decoration-line-through small">
-                                {fmt(original)}₫
-                              </span>
-                            )}
-                          </div>
-                          <Button
-                            variant="warning"
-                            className="w-100 text-white fw-bold"
-                          >
-                            Thêm vào giỏ
-                          </Button>
-                        </Card.Body>
-                      </Nav.Link>
+                        <Button
+                          variant="warning"
+                          className="w-100 text-white fw-bold"
+                        >
+                          Thêm vào giỏ
+                        </Button>
+                      </Card.Body>
                     </Card>
                   </div>
                 );
@@ -483,21 +492,21 @@ const HomePage = () => {
                       ></div>
                     </div>
                   )}
-                  <Nav.Link to={`/product/${product.id}`} as={Link}>
-                    {/* Hình sản phẩm */}
-                    <div className="ratio ratio-1x1 bg-white">
-                      <Card.Img
-                        variant="top"
-                        src={
-                          product.thumbnailUrl
-                            ? product.thumbnailUrl
-                            : "/images/no-image.png"
-                        }
-                        alt={product.title}
-                        className="object-fit-contain p-3"
-                      />
-                    </div>
-                  </Nav.Link>
+
+                  {/* Hình sản phẩm */}
+                  <div className="ratio ratio-1x1 bg-white">
+                    <Card.Img
+                      variant="top"
+                      src={
+                        product.thumbnailUrl
+                          ? product.thumbnailUrl
+                          : "/images/no-image.png"
+                      }
+                      alt={product.title}
+                      className="object-fit-contain p-3"
+                    />
+                  </div>
+
                   <Card.Body>
                     <Card.Title
                       className="fs-6 text-truncate"
