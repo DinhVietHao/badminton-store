@@ -14,6 +14,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import ProductManager from "../pages/admin/ProductManager";
 import UserManager from "../pages/admin/UserManager";
 import OrderManager from "../pages/admin/OrderManager";
+import OrderDetailPage from "../pages/user/OrderDetailPage";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="orders" element={<OrderPage />} />
+        <Route path="orders/:id" element={<OrderDetailPage />} />
         <Route path="account" element={<AccountPage />} />
       </Route>
 

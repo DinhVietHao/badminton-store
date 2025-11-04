@@ -18,8 +18,8 @@
       "balancePoint": "Cân bằng",
       "weight": "4U",
       "length": "675mm",
-      "createdAt": "2025-10-01T10:00:00Z",
-      "updatedAt": "2025-10-25T10:00:00Z",
+      "createdAt": "2025-11-02T10:00:00Z",
+      "updatedAt": "2025-11-02T10:00:00Z",
       "thumbnailUrl": "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang_1758652101.webp",
       "gallery": [
         "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-1_1758652130.webp",
@@ -292,18 +292,10 @@
       "userId": 2,
       "productId": 1,
       "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
-      "price": 455000,
-      "quantity": 1,
+      "originalPrice": 4800000,
+      "salePrice": 4550000,
+      "quantity": 2,
       "thumbnailUrl": "/images/vot-cau-long-yonex-astrox-100-game.webp"
-    },
-    {
-      "id": "2",
-      "userId": 3,
-      "productId": 2,
-      "title": "Vợt Cầu Lông Li-Ning Turbo X",
-      "price": 350000,
-      "quantity": 9,
-      "thumbnailUrl": "/images/vot-cau-long-vnb-carbon-training-150g-5.webp"
     }
   ],
   "orders": [],
