@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Col,
@@ -14,8 +14,10 @@ import {
   deleteCartItem,
   getCartItems,
   updateCartItemQuantity,
-} from "../../service/cartService";
+} from "../../service/cartApi";
 import toast from "react-hot-toast";
+import { getProductById } from "../../service/productApi";
+import { useNavigate } from "react-router";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -23,31 +25,52 @@ const CartPage = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
+  const hasShownToast = useRef(false);
+  const navigate = useNavigate();
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
+
   useEffect(() => {
+    if (!userId && !hasShownToast.current) {
+      toast.error("Vui lòng đăng nhập để xem giỏ hàng!");
+      hasShownToast.current = true;
+      navigate("/login");
+      return;
+    }
     const fetchCart = async () => {
       try {
-        const data = await getCartItems();
-        setCartItems(data);
+        const data = await getCartItems(userId);
+        const sorted = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setCartItems(sorted);
       } catch (err) {
-        console.error("Lỗi load giỏ hàng:", err);
+        toast.error("Lỗi load giỏ hàng!");
+        console.error("Chi tiết lỗi load giỏ hàng:", err);
       } finally {
         setLoading(false);
       }
     };
     fetchCart();
-  }, []);
+  }, [userId, navigate]);
 
-  const handleQuantityChange = async (id, delta) => {
+  const handleUpdateQuantity = async (id, delta) => {
     const item = cartItems.find((i) => i.id === id);
     if (!item) return;
 
     const newQuantity = Math.max(item.quantity + delta, 1);
     try {
+      const product = await getProductById(item.productId);
+      if (newQuantity > product.quantity) {
+        toast.error(`Sản phẩm ${product.title} không đủ số lượng trong kho`);
+        return;
+      }
       await updateCartItemQuantity(id, newQuantity);
+
       setCartItems((prev) =>
         prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i))
       );
     } catch (err) {
+      console.error(err);
       toast.error("Không thể cập nhật số lượng sản phẩm. Vui lòng thử lại!");
     }
   };
@@ -82,9 +105,11 @@ const CartPage = () => {
           </Button>
         </div>
       ) : cartItems.length === 0 ? (
-        <div class="text-center">
+        <div className="text-center">
           <Image src="/images/cartEmpty.png" className="me-3" />
-          <p class="text-muted">Không có sản phẩm nào trong giỏ hàng của bạn</p>
+          <p className="text-muted">
+            Không có sản phẩm nào trong giỏ hàng của bạn
+          </p>
         </div>
       ) : (
         <Container className="my-5">
@@ -146,7 +171,7 @@ const CartPage = () => {
                           <Button
                             variant="outline-secondary"
                             size="sm"
-                            onClick={() => handleQuantityChange(item.id, -1)}
+                            onClick={() => handleUpdateQuantity(item.id, -1)}
                           >
                             -
                           </Button>
@@ -154,7 +179,7 @@ const CartPage = () => {
                           <Button
                             variant="outline-secondary"
                             size="sm"
-                            onClick={() => handleQuantityChange(item.id, 1)}
+                            onClick={() => handleUpdateQuantity(item.id, 1)}
                           >
                             +
                           </Button>
@@ -231,7 +256,9 @@ const CartPage = () => {
             show={showDeleteModal}
             onHide={() => setShowDeleteModal(false)}
             onConfirm={() => {
-              handleDelete(itemToDelete.id);
+              if (itemToDelete) {
+                handleDelete(itemToDelete.id);
+              }
               setShowDeleteModal(false);
             }}
           />
