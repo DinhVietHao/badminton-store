@@ -15,7 +15,7 @@ function App() {
           duration: 3000,
           style: {
             borderRadius: "8px",
-            background: "##fff",
+            background: "#fff",
             color: "#000",
           },
           success: {
@@ -27,6 +27,12 @@ function App() {
           error: {
             iconTheme: {
               primary: "#f44336",
+              secondary: "#fff",
+            },
+          },
+          warning: {
+            iconTheme: {
+              primary: "#FFC107",
               secondary: "#fff",
             },
           },

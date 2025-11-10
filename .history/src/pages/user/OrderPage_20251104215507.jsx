@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Card, Badge, Spinner, Nav } from "react-bootstrap";
 import "../styles/OrderPage.css";
 import { Link } from "react-router";
+import { getOrders } from "../service/orderApi";
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,14 +11,11 @@ const OrderPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("http://localhost:5000/orders");
-        const data = await res.json();
-
-        const userOrders = data.filter((order) => order.userId === userId);
-        userOrders.sort(
+        const data = await getOrders(userId);
+        const sorted = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setOrders(userOrders);
+        setOrders(sorted);
       } catch (err) {
         console.error("Lỗi khi fetch orders:", err);
       } finally {
@@ -26,7 +24,7 @@ const OrderPage = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [userId]);
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -61,7 +59,10 @@ const OrderPage = () => {
       </h3>
 
       {orders.length === 0 ? (
-        <div className="no-orders">Bạn chưa có đơn hàng nào.</div>
+        <div class="text-center">
+          <img src="/images/empty-order.png" alt="" />
+          <p class="text-muted">Chưa có đơn hàng</p>
+        </div>
       ) : (
         orders.map((order) => (
           <Card key={order.id} className="order-card mb-4 shadow-sm">

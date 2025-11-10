@@ -12,6 +12,7 @@ import React, { useState, useEffect, useContext, useMemo } from "react";
 import ProductSidebar from "../../components/layouts-user/ProductSidebar";
 import { ProductContext } from "../../contexts/ProductContext";
 import { Link } from "react-router";
+import { useAddToCart } from "../../hooks/useAddToCart";
 
 const INITIAL_FILTERS = {
   search: "",
@@ -45,6 +46,8 @@ const ProductPage = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState(INITIAL_FILTERS);
   const [isFiltering, setIsFiltering] = useState(false);
+
+  const { addToCart } = useAddToCart();
 
   const filterOptions = useMemo(() => {
     const STATUS_MAP = {
@@ -317,6 +320,7 @@ const ProductPage = () => {
                         <Button
                           variant="warning"
                           className="w-100 text-white fw-bold"
+                          onClick={() => addToCart(product.id)}
                         >
                           Thêm vào giỏ
                         </Button>

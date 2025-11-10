@@ -17,6 +17,7 @@ import UserManager from "../pages/admin/UserManager";
 import OrderManager from "../pages/admin/OrderManager";
 import OrderDetailPage from "../pages/user/OrderDetailPage";
 import ProductDetail from "../pages/admin/ProductDetail";
+import ForgotPasswordPage from "../pages/user/ForgotPasswordPage";
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const AppRoutes = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="/profile/:id/edit" element={<EditProfileInfo />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Card,
@@ -18,9 +18,24 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("rememberedUser");
+    if (saved) {
+      const { email, password, expires } = JSON.parse(saved);
+      if (!expires || Date.now() < expires) {
+        setEmail(email);
+        setPassword(password);
+        setRemember(true);
+      } else {
+        localStorage.removeItem("rememberedUser"); // Xóa khi hết hạn
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +43,26 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      // Gọi login từ AuthContext (đã có axios)
       const user = await login(email, password);
 
       if (user && user.id) {
-        // Hiển thị loading nhẹ trước khi điều hướng
+        // (hết hạn sau 7 ngày)
+        if (remember) {
+          const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
+          localStorage.setItem(
+            "rememberedUser",
+            JSON.stringify({ email, password, expires })
+          );
+        } else {
+          localStorage.removeItem("rememberedUser");
+        }
+
         setTimeout(() => {
-          navigate(`/profile/${user.id}`);
+          if (user.role === "admin") {
+            navigate("/admin");
+          } else {
+            navigate(`/profile/${user.id}`);
+          }
         }, 800);
       } else {
         throw new Error("Không tìm thấy người dùng!");
@@ -83,6 +111,19 @@ const LoginPage = () => {
                 {showPassword ? <EyeSlash /> : <Eye />}
               </Button>
             </InputGroup>
+
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <Form.Check
+                type="checkbox"
+                label="Nhớ mật khẩu"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="m-0"
+              />
+              <Link to="/forgot-password" className="text-decoration-none">
+                Quên mật khẩu?
+              </Link>
+            </div>
           </Form.Group>
 
           <Button
