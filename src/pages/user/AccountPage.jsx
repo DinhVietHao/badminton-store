@@ -24,6 +24,13 @@ const AccountPage = () => {
       return;
     }
 
+    // ✅ Nếu là admin, điều hướng đến layout admin
+    if (user.role === "admin") {
+      navigate("/admin/dashboard");
+      return;
+    }
+
+    // ✅ Nếu id không khớp, quay lại đúng trang cá nhân
     if (String(user.id) !== id) {
       navigate(`/profile/${user.id}`);
       return;
@@ -34,7 +41,7 @@ const AccountPage = () => {
 
   if (!profileData) return null;
 
-  const orders = []; // Có thể fetch đơn hàng thật từ API sau
+  const orders = []; // TODO: fetch đơn hàng thực từ API sau
 
   return (
     <Container className="py-5">
@@ -90,7 +97,7 @@ const AccountPage = () => {
                   className="text-center align-middle"
                   style={{ backgroundColor: "#d9f2d9" }}
                 >
-                  <tr style={{ backgroundColor: "#449D44" }}>
+                  <tr style={{ backgroundColor: "#449D44", color: "white" }}>
                     <th>Đơn hàng</th>
                     <th>Ngày</th>
                     <th>Địa chỉ</th>

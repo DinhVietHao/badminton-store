@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Form,
-  FormControl,
-  Button,
-  NavDropdown,
-} from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { BoxArrowInRight, PersonPlus } from "react-bootstrap-icons";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -17,8 +9,13 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    window.location.href = "/"; // Redirect về home
+    window.location.href = "/"; 
   };
+
+  const profileLink =
+    user?.role === "admin" ? "/admin" : `/profile/${user?.id}`;
+
+  const profileLabel = user?.role === "admin" ? "Admin Panel" : "Trang cá nhân";
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -26,6 +23,7 @@ const Header = () => {
         <Navbar.Brand as={Link} to="/">
           Badminton Shop
         </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -50,8 +48,9 @@ const Header = () => {
             >
               {user ? (
                 <>
-                  <NavDropdown.Item as={NavLink} to={`/profile/${user.id}`}>
-                    Trang cá nhân
+                  {/* Nếu là admin → Admin Panel, còn lại → Trang cá nhân */}
+                  <NavDropdown.Item as={NavLink} to={profileLink}>
+                    {profileLabel}
                   </NavDropdown.Item>
                   <NavDropdown.Item as={NavLink} to={"/orders"}>
                     Quản lý đơn hàng
