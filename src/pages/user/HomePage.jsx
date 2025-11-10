@@ -234,7 +234,7 @@ const HomePage = () => {
                           ></div>
                         </div>
                       )}
-                      <Nav.Link to={`/product/${product.id}`} as={Link}>
+                      <Nav.Link to={`/products/${product.id}`} as={Link}>
                         {/* Hình ảnh sản phẩm */}
                         <div
                           className="d-flex align-items-center justify-content-center bg-white"
@@ -365,7 +365,7 @@ const HomePage = () => {
                           ></div>
                         </div>
                       )}
-                      <Nav.Link to={`/product/${product.id}`} as={Link}>
+                      <Nav.Link to={`/products/${product.id}`} as={Link}>
                         <div
                           className="d-flex align-items-center justify-content-center bg-white"
                           style={{ height: "200px", overflow: "hidden" }}
@@ -493,7 +493,7 @@ const HomePage = () => {
                       ></div>
                     </div>
                   )}
-                  <Nav.Link to={`/product/${product.id}`} as={Link}>
+                  <Nav.Link to={`/products/${product.id}`} as={Link}>
                     {/* Hình sản phẩm */}
                     <div className="ratio ratio-1x1 bg-white">
                       <Card.Img

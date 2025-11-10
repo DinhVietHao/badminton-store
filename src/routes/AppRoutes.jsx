@@ -16,6 +16,7 @@ import ProductManager from "../pages/admin/ProductManager";
 import UserManager from "../pages/admin/UserManager";
 import OrderManager from "../pages/admin/OrderManager";
 import OrderDetailPage from "../pages/user/OrderDetailPage";
+import ProductDetail from "../pages/admin/ProductDetail";
 import ForgotPasswordPage from "../pages/user/ForgotPasswordPage";
 
 const AppRoutes = () => {
@@ -24,7 +25,7 @@ const AppRoutes = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="products" element={<ProductPage />} />
-        <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="orders" element={<OrderPage />} />
         <Route path="profile/:id" element={<AccountPage />} />
@@ -39,6 +40,7 @@ const AppRoutes = () => {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="products" element={<ProductManager />} />
+        <Route path="products/:id" element={<ProductDetail />} />
         <Route path="users" element={<UserManager />} />
         <Route path="orders" element={<OrderManager />} />
       </Route>
