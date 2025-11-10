@@ -12,6 +12,7 @@ import {
   Alert,
   Fade,
 } from "react-bootstrap";
+import { useAddToCart } from "../../hooks/useAddToCart";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -20,6 +21,8 @@ const ProductDetailPage = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [error, setError] = useState("");
   const [isTabVisible, setIsTabVisible] = useState(true);
+
+  const { addToCart } = useAddToCart();
 
   const fetchProducts = async () => {
     try {
@@ -184,6 +187,7 @@ const ProductDetailPage = () => {
               variant="outline-warning"
               size="lg"
               className="flex-fill fw-bold"
+              onClick={() => addToCart(id)}
             >
               Thêm vào giỏ
             </Button>

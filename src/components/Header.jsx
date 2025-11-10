@@ -52,7 +52,9 @@ const Header = () => {
                   <NavDropdown.Item as={NavLink} to={profileLink}>
                     {profileLabel}
                   </NavDropdown.Item>
-
+                  <NavDropdown.Item as={NavLink} to={"/orders"}>
+                    Quản lý đơn hàng
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogout}>
                     Đăng xuất
                   </NavDropdown.Item>
