@@ -34,7 +34,6 @@ const ProductManager = () => {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const PRODUCTS_PER_PAGE = 10;
 
@@ -61,7 +60,6 @@ const ProductManager = () => {
       gallery: ["", "", "", ""],
     });
     setErrors({});
-    setTouched({});
     setShowModal(true);
   };
 
@@ -69,13 +67,11 @@ const ProductManager = () => {
     setCurrentProduct(product);
     setFormData({
       ...product,
-      gallery:
-        product.gallery?.length >= 4
-          ? product.gallery.slice(0, 4)
-          : [...(product.gallery || []), "", "", "", ""].slice(0, 4),
+      gallery: product.gallery?.length >= 4 
+        ? product.gallery.slice(0, 4) 
+        : [...(product.gallery || []), "", "", "", ""].slice(0, 4),
     });
     setErrors({});
-    setTouched({});
     setShowModal(true);
   };
 
@@ -83,119 +79,16 @@ const ProductManager = () => {
     setShowModal(false);
     setCurrentProduct(null);
     setErrors({});
-    setTouched({});
-  };
-
-  const validateField = (name, value) => {
-    let errorMsg = "";
-
-    switch (name) {
-      case "title":
-        if (!value || value.trim() === "") {
-          errorMsg = "Vui lòng nhập tên sản phẩm";
-        }
-        break;
-      case "sku":
-        if (!value || value.trim() === "") {
-          errorMsg = "Vui lòng nhập mã SKU";
-        }
-        break;
-      case "description":
-        if (!value || value.trim() === "") {
-          errorMsg = "Vui lòng nhập mô tả sản phẩm";
-        }
-        break;
-      case "brand":
-        if (!value || value === "") {
-          errorMsg = "Vui lòng chọn thương hiệu";
-        }
-        break;
-      case "quantity":
-        if (value === "" || value === null || value === undefined) {
-          errorMsg = "Vui lòng nhập số lượng";
-        } else if (parseInt(value) < 0) {
-          errorMsg = "Số lượng phải >= 0";
-        }
-        break;
-      case "originalPrice":
-        if (value === "" || value === null || value === undefined) {
-          errorMsg = "Vui lòng nhập giá gốc";
-        } else if (parseFloat(value) <= 0) {
-          errorMsg = "Giá gốc phải > 0";
-        }
-        break;
-      case "salePrice":
-        if (value !== "" && value !== null && value !== undefined) {
-          const salePrice = parseFloat(value);
-          const originalPrice = parseFloat(formData.originalPrice);
-
-          if (salePrice < 0) {
-            errorMsg = "Giá khuyến mãi phải >= 0";
-          } else if (originalPrice && salePrice > originalPrice) {
-            errorMsg = "Giá khuyến mãi phải ≤ giá gốc";
-          }
-        }
-        break;
-      case "playerLevel":
-        if (!value || value === "") {
-          errorMsg = "Vui lòng chọn trình độ người chơi";
-        }
-        break;
-      case "playType":
-        if (!value || value === "") {
-          errorMsg = "Vui lòng chọn kiểu đánh";
-        }
-        break;
-      case "playingStyle":
-        if (!value || value === "") {
-          errorMsg = "Vui lòng chọn phong cách chơi";
-        }
-        break;
-      case "shaftFlexibility":
-        if (!value || value === "") {
-          errorMsg = "Vui lòng chọn độ dẻo thân vợt";
-        }
-        break;
-      case "balancePoint":
-        if (!value || value === "") {
-          errorMsg = "Vui lòng chọn điểm cân bằng";
-        }
-        break;
-      case "weight":
-        if (!value || value === "") {
-          errorMsg = "Vui lòng chọn trọng lượng";
-        }
-        break;
-      case "length":
-        if (!value || value.trim() === "") {
-          errorMsg = "Vui lòng nhập chiều dài";
-        }
-        break;
-      case "thumbnailUrl":
-        if (!value || value.trim() === "") {
-          errorMsg = "Vui lòng nhập đường dẫn ảnh đại diện";
-        }
-        break;
-      default:
-        break;
-    }
-
-    return errorMsg;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Validate field khi thay đổi
-    const errorMsg = validateField(name, value);
-    setErrors((prev) => ({ ...prev, [name]: errorMsg }));
-  };
-
-  const handleBlur = (name) => {
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    const errorMsg = validateField(name, formData[name]);
-    setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+    
+    // Xóa lỗi của field khi user bắt đầu nhập
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   const handleGalleryChange = (index, value) => {
@@ -206,38 +99,80 @@ const ProductManager = () => {
     });
   };
 
-  const validateAllFields = () => {
+  const validateForm = () => {
     const newErrors = {};
-    const requiredFields = [
-      "title",
-      "sku",
-      "description",
-      "brand",
-      "quantity",
-      "originalPrice",
-      "playerLevel",
-      "playType",
-      "playingStyle",
-      "shaftFlexibility",
-      "balancePoint",
-      "weight",
-      "length",
-      "thumbnailUrl",
-    ];
 
-    requiredFields.forEach((field) => {
-      const errorMsg = validateField(field, formData[field]);
-      if (errorMsg) {
-        newErrors[field] = errorMsg;
-      }
-    });
+    // Validate các trường bắt buộc
+    if (!formData.title?.trim()) {
+      newErrors.title = "Vui lòng nhập tên sản phẩm";
+    }
 
-    // Validate salePrice nếu có
+    if (!formData.sku?.trim()) {
+      newErrors.sku = "Vui lòng nhập mã SKU";
+    }
+
+    if (!formData.brand) {
+      newErrors.brand = "Vui lòng chọn thương hiệu";
+    }
+
+    if (!formData.description?.trim()) {
+      newErrors.description = "Vui lòng nhập mô tả sản phẩm";
+    }
+
+    if (!formData.quantity && formData.quantity !== 0) {
+      newErrors.quantity = "Vui lòng nhập số lượng";
+    } else if (parseInt(formData.quantity) < 0) {
+      newErrors.quantity = "Số lượng phải >= 0";
+    }
+
+    if (!formData.originalPrice && formData.originalPrice !== 0) {
+      newErrors.originalPrice = "Vui lòng nhập giá gốc";
+    } else if (parseFloat(formData.originalPrice) <= 0) {
+      newErrors.originalPrice = "Giá gốc phải > 0";
+    }
+
+    // Validate giá sale
     if (formData.salePrice) {
-      const errorMsg = validateField("salePrice", formData.salePrice);
-      if (errorMsg) {
-        newErrors.salePrice = errorMsg;
+      const salePrice = parseFloat(formData.salePrice);
+      const originalPrice = parseFloat(formData.originalPrice);
+      
+      if (salePrice < 0) {
+        newErrors.salePrice = "Giá khuyến mãi phải >= 0";
+      } else if (salePrice > originalPrice) {
+        newErrors.salePrice = "Giá khuyến mãi phải ≤ giá gốc";
       }
+    }
+
+    if (!formData.playerLevel) {
+      newErrors.playerLevel = "Vui lòng chọn trình độ người chơi";
+    }
+
+    if (!formData.playType) {
+      newErrors.playType = "Vui lòng chọn kiểu đánh";
+    }
+
+    if (!formData.playingStyle) {
+      newErrors.playingStyle = "Vui lòng chọn phong cách chơi";
+    }
+
+    if (!formData.shaftFlexibility) {
+      newErrors.shaftFlexibility = "Vui lòng chọn độ dẻo thân vợt";
+    }
+
+    if (!formData.balancePoint) {
+      newErrors.balancePoint = "Vui lòng chọn điểm cân bằng";
+    }
+
+    if (!formData.weight) {
+      newErrors.weight = "Vui lòng chọn trọng lượng";
+    }
+
+    if (!formData.length?.trim()) {
+      newErrors.length = "Vui lòng nhập chiều dài";
+    }
+
+    if (!formData.thumbnailUrl?.trim()) {
+      newErrors.thumbnailUrl = "Vui lòng nhập đường dẫn ảnh đại diện";
     }
 
     setErrors(newErrors);
@@ -245,49 +180,22 @@ const ProductManager = () => {
   };
 
   const handleSave = async () => {
-    // Đánh dấu tất cả các field đã touched
-    const allTouched = {
-      title: true,
-      sku: true,
-      description: true,
-      brand: true,
-      quantity: true,
-      originalPrice: true,
-      salePrice: true,
-      playerLevel: true,
-      playType: true,
-      playingStyle: true,
-      shaftFlexibility: true,
-      balancePoint: true,
-      weight: true,
-      length: true,
-      thumbnailUrl: true,
-    };
-    setTouched(allTouched);
-
-    // Validate tất cả
-    if (!validateAllFields()) {
-      alert(
-        "Vui lòng điền đầy đủ thông tin và kiểm tra lại các trường bị lỗi!"
-      );
+    // Validate trước khi lưu
+    if (!validateForm()) {
+      alert("Vui lòng điền đầy đủ thông tin và kiểm tra lại các trường bị lỗi!");
       return;
     }
 
     // Lọc bỏ ảnh phụ trống
-    const cleanedGallery =
-      formData.gallery?.filter((img) => img.trim() !== "") || [];
-
+    const cleanedGallery = formData.gallery?.filter(img => img.trim() !== "") || [];
+    
     const dataToSave = {
       ...formData,
       gallery: cleanedGallery,
       quantity: formData.quantity === "" ? 0 : parseInt(formData.quantity) || 0,
       soldCount: parseInt(formData.soldCount) || 0,
-      originalPrice:
-        formData.originalPrice === ""
-          ? 0
-          : parseFloat(formData.originalPrice) || 0,
-      salePrice:
-        formData.salePrice === "" ? 0 : parseFloat(formData.salePrice) || 0,
+      originalPrice: formData.originalPrice === "" ? 0 : parseFloat(formData.originalPrice) || 0,
+      salePrice: formData.salePrice === "" ? 0 : parseFloat(formData.salePrice) || 0,
       createdAt: currentProduct?.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -328,6 +236,27 @@ const ProductManager = () => {
         alert("Đã xảy ra lỗi khi xóa");
       }
     }
+  };
+
+  // Kiểm tra form có hợp lệ không
+  const isFormValid = () => {
+    return (
+      formData.title?.trim() &&
+      formData.sku?.trim() &&
+      formData.brand &&
+      formData.description?.trim() &&
+      (formData.quantity || formData.quantity === 0) &&
+      (formData.originalPrice && parseFloat(formData.originalPrice) > 0) &&
+      (!formData.salePrice || parseFloat(formData.salePrice) <= parseFloat(formData.originalPrice)) &&
+      formData.playerLevel &&
+      formData.playType &&
+      formData.playingStyle &&
+      formData.shaftFlexibility &&
+      formData.balancePoint &&
+      formData.weight &&
+      formData.length?.trim() &&
+      formData.thumbnailUrl?.trim()
+    );
   };
 
   if (loading) return <Spinner animation="border" />;
@@ -469,10 +398,8 @@ const ProductManager = () => {
                     name="title"
                     value={formData.title || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("title")}
                     placeholder="VD: Vợt Cầu Lông Yonex Astrox 100ZZ"
-                    isInvalid={touched.title && !!errors.title}
-                    required
+                    isInvalid={!!errors.title}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.title}
@@ -489,10 +416,8 @@ const ProductManager = () => {
                     name="sku"
                     value={formData.sku || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("sku")}
                     placeholder="VD: YX-AX100ZZ-KR"
-                    isInvalid={touched.sku && !!errors.sku}
-                    required
+                    isInvalid={!!errors.sku}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.sku}
@@ -511,10 +436,8 @@ const ProductManager = () => {
                 name="description"
                 value={formData.description || ""}
                 onChange={handleChange}
-                onBlur={() => handleBlur("description")}
                 placeholder="Mô tả chi tiết về sản phẩm..."
-                isInvalid={touched.description && !!errors.description}
-                required
+                isInvalid={!!errors.description}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.description}
@@ -531,9 +454,7 @@ const ProductManager = () => {
                     name="brand"
                     value={formData.brand || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("brand")}
-                    isInvalid={touched.brand && !!errors.brand}
-                    required
+                    isInvalid={!!errors.brand}
                   >
                     <option value="">-- Chọn thương hiệu --</option>
                     <option value="Yonex">Yonex</option>
@@ -557,10 +478,8 @@ const ProductManager = () => {
                     name="quantity"
                     value={formData.quantity}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("quantity")}
                     placeholder="Nhập số lượng sản phẩm"
-                    isInvalid={touched.quantity && !!errors.quantity}
-                    required
+                    isInvalid={!!errors.quantity}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.quantity}
@@ -582,11 +501,9 @@ const ProductManager = () => {
                     name="originalPrice"
                     value={formData.originalPrice}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("originalPrice")}
                     placeholder="Nhập giá gốc"
                     step="1000"
-                    isInvalid={touched.originalPrice && !!errors.originalPrice}
-                    required
+                    isInvalid={!!errors.originalPrice}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.originalPrice}
@@ -601,10 +518,9 @@ const ProductManager = () => {
                     name="salePrice"
                     value={formData.salePrice}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("salePrice")}
                     placeholder="Nhập giá khuyến mãi (nếu có)"
                     step="1000"
-                    isInvalid={touched.salePrice && !!errors.salePrice}
+                    isInvalid={!!errors.salePrice}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.salePrice}
@@ -625,9 +541,7 @@ const ProductManager = () => {
                     name="playerLevel"
                     value={formData.playerLevel || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("playerLevel")}
-                    isInvalid={touched.playerLevel && !!errors.playerLevel}
-                    required
+                    isInvalid={!!errors.playerLevel}
                   >
                     <option value="">-- Chọn trình độ --</option>
                     <option value="Người mới bắt đầu">Người mới bắt đầu</option>
@@ -648,9 +562,7 @@ const ProductManager = () => {
                     name="playType"
                     value={formData.playType || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("playType")}
-                    isInvalid={touched.playType && !!errors.playType}
-                    required
+                    isInvalid={!!errors.playType}
                   >
                     <option value="">-- Chọn kiểu đánh --</option>
                     <option value="Đánh đơn">Đánh đơn</option>
@@ -674,9 +586,7 @@ const ProductManager = () => {
                     name="playingStyle"
                     value={formData.playingStyle || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("playingStyle")}
-                    isInvalid={touched.playingStyle && !!errors.playingStyle}
-                    required
+                    isInvalid={!!errors.playingStyle}
                   >
                     <option value="">-- Chọn phong cách --</option>
                     <option value="Tấn công">Tấn công</option>
@@ -697,11 +607,7 @@ const ProductManager = () => {
                     name="shaftFlexibility"
                     value={formData.shaftFlexibility || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("shaftFlexibility")}
-                    isInvalid={
-                      touched.shaftFlexibility && !!errors.shaftFlexibility
-                    }
-                    required
+                    isInvalid={!!errors.shaftFlexibility}
                   >
                     <option value="">-- Chọn độ dẻo --</option>
                     <option value="Dẻo">Dẻo</option>
@@ -726,9 +632,7 @@ const ProductManager = () => {
                     name="balancePoint"
                     value={formData.balancePoint || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("balancePoint")}
-                    isInvalid={touched.balancePoint && !!errors.balancePoint}
-                    required
+                    isInvalid={!!errors.balancePoint}
                   >
                     <option value="">-- Chọn điểm cân bằng --</option>
                     <option value="Nhẹ đầu">Nhẹ đầu</option>
@@ -749,9 +653,7 @@ const ProductManager = () => {
                     name="weight"
                     value={formData.weight || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("weight")}
-                    isInvalid={touched.weight && !!errors.weight}
-                    required
+                    isInvalid={!!errors.weight}
                   >
                     <option value="">-- Chọn trọng lượng --</option>
                     <option value="3U">3U (85-89g)</option>
@@ -773,10 +675,8 @@ const ProductManager = () => {
                     name="length"
                     value={formData.length || ""}
                     onChange={handleChange}
-                    onBlur={() => handleBlur("length")}
                     placeholder="VD: 675mm"
-                    isInvalid={touched.length && !!errors.length}
-                    required
+                    isInvalid={!!errors.length}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.length}
@@ -787,7 +687,7 @@ const ProductManager = () => {
 
             {/* HÌNH ẢNH */}
             <h5 className="mb-3 text-primary mt-4">Hình ảnh sản phẩm</h5>
-
+            
             <Form.Group className="mb-4">
               <Form.Label className="fw-bold">
                 Ảnh đại diện (Thumbnail) <span className="text-danger">*</span>
@@ -797,10 +697,8 @@ const ProductManager = () => {
                 name="thumbnailUrl"
                 value={formData.thumbnailUrl || ""}
                 onChange={handleChange}
-                onBlur={() => handleBlur("thumbnailUrl")}
                 placeholder="/images/products/your-image.webp"
-                isInvalid={touched.thumbnailUrl && !!errors.thumbnailUrl}
-                required
+                isInvalid={!!errors.thumbnailUrl}
               />
               <Form.Control.Feedback type="invalid">
                 {errors.thumbnailUrl}
@@ -810,20 +708,14 @@ const ProductManager = () => {
                   <Image
                     src={formData.thumbnailUrl}
                     alt="Preview"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                    }}
+                    style={{ width: "100px", height: "100px", objectFit: "cover" }}
                     rounded
                   />
                 </div>
               )}
             </Form.Group>
 
-            <Form.Label className="fw-bold">
-              Thư viện ảnh phụ (Gallery) - Tối đa 4 ảnh
-            </Form.Label>
+            <Form.Label className="fw-bold">Thư viện ảnh phụ (Gallery) - Tối đa 4 ảnh</Form.Label>
             <Row>
               {[0, 1, 2, 3].map((index) => (
                 <Col md={6} key={index}>
@@ -832,9 +724,7 @@ const ProductManager = () => {
                     <Form.Control
                       type="text"
                       value={formData.gallery?.[index] || ""}
-                      onChange={(e) =>
-                        handleGalleryChange(index, e.target.value)
-                      }
+                      onChange={(e) => handleGalleryChange(index, e.target.value)}
                       placeholder={`/images/products/gallery-${index + 1}.webp`}
                     />
                     {formData.gallery?.[index] && (
@@ -842,11 +732,7 @@ const ProductManager = () => {
                         <Image
                           src={formData.gallery[index]}
                           alt={`Gallery ${index + 1}`}
-                          style={{
-                            width: "80px",
-                            height: "80px",
-                            objectFit: "cover",
-                          }}
+                          style={{ width: "80px", height: "80px", objectFit: "cover" }}
                           rounded
                         />
                       </div>
@@ -861,7 +747,11 @@ const ProductManager = () => {
           <Button variant="secondary" onClick={handleClose}>
             Hủy
           </Button>
-          <Button variant="primary" onClick={handleSave}>
+          <Button 
+            variant="primary" 
+            onClick={handleSave}
+            disabled={!isFormValid()}
+          >
             <PlusCircle className="me-2" />
             {currentProduct ? "Cập nhật" : "Thêm mới"}
           </Button>
