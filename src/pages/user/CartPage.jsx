@@ -18,6 +18,7 @@ import {
 import toast from "react-hot-toast";
 import { getProductById } from "../../service/productApi";
 import { useNavigate } from "react-router";
+const SHIPPING_FEE = 30000;
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -89,22 +90,18 @@ const CartPage = () => {
     0
   );
 
+  const grandTotal = total + SHIPPING_FEE;
+
+  if (loading) {
+    return (
+      <Container className="mt-5 text-center">
+        <Spinner animation="border" /> <p>Đang tải dữ liệu...</p>
+      </Container>
+    );
+  }
   return (
     <>
-      {loading ? (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <Button variant="primary" disabled>
-            <Spinner
-              as="span"
-              animation="grow"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-            Loading...
-          </Button>
-        </div>
-      ) : cartItems.length === 0 ? (
+      {cartItems.length === 0 ? (
         <div className="text-center">
           <Image src="/images/cartEmpty.png" className="me-3" />
           <p className="text-muted">
@@ -229,7 +226,7 @@ const CartPage = () => {
                 <hr />
                 <div className="d-flex justify-content-between mb-3">
                   <span>Tổng cộng</span>
-                  <strong>{(total + 30000).toLocaleString("vi-VN")}đ</strong>
+                  <strong>{grandTotal.toLocaleString("vi-VN")}đ</strong>
                 </div>
                 <Button
                   variant="success"
@@ -238,17 +235,18 @@ const CartPage = () => {
                   onClick={() => setShowCheckout(true)}
                 >
                   <i className="bi bi-bag-check-fill me-2" />
-                  Mua Hàng
+                  Đặt hàng
                 </Button>
               </div>
             </Col>
           </Row>
           {showCheckout && (
             <CheckoutForm
-              total={total}
+              grandTotal={grandTotal}
               cartItems={cartItems}
               setCartItems={setCartItems}
-              setShowCheckout={setShowCheckout}
+              show={showCheckout}
+              onHide={() => setShowCheckout(false)}
             />
           )}
 

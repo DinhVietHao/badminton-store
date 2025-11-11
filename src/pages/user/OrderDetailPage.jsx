@@ -18,7 +18,6 @@ const OrderDetailPage = () => {
 
   const { shippingInfo, products, total, status, createdAt } = order;
 
-  // format tiền
   const formatCurrency = (num) =>
     num.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 

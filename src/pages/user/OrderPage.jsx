@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Card, Badge, Spinner, Nav } from "react-bootstrap";
 import "../../styles/OrderPage.css";
 import { Link } from "react-router";
-import { getOrders } from "../../service/orderApi";
+import { getOrdersByUserId } from "../../service/orderApi";
 const OrderPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const OrderPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await getOrders(userId);
+        const data = await getOrdersByUserId(userId);
         const sorted = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
@@ -25,7 +25,7 @@ const OrderPage = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [userId]);
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -36,10 +36,8 @@ const OrderPage = () => {
     switch (status) {
       case "pending":
         return <Badge bg="warning">Chờ xác nhận</Badge>;
-      case "shipping":
-        return <Badge bg="info">Đang giao</Badge>;
-      case "done":
-        return <Badge bg="success">Hoàn tất</Badge>;
+      case "confirm":
+        return <Badge bg="success">Đã xác nhận</Badge>;
       default:
         return <Badge bg="secondary">Không xác định</Badge>;
     }
@@ -62,7 +60,7 @@ const OrderPage = () => {
       {orders.length === 0 ? (
         <div className="text-center">
           <img src="/images/empty-order.png" alt="" />
-          <p class="text-muted">Chưa có đơn hàng</p>
+          <p className="text-muted">Chưa có đơn hàng</p>
         </div>
       ) : (
         orders.map((order) => (
