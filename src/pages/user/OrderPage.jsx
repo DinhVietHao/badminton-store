@@ -1,31 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Container, Card, Badge, Spinner, Nav } from "react-bootstrap";
 import "../../styles/OrderPage.css";
 import { Link } from "react-router";
 import { getOrdersByUserId } from "../../service/orderApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setOrders } from "../../redux/slices/orderSlice";
+import toast from "react-hot-toast";
 const OrderPage = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { orders, loading } = useSelector((state) => state.order);
 
   const userId = JSON.parse(localStorage.getItem("user"))?.id;
 
   useEffect(() => {
     const fetchOrders = async () => {
+      dispatch(setLoading(true));
       try {
         const data = await getOrdersByUserId(userId);
         const sorted = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setOrders(sorted);
+        dispatch(setOrders(sorted));
+        dispatch(setLoading(false));
       } catch (err) {
+        toast.error("Lỗi load đơn hàng!");
         console.error("Lỗi khi fetch orders:", err);
-      } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
     fetchOrders();
-  }, [userId]);
+  }, [userId, dispatch]);
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -77,7 +82,11 @@ const OrderPage = () => {
 
             <Card.Body>
               {order.products.map((p) => (
-                <Nav.Link as={Link} to={`/orders/${order.id}`}>
+                <Nav.Link
+                  as={Link}
+                  to={`/orders/${order.id}`}
+                  key={p.productId}
+                >
                   <div
                     key={p.productId}
                     className="order-item d-flex align-items-center"

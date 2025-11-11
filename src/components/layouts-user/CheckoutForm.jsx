@@ -1,21 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { getProductById, updateProductStock } from "../../service/productApi";
 import { createOrder } from "../../service/orderApi";
 import { deleteCartItem } from "../../service/cartApi";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../redux/slices/cartSlice";
 
-const CheckoutForm = ({
-  show,
-  onHide,
-  grandTotal,
-  cartItems,
-  setCartItems,
-}) => {
+const CheckoutForm = ({ show, onHide, grandTotal, cartItems }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const userId = JSON.parse(localStorage.getItem("user"))?.id;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id;
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -31,6 +29,17 @@ const CheckoutForm = ({
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        fullName: user.username || "",
+        phone: user.phone || "",
+        address: "",
+        note: "",
+      });
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,7 +80,6 @@ const CheckoutForm = ({
     };
     try {
       await createOrder(newOrder);
-
       for (const item of cartItems) {
         const product = await getProductById(item.productId);
 
@@ -87,7 +95,7 @@ const CheckoutForm = ({
       }
 
       toast.success("Đặt hàng thành công!");
-      setCartItems([]);
+      dispatch(clearCart());
       onHide();
       navigate("/orders");
     } catch (err) {

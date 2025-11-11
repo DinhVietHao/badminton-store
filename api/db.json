@@ -7,8 +7,8 @@
       "description": "VNB V200 là mẫu vợt cân bằng, dễ chơi, phù hợp cho người mới bắt đầu hoặc người chơi phong trào. Công nghệ khung tối ưu giúp vợt ổn định và giảm rung.",
       "brand": "VNB",
       "status": "IN-STOCK",
-      "quantity": 15,
-      "soldCount": 6,
+      "quantity": 12,
+      "soldCount": 9,
       "originalPrice": 890000,
       "salePrice": 799000,
       "playerLevel": "Người mới bắt đầu",
@@ -19,7 +19,7 @@
       "weight": "4U",
       "length": "675mm",
       "createdAt": "2025-11-02T10:00:00Z",
-      "updatedAt": "2025-11-11T17:29:47.883Z",
+      "updatedAt": "2025-11-11T19:31:38.630Z",
       "thumbnailUrl": "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang_1758652101.webp",
       "gallery": [
         "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-1_1758652130.webp",
@@ -34,8 +34,8 @@
       "description": "Cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ tuyệt vời. Phù hợp cho người chơi chuyên nghiệp hoặc người chơi phong trào có cổ tay khỏe.",
       "brand": "Yonex",
       "status": "IN-STOCK",
-      "quantity": 86,
-      "soldCount": 14,
+      "quantity": 85,
+      "soldCount": 15,
       "originalPrice": 4850000,
       "salePrice": 4690000,
       "playerLevel": "Chuyên nghiệp",
@@ -46,7 +46,7 @@
       "weight": "4U",
       "length": "675mm",
       "createdAt": "2025-10-02T11:00:00Z",
-      "updatedAt": "2025-11-11T17:24:42.786Z",
+      "updatedAt": "2025-11-11T19:28:09.830Z",
       "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp",
       "gallery": [
         "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-4.webp",
@@ -61,8 +61,8 @@
       "description": "Dòng vợt tấn công cao cấp của Lining, được vận động viên Chen Long sử dụng. Thiết kế nặng đầu, thân cứng giúp tạo ra những cú đập cầu mạnh mẽ.",
       "brand": "Lining",
       "status": "IN-STOCK",
-      "quantity": 98,
-      "soldCount": 2,
+      "quantity": 94,
+      "soldCount": 6,
       "originalPrice": 5200000,
       "salePrice": 5200000,
       "playerLevel": "Chuyên nghiệp",
@@ -73,7 +73,7 @@
       "weight": "3U",
       "length": "675mm",
       "createdAt": "2025-10-03T14:30:00Z",
-      "updatedAt": "2025-11-11T17:20:24.788Z",
+      "updatedAt": "2025-11-11T19:38:02.267Z",
       "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-7.webp",
       "gallery": [
         "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-6.webp",
@@ -114,8 +114,8 @@
       "description": "Dòng vợt thiên về tốc độ, phản tạt nhanh và phòng thủ linh hoạt. Thích hợp cho người chơi đánh đôi, đặc biệt là vị trí trên lưới.",
       "brand": "Victor",
       "status": "IN-STOCK",
-      "quantity": 98,
-      "soldCount": 2,
+      "quantity": 97,
+      "soldCount": 3,
       "originalPrice": 4350000,
       "salePrice": 4190000,
       "playerLevel": "Trung cấp",
@@ -126,7 +126,7 @@
       "weight": "4U",
       "length": "675mm",
       "createdAt": "2025-10-08T16:00:00Z",
-      "updatedAt": "2025-11-11T17:20:24.773Z",
+      "updatedAt": "2025-11-11T18:52:29.968Z",
       "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang_1761184395.webp",
       "gallery": [
         "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang-1_1761184400.webp",
@@ -271,7 +271,7 @@
       "id": "1",
       "username": "admin",
       "password": "Admin123@",
-      "email": "ch",
+      "email": "nguyenvana@gmail.com",
       "fullName": "Shop Admin",
       "avatarUrl": "",
       "role": "admin"
@@ -333,7 +333,46 @@
   "cart": [],
   "orders": [
     {
-      "id": "fba0",
+      "id": "16ff",
+      "userId": "4",
+      "products": [
+        {
+          "productId": 3,
+          "title": "Vợt Cầu Lông Lining Axforce 90 Max (Rồng)",
+          "originalPrice": 5200000,
+          "salePrice": 5200000,
+          "quantity": 1,
+          "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-7.webp"
+        },
+        {
+          "productId": 2,
+          "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
+          "originalPrice": 4850000,
+          "salePrice": 4690000,
+          "quantity": 1,
+          "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp"
+        },
+        {
+          "productId": 1,
+          "title": "Vợt cầu lông VNB V200 Xanh (Chính Hãng)",
+          "originalPrice": 890000,
+          "salePrice": 799000,
+          "quantity": 1,
+          "thumbnailUrl": "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang_1758652101.webp"
+        }
+      ],
+      "total": 10719000,
+      "status": "pending",
+      "createdAt": "2025-11-11T19:28:09.808Z",
+      "shippingInfo": {
+        "fullName": "Minh Kha",
+        "phone": "0854453340",
+        "address": "abc",
+        "note": ""
+      }
+    },
+    {
+      "id": "ff8c",
       "userId": "4",
       "products": [
         {
@@ -346,12 +385,35 @@
         }
       ],
       "total": 829000,
-      "status": "pending",
-      "createdAt": "2025-11-11T17:29:47.875Z",
+      "status": "confirm",
+      "createdAt": "2025-11-11T19:31:38.620Z",
       "shippingInfo": {
-        "fullName": "Lê Minh Kha",
-        "phone": "0864367473",
-        "address": "122",
+        "fullName": "Minh Kha",
+        "phone": "0854453340",
+        "address": "vdsv dvssdvds dsvsdvsd dvsvsdvsd dsvsdv dsvsdvdsv dsvdsvsd sdvds",
+        "note": ""
+      }
+    },
+    {
+      "id": "3bf8",
+      "userId": "4",
+      "products": [
+        {
+          "productId": 3,
+          "title": "Vợt Cầu Lông Lining Axforce 90 Max (Rồng)",
+          "originalPrice": 5200000,
+          "salePrice": 5200000,
+          "quantity": 2,
+          "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-7.webp"
+        }
+      ],
+      "total": 10430000,
+      "status": "confirm",
+      "createdAt": "2025-11-11T19:38:02.258Z",
+      "shippingInfo": {
+        "fullName": "Minh Kha",
+        "phone": "0854453340",
+        "address": "abc",
         "note": ""
       }
     }

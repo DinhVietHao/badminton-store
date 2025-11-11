@@ -12,6 +12,12 @@ export const getOrders = async () => {
   return await res.json();
 };
 
+export const getOrderById = async (orderId) => {
+  const res = await fetch(`${BASE_URL}/orders/${orderId}`);
+  if (!res.ok) throw new Error("Không thể tải thông tin đơn hàng");
+  return await res.json();
+};
+
 export const createOrder = async (order) => {
   const res = await fetch(`${BASE_URL}/orders`, {
     method: "POST",

@@ -18,11 +18,24 @@ import {
 import toast from "react-hot-toast";
 import { getProductById } from "../../service/productApi";
 import { useNavigate } from "react-router";
-const SHIPPING_FEE = 30000;
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeItem,
+  setCartItems,
+  setLoading,
+  updateItemQuantity,
+} from "../../redux/slices/cartSlice";
+
+import { APP_CONFIG } from "../../config";
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const {
+    items: cartItems,
+    loading,
+    total,
+  } = useSelector((state) => state.cart);
+
   const [showCheckout, setShowCheckout] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -38,21 +51,22 @@ const CartPage = () => {
       return;
     }
     const fetchCart = async () => {
+      dispatch(setLoading(true));
       try {
         const data = await getCartItems(userId);
         const sorted = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setCartItems(sorted);
+        dispatch(setCartItems(sorted));
       } catch (err) {
         toast.error("Lỗi load giỏ hàng!");
         console.error("Chi tiết lỗi load giỏ hàng:", err);
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
     fetchCart();
-  }, [userId, navigate]);
+  }, [userId, navigate, dispatch]);
 
   const handleUpdateQuantity = async (id, delta) => {
     const item = cartItems.find((i) => i.id === id);
@@ -66,10 +80,7 @@ const CartPage = () => {
         return;
       }
       await updateCartItemQuantity(id, newQuantity);
-
-      setCartItems((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i))
-      );
+      dispatch(updateItemQuantity({ id, newQuantity }));
     } catch (err) {
       console.error(err);
       toast.error("Không thể cập nhật số lượng sản phẩm. Vui lòng thử lại!");
@@ -79,18 +90,14 @@ const CartPage = () => {
   const handleDelete = async (id) => {
     try {
       await deleteCartItem(id);
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
+      dispatch(removeItem(id));
+      setShowDeleteModal(false);
     } catch (err) {
       toast.error("Không thể xóa sản phẩm. Vui lòng thử lại!");
     }
   };
-
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.salePrice * item.quantity,
-    0
-  );
-
-  const grandTotal = total + SHIPPING_FEE;
+  const shippingFee = APP_CONFIG.SHIPPING_FEE;
+  const grandTotal = total + shippingFee;
 
   if (loading) {
     return (
@@ -244,7 +251,6 @@ const CartPage = () => {
             <CheckoutForm
               grandTotal={grandTotal}
               cartItems={cartItems}
-              setCartItems={setCartItems}
               show={showCheckout}
               onHide={() => setShowCheckout(false)}
             />
@@ -257,7 +263,6 @@ const CartPage = () => {
               if (itemToDelete) {
                 handleDelete(itemToDelete.id);
               }
-              setShowDeleteModal(false);
             }}
           />
         </Container>

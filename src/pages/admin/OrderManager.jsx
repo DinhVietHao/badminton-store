@@ -9,48 +9,54 @@ import {
   Pagination,
 } from "react-bootstrap";
 import { CheckCircle, Eye } from "react-bootstrap-icons";
-import { getOrders, updateOrderStatus } from "../../service/orderApi";
+import {
+  getOrders,
+  updateOrderStatus as updateOrderStatusAPI,
+} from "../../service/orderApi";
 import OrderDetailModal from "../../components/layouts-admin/OrderDetailModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLoading,
+  setOrders,
+  updateOrderStatus,
+} from "../../redux/slices/orderSlice";
+import toast from "react-hot-toast";
 
 const OrderManager = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { orders, loading } = useSelector((state) => state.order);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const userId = JSON.parse(localStorage.getItem("user"))?.id;
-
-  const itemsPerPage = 2;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchOrders = async () => {
+      dispatch(setLoading(true));
       try {
         const data = await getOrders();
         const sorted = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setOrders(sorted);
+        dispatch(setOrders(sorted));
+        dispatch(setLoading(false));
       } catch (err) {
         console.error("Lỗi khi fetch orders:", err);
-      } finally {
-        setLoading(false);
+        toast.error("Lỗi tải danh sách đơn hàng!");
+        dispatch(setLoading(false));
       }
     };
-
     fetchOrders();
-  }, [userId]);
+  }, [dispatch]);
 
   const handleUpdateStatus = async (id) => {
     try {
-      const updated = await updateOrderStatus(id, "confirm");
-
-      setOrders((prev) =>
-        prev.map((order) => (order.id === id ? updated : order))
-      );
+      await updateOrderStatusAPI(id, "confirm");
+      dispatch(updateOrderStatus({ id, status: "confirm" }));
     } catch (err) {
       console.error("Lỗi khi cập nhật trạng thái:", err);
-      console.error("Cập nhật thất bại, vui lòng thử lại.");
+      toast.error("Cập nhật thất bại, vui lòng thử lại.");
     }
   };
 
@@ -72,7 +78,6 @@ const OrderManager = () => {
   const formatDate = (dateString) =>
     new Date(dateString).toLocaleString("vi-VN");
 
-  // Hàm format tiền
   const formatCurrency = (amount) =>
     amount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
   const totalPages = Math.ceil(orders.length / itemsPerPage);
