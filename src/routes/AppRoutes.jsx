@@ -8,7 +8,6 @@ import AccountPage from "../pages/user/AccountPage";
 import LoginPage from "../pages/user/LoginPage";
 import RegisterPage from "../pages/user/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import EditProfileInfo from "../pages/EditProfileInfo";
 import ProductDetailPage from "../pages/user/ProductDetail";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../pages/admin/Dashboard";
@@ -18,6 +17,7 @@ import OrderManager from "../pages/admin/OrderManager";
 import OrderDetailPage from "../pages/user/OrderDetailPage";
 import ProductDetail from "../pages/admin/ProductDetail";
 import ForgotPasswordPage from "../pages/user/ForgotPasswordPage";
+import EditProfileInfo from "../pages/user/EditProfileInfo";
 
 const AppRoutes = () => {
   return (

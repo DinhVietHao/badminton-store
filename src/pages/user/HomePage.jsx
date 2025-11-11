@@ -6,60 +6,51 @@ import {
   Spinner,
   Nav,
 } from "react-bootstrap";
-import "react-multi-carousel/lib/styles.css";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import {
   FaShippingFast,
   FaWallet,
   FaCreditCard,
   FaHeadset,
 } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useFetchProducts } from "../../hooks/useFetchProducts";
 
 const HomePage = () => {
   const [images, setImages] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [error, setError] = useState("");
   const [showMore, setShowMore] = useState(false);
 
+  const { products, loading } = useFetchProducts();
   const { addToCart } = useAddToCart();
-  const fetchHomePage = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/homePage");
-      const data = await res.json();
-      setImages(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
 
-  const fetchProducts = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/products");
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setProducts(data);
-        setFeaturedProducts(data.slice(0, 30));
-      }
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+  const featuredProducts = products.slice(0, 30);
 
   useEffect(() => {
+    const fetchHomePage = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/homePage");
+        const data = await res.json();
+        setImages(Array.isArray(data) ? data : []);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
     fetchHomePage();
-    fetchProducts();
   }, []);
 
   if (error) return <p className="text-danger">Error: {error}</p>;
-  if (images.length === 0 && products.length === 0)
+
+  if (loading && images.length === 0) {
     return (
       <div className="text-center my-5">
         <Spinner animation="border" variant="primary" /> <p>Loading...</p>
       </div>
     );
+  }
 
   const fmt = (value) =>
     typeof value === "number" && !Number.isNaN(value)
@@ -68,7 +59,6 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* ========== Banner Carousel ========== */}
       <BSCarousel>
         {images.map((img) => (
           <BSCarousel.Item key={img.id}>
@@ -81,7 +71,6 @@ const HomePage = () => {
         ))}
       </BSCarousel>
 
-      {/* ========== Service Info Bar ========== */}
       <section className="container my-5">
         <div className="row g-3 text-center">
           <div className="col-6 col-md-3">
@@ -139,13 +128,11 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ========== Product Carousel ========== */}
       <section className="container my-5">
         <h2 className="fw-bold mb-4 border-start border-4 border-warning ps-3">
           Sản phẩm mới
         </h2>
 
-        {/* Khung nền xanh */}
         <div
           className="p-4 rounded-3 shadow-sm"
           style={{
@@ -154,7 +141,6 @@ const HomePage = () => {
           }}
         >
           {products.length > 1 ? (
-            // Nếu có nhiều sản phẩm thì dùng Slider
             <Slider
               dots={false}
               infinite={products.length > 5}
@@ -180,6 +166,7 @@ const HomePage = () => {
                     ? Math.round(((original - sale) / original) * 100)
                     : 0;
                 const showOriginalPrice = original > sale;
+
                 return (
                   <div key={product.id} className="p-2">
                     <Card
@@ -208,7 +195,7 @@ const HomePage = () => {
                           style={{
                             top: "10px",
                             left: "10px",
-                            backgroundColor: "#d0021b", // đỏ tươi kiểu TMĐT
+                            backgroundColor: "#d0021b",
                             borderTopRightRadius: "20px",
                             borderBottomRightRadius: "20px",
                             height: "28px",
@@ -219,7 +206,7 @@ const HomePage = () => {
                             position: "relative",
                           }}
                         >
-                          -{discountPercent}%{/* Cái đuôi nhỏ bên trái */}
+                          -{discountPercent}%
                           <div
                             style={{
                               content: '""',
@@ -235,7 +222,6 @@ const HomePage = () => {
                         </div>
                       )}
                       <Nav.Link to={`/products/${product.id}`} as={Link}>
-                        {/* Hình ảnh sản phẩm */}
                         <div
                           className="d-flex align-items-center justify-content-center bg-white"
                           style={{ height: "200px", overflow: "hidden" }}
@@ -297,7 +283,6 @@ const HomePage = () => {
               })}
             </Slider>
           ) : (
-            // Nếu chỉ có 1 sản phẩm → hiển thị card bên trái
             <div className="d-flex justify-content-start">
               {products.map((product) => {
                 const original = Number(product.originalPrice) || 0;
@@ -307,6 +292,7 @@ const HomePage = () => {
                     ? Math.round(((original - sale) / original) * 100)
                     : 0;
                 const showOriginalPrice = original > sale;
+
                 return (
                   <div
                     key={product.id}
@@ -339,7 +325,7 @@ const HomePage = () => {
                           style={{
                             top: "10px",
                             left: "10px",
-                            backgroundColor: "#d0021b", // đỏ tươi kiểu TMĐT
+                            backgroundColor: "#d0021b",
                             borderTopRightRadius: "20px",
                             borderBottomRightRadius: "20px",
                             height: "28px",
@@ -350,7 +336,7 @@ const HomePage = () => {
                             position: "relative",
                           }}
                         >
-                          -{discountPercent}%{/* Cái đuôi nhỏ bên trái */}
+                          -{discountPercent}%
                           <div
                             style={{
                               content: '""',
@@ -386,32 +372,32 @@ const HomePage = () => {
                             }}
                           />
                         </div>
-                        <Nav.Link />
-                        <Card.Body>
-                          <Card.Title
-                            className="fs-6 text-truncate"
-                            title={product.title}
-                          >
-                            {product.title}
-                          </Card.Title>
-                          <div className="mb-2">
-                            <span className="text-danger fw-bold">
-                              {fmt(sale)}₫
-                            </span>
-                            {showOriginalPrice && (
-                              <span className="text-muted text-decoration-line-through small ms-2">
-                                {fmt(original)}₫
-                              </span>
-                            )}
-                          </div>
-                          <Button
-                            variant="warning"
-                            className="w-100 text-white fw-bold"
-                          >
-                            Thêm vào giỏ
-                          </Button>
-                        </Card.Body>
                       </Nav.Link>
+                      <Card.Body>
+                        <Card.Title
+                          className="fs-6 text-truncate"
+                          title={product.title}
+                        >
+                          {product.title}
+                        </Card.Title>
+                        <div className="mb-2">
+                          <span className="text-danger fw-bold">
+                            {fmt(sale)}₫
+                          </span>
+                          {showOriginalPrice && (
+                            <span className="text-muted text-decoration-line-through small ms-2">
+                              {fmt(original)}₫
+                            </span>
+                          )}
+                        </div>
+                        <Button
+                          variant="warning"
+                          className="w-100 text-white fw-bold"
+                          onClick={() => addToCart(product.id)}
+                        >
+                          Thêm vào giỏ
+                        </Button>
+                      </Card.Body>
                     </Card>
                   </div>
                 );
@@ -421,7 +407,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ========== Featured Products ========== */}
       <section className="container my-5">
         <h2 className="fw-bold mb-4 border-start border-4 border-danger ps-3">
           Sản phẩm nổi bật
@@ -436,6 +421,7 @@ const HomePage = () => {
                 ? Math.round(((original - sale) / original) * 100)
                 : 0;
             const showOriginalPrice = original > sale;
+
             return (
               <div
                 key={product.id}
@@ -460,7 +446,6 @@ const HomePage = () => {
                       "0 4px 12px rgba(0,0,0,0.1), 0 8px 20px rgba(0,0,0,0.08)";
                   }}
                 >
-                  {/* Ribbon giảm giá */}
                   {discountPercent > 0 && (
                     <div
                       className="position-absolute text-white fw-bold d-flex align-items-center justify-content-center"
@@ -494,7 +479,6 @@ const HomePage = () => {
                     </div>
                   )}
                   <Nav.Link to={`/products/${product.id}`} as={Link}>
-                    {/* Hình sản phẩm */}
                     <div className="ratio ratio-1x1 bg-white">
                       <Card.Img
                         variant="top"
@@ -546,7 +530,6 @@ const HomePage = () => {
           })}
         </div>
 
-        {/* Nút xem thêm */}
         <div className="text-center mt-4">
           {!showMore ? (
             <Button

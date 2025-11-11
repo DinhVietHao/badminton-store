@@ -13,60 +13,48 @@ import {
   Fade,
 } from "react-bootstrap";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useFetchProductById } from "../../hooks/useFetchProductById";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState({});
-  const [activeImage, setActiveImage] = useState("");
-  const [activeTab, setActiveTab] = useState("description");
-  const [error, setError] = useState("");
-  const [isTabVisible, setIsTabVisible] = useState(true);
 
+  const { product, loading, error } = useFetchProductById(id);
   const { addToCart } = useAddToCart();
 
-  const fetchProducts = async () => {
-    try {
-      const res = await fetch(`http://localhost:5000/products/${id}`, {
-        method: "GET",
-      });
-      const data = await res.json();
-      setProduct(data);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const [activeImage, setActiveImage] = useState("");
+  const [activeTab, setActiveTab] = useState("description");
+  const [isTabVisible, setIsTabVisible] = useState(true);
 
   useEffect(() => {
     if (product && !activeImage) {
       setActiveImage(product.thumbnailUrl);
     }
-  }, [product]);
+  }, [product, activeImage]);
 
-  if (error)
-    return (
-      <Container className="my-5 text-center">
-        <Alert variant="danger">Lỗi: {error}</Alert>
-      </Container>
-    );
-
-  if (product.length === 0)
+  if (loading) {
     return (
       <div className="text-center my-5">
         <Spinner animation="border" variant="primary" />
         <p>Đang tải sản phẩm...</p>
       </div>
     );
+  }
 
-  if (!product)
+  if (error) {
+    return (
+      <Container className="my-5 text-center">
+        <Alert variant="danger">Lỗi: {error}</Alert>
+      </Container>
+    );
+  }
+
+  if (!product) {
     return (
       <Container className="my-5 text-center">
         <Alert variant="warning">Sản phẩm không tồn tại</Alert>
       </Container>
     );
+  }
 
   const fmt = (v) => Number(v).toLocaleString("vi-VN");
 
@@ -79,7 +67,6 @@ const ProductDetailPage = () => {
         )
       : 0;
 
-  // hiệu ứng chuyển tab
   const handleTabChange = (key) => {
     setIsTabVisible(false);
     setTimeout(() => {
@@ -91,7 +78,6 @@ const ProductDetailPage = () => {
   return (
     <Container className="my-5">
       <Row className="g-4">
-        {/* ====== Left: Image Section ====== */}
         <Col md={5}>
           <div className="position-relative bg-white rounded shadow-sm p-3">
             {discount > 0 && (
@@ -119,7 +105,6 @@ const ProductDetailPage = () => {
             />
           </div>
 
-          {/* Gallery images */}
           <div className="d-flex mt-3 gap-2 justify-content-center">
             {[product.thumbnailUrl, ...(product.gallery || [])].map(
               (img, i) => (
@@ -152,7 +137,6 @@ const ProductDetailPage = () => {
           </div>
         </Col>
 
-        {/* ====== Right: Product Info ====== */}
         <Col md={7}>
           <h4 className="fw-bold mb-2">{product.title}</h4>
           <div className="text-muted mb-1">
@@ -170,7 +154,6 @@ const ProductDetailPage = () => {
             </div>
           )}
 
-          {/* ====== Promotion box ====== */}
           <div className="mt-4 p-3 border border-warning rounded bg-light-subtle">
             <h6 className="fw-bold text-danger mb-2">🎁 ƯU ĐÃI</h6>
             <ul className="list-unstyled mb-0">
@@ -181,7 +164,6 @@ const ProductDetailPage = () => {
             </ul>
           </div>
 
-          {/* ====== Buttons ====== */}
           <div className="d-flex gap-3 mt-4">
             <Button
               variant="outline-warning"
@@ -195,7 +177,6 @@ const ProductDetailPage = () => {
         </Col>
       </Row>
 
-      {/* ====== Tabs: Description & Specification ====== */}
       <div className="mt-5 bg-white rounded-3 shadow-sm p-4">
         <Tabs
           id="product-detail-tabs"
@@ -218,33 +199,15 @@ const ProductDetailPage = () => {
                 <tbody>
                   <tr>
                     <th>Trình độ chơi</th>
-                    <td>
-                      {product.playerLevel === "Người mới bắt đầu"
-                        ? "Người mới bắt đầu"
-                        : product.playerLevel === "Trung cấp"
-                        ? "Trung cấp"
-                        : "Chuyên nghiệp"}
-                    </td>
+                    <td>{product.playerLevel}</td>
                   </tr>
                   <tr>
                     <th>Phong cách chơi</th>
-                    <td>
-                      {product.playingStyle === "Tấn công"
-                        ? "Tấn công"
-                        : product.playingStyle === "Phòng thủ"
-                        ? "Phòng thủ"
-                        : "Toàn diện"}
-                    </td>
+                    <td>{product.playingStyle}</td>
                   </tr>
                   <tr>
                     <th>Nội dung chơi</th>
-                    <td>
-                      {product.playType === "Đánh đơn và đôi"
-                        ? "Đánh đơn và đôi"
-                        : product.playType === "Đánh đơn"
-                        ? "Đánh đơn"
-                        : "Đánh đôi"}
-                    </td>
+                    <td>{product.playType}</td>
                   </tr>
                   <tr>
                     <th>Chiều dài vợt</th>
@@ -252,25 +215,11 @@ const ProductDetailPage = () => {
                   </tr>
                   <tr>
                     <th>Độ cứng đũa</th>
-                    <td>
-                      {product.shaftFlexibility === "Cứng"
-                        ? "Cứng"
-                        : product.shaftFlexibility === "Trung bình"
-                        ? "Trung bình"
-                        : product.shaftFlexibility === "Trung bình"
-                        ? "Dẻo"
-                        : "Siêu cứng"}
-                    </td>
+                    <td>{product.shaftFlexibility}</td>
                   </tr>
                   <tr>
                     <th>Điểm cân bằng</th>
-                    <td>
-                      {product.balancePoint === "Nặng đầu"
-                        ? "Nặng đầu"
-                        : product.balancePoint === "Nhẹ đầu"
-                        ? "Nhẹ đầu"
-                        : "Cân bằng"}
-                    </td>
+                    <td>{product.balancePoint}</td>
                   </tr>
                   <tr>
                     <th>Trọng lượng</th>
