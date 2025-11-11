@@ -18,6 +18,7 @@ import OrderManager from "../pages/admin/OrderManager";
 import OrderDetailPage from "../pages/user/OrderDetailPage";
 import ProductDetail from "../pages/admin/ProductDetail";
 import ForgotPasswordPage from "../pages/user/ForgotPasswordPage";
+import TestCounter from "../pages/TestCounter";
 
 const AppRoutes = () => {
   return (
@@ -35,6 +36,7 @@ const AppRoutes = () => {
         <Route path="register" element={<RegisterPage />} />
         <Route path="/profile/:id/edit" element={<EditProfileInfo />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/test-counter" element={<TestCounter />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>
