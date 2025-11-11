@@ -20,7 +20,7 @@ import {
   selectUser,
   selectAuthLoading,
   selectAuthError,
-} from "../redux/slices/authSlice";
+} from "../../redux/slices/authSlice";
 
 const EditProfileInfo = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const EditProfileInfo = () => {
   const error = useSelector(selectAuthError);
 
   const [formData, setFormData] = useState({
-    fullname: user?.fullname || "",
+    fullname: user?.fullname || user?.fullName || "",
     email: user?.email || "",
     phone: user?.phone || "",
     address: user?.address || "",
@@ -50,12 +50,10 @@ const EditProfileInfo = () => {
   const [message, setMessage] = useState(null);
   const [pwMessage, setPwMessage] = useState(null);
 
-  // Clear error khi mount
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
 
-  // Ngăn người khác truy cập sai id
   if (!user || String(user.id) !== id) {
     navigate(`/profile/${user?.id}`);
     return null;
@@ -71,13 +69,16 @@ const EditProfileInfo = () => {
     setPasswordData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Cập nhật thông tin
   const handleSave = async () => {
     dispatch(setLoading(true));
     setMessage(null);
 
     try {
-      const updatedUserData = { ...user, ...formData };
+      const updatedUserData = {
+        ...user,
+        ...formData,
+        fullName: formData.fullname,
+      };
 
       const response = await axios.put(
         `http://localhost:5000/users/${user.id}`,
@@ -97,7 +98,6 @@ const EditProfileInfo = () => {
     }
   };
 
-  // Đổi mật khẩu
   const handlePasswordSave = async () => {
     setPwLoading(true);
     setPwMessage(null);

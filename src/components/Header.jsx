@@ -37,7 +37,9 @@ const Header = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Tìm kiếm:", search);
+    if (search.trim()) {
+      navigate(`/products?search=${encodeURIComponent(search.trim())}`);
+    }
   };
 
   const handleLogout = () => {

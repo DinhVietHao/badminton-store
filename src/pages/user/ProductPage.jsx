@@ -7,12 +7,15 @@ import {
   Card,
   Nav,
   Button,
+  Form,
+  InputGroup,
 } from "react-bootstrap";
 import React, { useState, useMemo, useEffect } from "react";
+import { useSearchParams, Link } from "react-router-dom";
 import ProductSidebar from "../../components/layouts-user/ProductSidebar";
-import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useAddToCart";
 import { useFetchProducts } from "../../hooks/useFetchProducts";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 const INITIAL_FILTERS = {
   search: "",
@@ -36,12 +39,26 @@ const PRICE_OPTIONS = [
 ];
 
 const ProductPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   const { products: allProducts, loading, error } = useFetchProducts();
   const { addToCart } = useAddToCart();
 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState(INITIAL_FILTERS);
   const [isFiltering, setIsFiltering] = useState(false);
+  const [localSearch, setLocalSearch] = useState("");
+
+  useEffect(() => {
+    if (searchQuery) {
+      setSelectedFilters((prev) => ({
+        ...prev,
+        search: searchQuery,
+      }));
+      setLocalSearch(searchQuery);
+    }
+  }, [searchQuery]);
 
   const filterOptions = useMemo(() => {
     const STATUS_MAP = {
@@ -84,9 +101,10 @@ const ProductPage = () => {
     if (term) {
       products = products.filter(
         (p) =>
-          p.title.toLowerCase().includes(term) ||
-          p.sku.toLowerCase().includes(term) ||
-          p.description?.toLowerCase().includes(term)
+          p.title?.toLowerCase().includes(term) ||
+          p.sku?.toLowerCase().includes(term) ||
+          p.description?.toLowerCase().includes(term) ||
+          p.brand?.toLowerCase().includes(term)
       );
     }
 
@@ -147,6 +165,21 @@ const ProductPage = () => {
 
   const clearAllFilters = () => {
     setSelectedFilters(INITIAL_FILTERS);
+    setLocalSearch("");
+    setSearchParams({});
+  };
+
+  const handleLocalSearch = (e) => {
+    e.preventDefault();
+    if (localSearch.trim()) {
+      setSearchParams({ search: localSearch.trim() });
+    }
+  };
+
+  const handleClearSearch = () => {
+    setLocalSearch("");
+    setSelectedFilters((prev) => ({ ...prev, search: "" }));
+    setSearchParams({});
   };
 
   if (loading) {
@@ -186,12 +219,80 @@ const ProductPage = () => {
         </Col>
 
         <Col md={10}>
+          <div className="mb-4">
+            <Form onSubmit={handleLocalSearch}>
+              <InputGroup>
+                <Form.Control
+                  type="text"
+                  placeholder="Tìm kiếm sản phẩm theo tên, SKU, thương hiệu..."
+                  value={localSearch}
+                  onChange={(e) => setLocalSearch(e.target.value)}
+                  style={{
+                    borderRadius: "25px 0 0 25px",
+                    border: "1px solid #449D44",
+                  }}
+                />
+                {localSearch && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleClearSearch}
+                    style={{ borderColor: "#449D44" }}
+                  >
+                    <FaTimes />
+                  </Button>
+                )}
+                <Button
+                  type="submit"
+                  style={{
+                    backgroundColor: "#449D44",
+                    borderRadius: localSearch ? "0" : "0 25px 25px 0",
+                    border: "1px solid #449D44",
+                  }}
+                  disabled={!localSearch.trim()}
+                >
+                  <FaSearch />
+                </Button>
+              </InputGroup>
+            </Form>
+
+            {selectedFilters.search && (
+              <div className="mt-2">
+                <Alert
+                  variant="info"
+                  className="d-flex justify-content-between align-items-center"
+                >
+                  <span>
+                    🔍 Kết quả tìm kiếm cho:{" "}
+                    <strong>"{selectedFilters.search}"</strong> (
+                    {filteredProducts.length} sản phẩm)
+                  </span>
+                  <Button
+                    variant="outline-info"
+                    size="sm"
+                    onClick={handleClearSearch}
+                  >
+                    Xóa tìm kiếm
+                  </Button>
+                </Alert>
+              </div>
+            )}
+          </div>
+
           <h2>Danh sách sản phẩm</h2>
+
           {isFiltering ? (
             <div className="text-center">
               <Spinner animation="border" size="sm" />
               <p>Đang lọc...</p>
             </div>
+          ) : filteredProducts.length === 0 ? (
+            <Alert variant="warning" className="text-center">
+              <h5>😔 Không tìm thấy sản phẩm nào</h5>
+              <p>Thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc</p>
+              <Button variant="warning" onClick={clearAllFilters}>
+                Xóa tất cả bộ lọc
+              </Button>
+            </Alert>
           ) : (
             <Row xs={2} md={3} lg={5} className="g-4">
               {filteredProducts.map((product) => {

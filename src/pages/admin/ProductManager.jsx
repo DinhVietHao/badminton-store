@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Table,
   Button,
@@ -12,11 +13,19 @@ import {
   Row,
   Col,
   Pagination,
-  Nav,
 } from "react-bootstrap";
-import { ProductContext } from "../../contexts/ProductContext";
 import { PencilSquare, Trash, PlusCircle, Eye } from "react-bootstrap-icons";
-import { Link, Navigate } from "react-router";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import {
+  addProduct,
+  updateProduct,
+  removeProduct,
+  selectAllProducts,
+  selectProductsLoading,
+  selectProductsError,
+} from "../../redux/slices/productSlice";
+import { useFetchProducts } from "../../hooks/useFetchProducts";
 
 const fmt = (value) =>
   typeof value === "number" && !Number.isNaN(value)
@@ -29,12 +38,17 @@ const STATUS_MAP = {
 };
 
 const ProductManager = () => {
-  const { products, loading, error } = useContext(ProductContext);
+  const dispatch = useDispatch();
+  useFetchProducts();
+  const products = useSelector(selectAllProducts);
+  const loading = useSelector(selectProductsLoading);
+  const error = useSelector(selectProductsError);
 
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [formData, setFormData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [actionLoading, setActionLoading] = useState(false);
   const PRODUCTS_PER_PAGE = 10;
 
   const handleAdd = () => {
@@ -43,9 +57,11 @@ const ProductManager = () => {
       title: "",
       brand: "",
       originalPrice: 0,
-      salePrice: null,
+      salePrice: 0,
       thumbnailUrl: "",
       status: "IN-STOCK",
+      quantity: 0,
+      soldCount: 0,
     });
     setShowModal(true);
   };
@@ -67,47 +83,77 @@ const ProductManager = () => {
   };
 
   const handleSave = async () => {
-    const url = currentProduct
-      ? `http://localhost:5000/products/${currentProduct.id}`
-      : `http://localhost:5000/products`;
-
-    const method = currentProduct ? "PUT" : "POST";
-
+    setActionLoading(true);
     try {
-      const res = await fetch(url, {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!res.ok) throw new Error("Lưu thất bại");
-      alert("Đã lưu thành công!");
+      if (currentProduct) {
+        const response = await axios.put(
+          `http://localhost:5000/products/${currentProduct.id}`,
+          formData
+        );
+
+        dispatch(updateProduct(response.data));
+        alert("Cập nhật sản phẩm thành công!");
+      } else {
+        const nextId =
+          products.length > 0
+            ? Math.max(...products.map((p) => Number(p.id) || 0)) + 1
+            : 1;
+
+        const newProduct = {
+          ...formData,
+          id: String(nextId),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+
+        const response = await axios.post(
+          "http://localhost:5000/products",
+          newProduct
+        );
+
+        dispatch(addProduct(response.data));
+        alert("Thêm sản phẩm thành công!");
+      }
+
       handleClose();
-      window.location.reload();
     } catch (err) {
       console.error(err);
-      alert("Đã xảy ra lỗi khi lưu");
+      alert("Đã xảy ra lỗi khi lưu sản phẩm!");
+    } finally {
+      setActionLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
+      setActionLoading(true);
+
       try {
-        const res = await fetch(`http://localhost:5000/products/${id}`, {
-          method: "DELETE",
-        });
-        if (!res.ok) throw new Error("Xóa thất bại");
-        console.log("Đã xóa thành công!");
-        window.location.reload();
+        await axios.delete(`http://localhost:5000/products/${id}`);
+
+        dispatch(removeProduct(id));
+        alert("Đã xóa sản phẩm thành công!");
       } catch (err) {
         console.error(err);
-        alert("Đã xảy ra lỗi khi xóa");
+        alert("Đã xảy ra lỗi khi xóa sản phẩm!");
+      } finally {
+        setActionLoading(false);
       }
     }
   };
 
-  if (loading) return <Spinner animation="border" />;
-  if (error)
-    return <Alert variant="danger">Lỗi: {error.message || error}</Alert>;
+  if (loading && products.length === 0) {
+    return (
+      <div className="text-center mt-5">
+        <Spinner animation="border" />
+        <p>Đang tải sản phẩm...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <Alert variant="danger">Lỗi: {error}</Alert>;
+  }
 
   const pageCount = Math.ceil(products.length / PRODUCTS_PER_PAGE);
   const indexOfLastProduct = currentPage * PRODUCTS_PER_PAGE;
@@ -128,7 +174,7 @@ const ProductManager = () => {
 
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="mb-0">Quản lý Sản phẩm ({products.length})</h1>
-        <Button variant="primary" onClick={handleAdd}>
+        <Button variant="primary" onClick={handleAdd} disabled={actionLoading}>
           <PlusCircle className="me-2" /> Thêm sản phẩm
         </Button>
       </div>
@@ -184,6 +230,7 @@ const ProductManager = () => {
                   size="sm"
                   className="me-2"
                   onClick={() => handleEdit(product)}
+                  disabled={actionLoading}
                 >
                   <PencilSquare />
                 </Button>
@@ -191,6 +238,7 @@ const ProductManager = () => {
                   variant="outline-danger"
                   size="sm"
                   onClick={() => handleDelete(product.id)}
+                  disabled={actionLoading}
                 >
                   <Trash />
                 </Button>
@@ -206,7 +254,6 @@ const ProductManager = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           />
-          {/* Tạo các nút số trang */}
           {Array.from({ length: pageCount }, (_, index) => (
             <Pagination.Item
               key={index + 1}
@@ -263,11 +310,35 @@ const ProductManager = () => {
               </Col>
               <Col>
                 <Form.Group className="mb-3">
-                  <Form.Label>Giá sale (để 0 nếu không sale)</Form.Label>
+                  <Form.Label>Giá sale</Form.Label>
                   <Form.Control
                     type="number"
                     name="salePrice"
                     value={formData.salePrice || 0}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Số lượng</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="quantity"
+                    value={formData.quantity || 0}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3">
+                  <Form.Label>Đã bán</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="soldCount"
+                    value={formData.soldCount || 0}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -299,8 +370,24 @@ const ProductManager = () => {
           <Button variant="secondary" onClick={handleClose}>
             Hủy
           </Button>
-          <Button variant="primary" onClick={handleSave}>
-            Lưu
+          <Button
+            variant="primary"
+            onClick={handleSave}
+            disabled={actionLoading}
+          >
+            {actionLoading ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  className="me-2"
+                />
+                Đang lưu...
+              </>
+            ) : (
+              "Lưu"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
