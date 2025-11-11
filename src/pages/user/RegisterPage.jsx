@@ -1,5 +1,5 @@
-// src/pages/RegisterPage.jsx
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -14,8 +14,21 @@ import {
 } from "react-bootstrap";
 import { Eye, EyeSlash, ArrowLeft } from "react-bootstrap-icons";
 import zxcvbn from "zxcvbn";
+import {
+  setLoading,
+  setError,
+  clearError,
+  selectAuthLoading,
+  selectAuthError,
+} from "../../redux/slices/authSlice";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -25,83 +38,88 @@ const RegisterPage = () => {
     otp: "",
   });
 
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [step, setStep] = useState(1);
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [passwordStrength, setPasswordStrength] = useState(null);
 
-  const navigate = useNavigate();
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
 
-  // --- Xử lý thay đổi input ---
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
+    dispatch(clearError());
     setSuccess("");
   };
 
-  // --- Đo độ mạnh mật khẩu ---
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setForm({ ...form, password: value });
     setPasswordStrength(zxcvbn(value));
   };
 
-  // --- Bước 1: Gửi mã OTP ---
+  // Gửi mã OTP
   const handleSendOtp = async (e) => {
     e.preventDefault();
 
     if (!form.email) {
-      setError("Vui lòng nhập email để tiếp tục.");
+      dispatch(setError("Vui lòng nhập email để tiếp tục."));
       return;
     }
+
+    dispatch(setLoading(true));
 
     try {
       const { data: users } = await axios.get("http://localhost:5000/users");
       const existingUser = users.find((u) => u.email === form.email);
+
       if (existingUser) {
-        setError("Email đã được sử dụng!");
-        return;
+        throw new Error("Email đã được sử dụng!");
       }
 
-      // Giả lập gửi OTP (in ra console)
+      // Giả lập gửi OTP
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       setGeneratedOtp(otp);
       console.log("📧 OTP giả lập:", otp);
 
       setSuccess("Mã OTP đã được gửi (xem console để kiểm tra).");
       setStep(2);
+      dispatch(setLoading(false));
     } catch (err) {
-      setError("Không thể gửi OTP. Vui lòng thử lại.");
+      dispatch(setError(err.message || "Không thể gửi OTP. Vui lòng thử lại."));
     }
   };
 
-  // --- Bước 2: Xác minh OTP ---
+  // Xác minh OTP
   const handleVerifyOtp = (e) => {
     e.preventDefault();
+
     if (form.otp === generatedOtp) {
       setSuccess("✅ Xác minh thành công! Hãy tạo tài khoản.");
       setStep(3);
     } else {
-      setError("Mã OTP không chính xác!");
+      dispatch(setError("Mã OTP không chính xác!"));
     }
   };
 
-  // --- Bước 3: Đăng ký ---
+  // Xử lý đăng ký
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     if (form.password !== form.confirmPassword) {
-      setError("Mật khẩu xác nhận không khớp!");
-      setLoading(false);
+      dispatch(setError("Mật khẩu xác nhận không khớp!"));
       return;
     }
+
+    dispatch(setLoading(true));
 
     try {
       const { data: users } = await axios.get("http://localhost:5000/users");
@@ -124,12 +142,12 @@ const RegisterPage = () => {
       await axios.post("http://localhost:5000/users", newUser);
 
       setSuccess("🎉 Đăng ký thành công! Chuyển hướng đến đăng nhập...");
-      setLoading(false);
+      dispatch(setLoading(false));
+
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       console.error("Register error:", err);
-      setError("Đăng ký thất bại! Vui lòng thử lại.");
-      setLoading(false);
+      dispatch(setError("Đăng ký thất bại! Vui lòng thử lại."));
     }
   };
 
@@ -146,7 +164,6 @@ const RegisterPage = () => {
     </div>
   );
 
-  // --- Giao diện từng bước ---
   const renderStep = () => {
     if (step === 1) {
       return (
@@ -163,8 +180,25 @@ const RegisterPage = () => {
             />
           </Form.Group>
 
-          <Button variant="success" type="submit" className="w-100">
-            Gửi mã OTP
+          <Button
+            variant="success"
+            type="submit"
+            className="w-100"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  className="me-2"
+                />
+                Đang xử lý...
+              </>
+            ) : (
+              "Gửi mã OTP"
+            )}
           </Button>
         </Form>
       );

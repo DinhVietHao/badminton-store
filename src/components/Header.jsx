@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Navbar,
   Nav,
@@ -19,13 +20,20 @@ import {
   FaSignOutAlt,
   FaSearch,
 } from "react-icons/fa";
-// import { BoxArrowInRight, PersonPlus } from "react-bootstrap-icons";
-import { Link, NavLink } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import {
+  logout,
+  selectUser,
+  selectIsAuthenticated,
+} from "../redux/slices/authSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const { user, logout } = useAuth();
+
+  const user = useSelector(selectUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -33,13 +41,12 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    window.location.href = "/";
+    dispatch(logout());
+    navigate("/");
   };
 
   const profileLink =
     user?.role === "admin" ? "/admin" : `/profile/${user?.id}`;
-
   const profileLabel = user?.role === "admin" ? "Admin Panel" : user?.username;
 
   return (
@@ -60,14 +67,7 @@ const Header = () => {
           maxWidth: "1200px",
         }}
       >
-        {/* Logo + menu trái */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "20px",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <Navbar.Brand
             as={Link}
             to="/"
@@ -121,7 +121,6 @@ const Header = () => {
           </Nav>
         </div>
 
-        {/* Ô tìm kiếm */}
         <Form
           onSubmit={handleSearch}
           style={{
@@ -155,14 +154,7 @@ const Header = () => {
           </InputGroup>
         </Form>
 
-        {/* Giỏ hàng + tài khoản */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
           <Nav.Link
             as={Link}
             to="/cart"
@@ -192,18 +184,17 @@ const Header = () => {
               }}
             >
               <FaUser style={{ marginRight: "6px", color: "#449D44" }} />
-              {user ? profileLabel : "Tài khoản"}
+              {isAuthenticated ? profileLabel : "Tài khoản"}
             </Dropdown.Toggle>
 
             <Dropdown.Menu style={{ fontSize: "0.95rem" }}>
-              {user ? (
+              {isAuthenticated ? (
                 <>
-                  {/* Nếu là admin → Admin Panel, còn lại → Trang cá nhân */}
                   <NavDropdown.Item as={NavLink} to={profileLink}>
                     <FaUser style={{ marginRight: "8px", color: "#449D44" }} />
                     {profileLabel}
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to={"/orders"}>
+                  <NavDropdown.Item as={NavLink} to="/orders">
                     <FaShoppingCart
                       style={{ marginRight: "6px", color: "#e0f039" }}
                     />
