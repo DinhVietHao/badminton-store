@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Navbar,
   Nav,
@@ -19,36 +18,28 @@ import {
   FaSignOutAlt,
   FaSearch,
 } from "react-icons/fa";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import {
-  logout,
-  selectUser,
-  selectIsAuthenticated,
-} from "../redux/slices/authSlice";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [search, setSearch] = useState("");
-
-  const user = useSelector(selectUser);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const { user, logout } = useAuth() || {}; // lấy từ context nếu có
+  const isLoggedIn = !!user;
+  const userName = user?.name || "Lượng";
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (search.trim()) {
-      navigate(`/products?search=${encodeURIComponent(search.trim())}`);
-    }
+    console.log("Tìm kiếm:", search);
   };
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+    if (logout) logout();
+    window.location.href = "/";
   };
 
   const profileLink =
     user?.role === "admin" ? "/admin" : `/profile/${user?.id}`;
-  const profileLabel = user?.role === "admin" ? "Admin Panel" : user?.username;
+  const profileLabel = user?.role === "admin" ? "Admin Panel" : "Trang cá nhân";
 
   return (
     <Navbar
@@ -188,31 +179,30 @@ const Header = () => {
               }}
             >
               <FaUser style={{ marginRight: "6px", color: "#449D44" }} />
-              {isAuthenticated ? profileLabel : "Tài khoản"}
+              {isLoggedIn ? userName : "Tài khoản"}
             </Dropdown.Toggle>
 
             <Dropdown.Menu style={{ fontSize: "0.95rem" }}>
-              {isAuthenticated ? (
+              {isLoggedIn ? (
                 <>
-                  <NavDropdown.Item as={NavLink} to={profileLink}>
-                    <FaUser style={{ marginRight: "8px", color: "#449D44" }} />
+                  <Dropdown.Item as={NavLink} to={profileLink}>
+                    <FaUser style={{ marginRight: 8, color: "#449D44" }} />
                     {profileLabel}
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={NavLink} to="/orders">
-                    <FaShoppingCart
-                      style={{ marginRight: "6px", color: "#e0f039" }}
-                    />
+                  </Dropdown.Item>
+
+                  <Dropdown.Item as={NavLink} to="/orders">
                     Quản lý đơn hàng
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
+                  </Dropdown.Item>
+
+                  <Dropdown.Divider />
+
+                  <Dropdown.Item
                     onClick={handleLogout}
                     style={{ color: "red" }}
                   >
-                    <FaSignOutAlt
-                      style={{ marginRight: "8px", color: "red" }}
-                    />
+                    <FaSignOutAlt style={{ marginRight: 8, color: "red" }} />
                     Đăng xuất
-                  </NavDropdown.Item>
+                  </Dropdown.Item>
                 </>
               ) : (
                 <>
