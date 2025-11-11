@@ -37,8 +37,7 @@ const Header = () => {
     window.location.href = "/";
   };
 
-  const profileLink =
-    user?.role === "admin" ? "/admin" : `/profile/${user?.id}`;
+  const profileLink = user?.role === "admin" ? "/admin" : `/profile/${user?.id}`;
   const profileLabel = user?.role === "admin" ? "Admin Panel" : "Trang cá nhân";
 
   return (
@@ -196,10 +195,7 @@ const Header = () => {
 
                   <Dropdown.Divider />
 
-                  <Dropdown.Item
-                    onClick={handleLogout}
-                    style={{ color: "red" }}
-                  >
+                  <Dropdown.Item onClick={handleLogout} style={{ color: "red" }}>
                     <FaSignOutAlt style={{ marginRight: 8, color: "red" }} />
                     Đăng xuất
                   </Dropdown.Item>
