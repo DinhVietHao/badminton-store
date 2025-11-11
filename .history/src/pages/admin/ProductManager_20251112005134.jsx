@@ -101,6 +101,7 @@ const ProductManager = () => {
   };
 
   const validateSalePrice = (salePrice, originalPrice) => {
+    // Nếu chưa nhập đủ cả 2 → không validate
     if (!salePrice || !originalPrice) {
       setSalePriceError("");
       return true;
@@ -109,6 +110,7 @@ const ProductManager = () => {
     const sale = parseFloat(salePrice);
     const original = parseFloat(originalPrice);
 
+    // Kiểm tra có phải số hợp lệ không
     if (isNaN(sale) || isNaN(original)) {
       setSalePriceError("Vui lòng nhập số hợp lệ");
       return false;
@@ -119,6 +121,7 @@ const ProductManager = () => {
       return false;
     }
 
+    // Kiểm tra giá khuyến mãi
     if (sale < 0) {
       setSalePriceError("Giá khuyến mãi phải >= 0");
       return false;
@@ -129,6 +132,7 @@ const ProductManager = () => {
       return false;
     }
 
+    // Hợp lệ
     setSalePriceError("");
     return true;
   };
@@ -147,16 +151,20 @@ const ProductManager = () => {
 
     const form = event.currentTarget;
 
+    // Kiểm tra giá gốc > 0 trước
     const originalPrice = parseFloat(formData.originalPrice);
     if (!originalPrice || originalPrice <= 0) {
       setValidated(true);
       return;
     }
+
+    // Validate giá khuyến mãi
     const isSalePriceValid = validateSalePrice(
       formData.salePrice,
       formData.originalPrice
     );
 
+    // Kiểm tra form validity và giá khuyến mãi
     if (form.checkValidity() === false || !isSalePriceValid) {
       setValidated(true);
       return;
@@ -164,6 +172,7 @@ const ProductManager = () => {
 
     setValidated(true);
 
+    // Lọc bỏ ảnh phụ trống
     const cleanedGallery =
       formData.gallery?.filter((img) => img.trim() !== "") || [];
 
@@ -182,6 +191,7 @@ const ProductManager = () => {
       updatedAt: new Date().toISOString(),
     };
 
+    // Nếu là thêm mới, tạo ID tăng dần
     if (!currentProduct) {
       try {
         const response = await fetch("http://localhost:5000/products");
@@ -189,6 +199,7 @@ const ProductManager = () => {
 
         const maxId = allProducts.reduce((max, product) => {
           const currentId = parseInt(product.id);
+          // Bỏ qua nếu không phải số hợp lệ
           if (isNaN(currentId)) return max;
           return currentId > max ? currentId : max;
         }, 0);
@@ -520,6 +531,12 @@ const ProductManager = () => {
                   <Form.Control.Feedback type="invalid">
                     {salePriceError || "Vui lòng nhập giá khuyến mãi"}
                   </Form.Control.Feedback>
+                  {/* Warning realtime */}
+                  {!validated && salePriceError && (
+                    <Form.Text className="text-danger d-block mt-1">
+                      ⚠️ {salePriceError}
+                    </Form.Text>
+                  )}
                 </Form.Group>
               </Col>
             </Row>

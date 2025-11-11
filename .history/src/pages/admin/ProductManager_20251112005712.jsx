@@ -94,9 +94,17 @@ const ProductManager = () => {
   const handleBlur = (e) => {
     const { name } = e.target;
 
-    // Chỉ validate giá khi blur
+    // Validate giá khi blur
     if (name === "salePrice" || name === "originalPrice") {
-      validateSalePrice(formData.salePrice, formData.originalPrice);
+      const isValid = validateSalePrice(
+        formData.salePrice,
+        formData.originalPrice
+      );
+
+      // Nếu có lỗi, bật validated để hiển thị border đỏ
+      if (!isValid) {
+        setValidated(true);
+      }
     }
   };
 
@@ -147,23 +155,28 @@ const ProductManager = () => {
 
     const form = event.currentTarget;
 
+    // Validate giá gốc
     const originalPrice = parseFloat(formData.originalPrice);
     if (!originalPrice || originalPrice <= 0) {
       setValidated(true);
       return;
     }
+
+    // Validate giá khuyến mãi TRƯỚC KHI kiểm tra form
     const isSalePriceValid = validateSalePrice(
       formData.salePrice,
       formData.originalPrice
     );
 
+    // Set validated = true để hiển thị tất cả lỗi
+    setValidated(true);
+
+    // Kiểm tra form validity và giá khuyến mãi
     if (form.checkValidity() === false || !isSalePriceValid) {
-      setValidated(true);
       return;
     }
 
-    setValidated(true);
-
+    // Lọc bỏ ảnh phụ trống
     const cleanedGallery =
       formData.gallery?.filter((img) => img.trim() !== "") || [];
 
@@ -182,6 +195,7 @@ const ProductManager = () => {
       updatedAt: new Date().toISOString(),
     };
 
+    // Nếu là thêm mới, tạo ID tăng dần
     if (!currentProduct) {
       try {
         const response = await fetch("http://localhost:5000/products");
@@ -189,6 +203,7 @@ const ProductManager = () => {
 
         const maxId = allProducts.reduce((max, product) => {
           const currentId = parseInt(product.id);
+          // Bỏ qua nếu không phải số hợp lệ
           if (isNaN(currentId)) return max;
           return currentId > max ? currentId : max;
         }, 0);
@@ -515,11 +530,17 @@ const ProductManager = () => {
                     placeholder="Nhập giá khuyến mãi"
                     step="1000"
                     required
-                    isInvalid={!!salePriceError}
+                    isInvalid={validated && !!salePriceError}
                   />
                   <Form.Control.Feedback type="invalid">
                     {salePriceError || "Vui lòng nhập giá khuyến mãi"}
                   </Form.Control.Feedback>
+                  {/* Warning realtime khi chưa validated */}
+                  {!validated && salePriceError && (
+                    <Form.Text className="text-danger d-block mt-1">
+                      ⚠️ {salePriceError}
+                    </Form.Text>
+                  )}
                 </Form.Group>
               </Col>
             </Row>

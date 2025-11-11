@@ -89,46 +89,31 @@ const ProductManager = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const handleBlur = (e) => {
-    const { name } = e.target;
-
-    // Chỉ validate giá khi blur
     if (name === "salePrice" || name === "originalPrice") {
-      validateSalePrice(formData.salePrice, formData.originalPrice);
+      validateSalePrice(
+        name === "salePrice" ? value : formData.salePrice,
+        name === "originalPrice" ? value : formData.originalPrice
+      );
     }
   };
 
   const validateSalePrice = (salePrice, originalPrice) => {
-    if (!salePrice || !originalPrice) {
-      setSalePriceError("");
-      return true;
+    if (salePrice && originalPrice) {
+      const sale = parseFloat(salePrice);
+      const original = parseFloat(originalPrice);
+
+      if (sale < 0) {
+        setSalePriceError("Giá khuyến mãi phải >= 0");
+        return false;
+      } else if (sale > original) {
+        setSalePriceError("Giá khuyến mãi phải ≤ giá gốc");
+        return false;
+      } else {
+        setSalePriceError("");
+        return true;
+      }
     }
-
-    const sale = parseFloat(salePrice);
-    const original = parseFloat(originalPrice);
-
-    if (isNaN(sale) || isNaN(original)) {
-      setSalePriceError("Vui lòng nhập số hợp lệ");
-      return false;
-    }
-
-    if (original <= 0) {
-      setSalePriceError("Giá gốc phải lớn hơn 0");
-      return false;
-    }
-
-    if (sale < 0) {
-      setSalePriceError("Giá khuyến mãi phải >= 0");
-      return false;
-    }
-
-    if (sale > original) {
-      setSalePriceError("Giá khuyến mãi phải ≤ giá gốc");
-      return false;
-    }
-
     setSalePriceError("");
     return true;
   };
@@ -147,16 +132,13 @@ const ProductManager = () => {
 
     const form = event.currentTarget;
 
-    const originalPrice = parseFloat(formData.originalPrice);
-    if (!originalPrice || originalPrice <= 0) {
-      setValidated(true);
-      return;
-    }
+    // Validate giá khuyến mãi
     const isSalePriceValid = validateSalePrice(
       formData.salePrice,
       formData.originalPrice
     );
 
+    // Kiểm tra form validity và giá khuyến mãi
     if (form.checkValidity() === false || !isSalePriceValid) {
       setValidated(true);
       return;
@@ -164,6 +146,7 @@ const ProductManager = () => {
 
     setValidated(true);
 
+    // Lọc bỏ ảnh phụ trống
     const cleanedGallery =
       formData.gallery?.filter((img) => img.trim() !== "") || [];
 
@@ -182,6 +165,7 @@ const ProductManager = () => {
       updatedAt: new Date().toISOString(),
     };
 
+    // Nếu là thêm mới, tạo ID tăng dần
     if (!currentProduct) {
       try {
         const response = await fetch("http://localhost:5000/products");
@@ -189,7 +173,6 @@ const ProductManager = () => {
 
         const maxId = allProducts.reduce((max, product) => {
           const currentId = parseInt(product.id);
-          if (isNaN(currentId)) return max;
           return currentId > max ? currentId : max;
         }, 0);
 
@@ -491,9 +474,9 @@ const ProductManager = () => {
                     name="originalPrice"
                     value={formData.originalPrice}
                     onChange={handleChange}
-                    onBlur={handleBlur}
                     placeholder="Nhập giá gốc"
                     step="1000"
+                    min="1"
                     required
                   />
                   <Form.Control.Feedback type="invalid">
@@ -503,22 +486,20 @@ const ProductManager = () => {
               </Col>
               <Col md={6}>
                 <Form.Group className="mb-3" controlId="formSalePrice">
-                  <Form.Label>
-                    Giá khuyến mãi (₫) <span className="text-danger">*</span>
-                  </Form.Label>
+                  <Form.Label>Giá khuyến mãi (₫)</Form.Label>
                   <Form.Control
                     type="number"
                     name="salePrice"
                     value={formData.salePrice}
                     onChange={handleChange}
-                    onBlur={handleBlur}
                     placeholder="Nhập giá khuyến mãi"
                     step="1000"
+                    min="0"
                     required
                     isInvalid={!!salePriceError}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {salePriceError || "Vui lòng nhập giá khuyến mãi"}
+                    Vui lòng nhập giá khuyến mãi (có thể bằng giá gốc)
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>

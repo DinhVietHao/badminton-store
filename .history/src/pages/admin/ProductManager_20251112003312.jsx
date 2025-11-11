@@ -89,19 +89,19 @@ const ProductManager = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const handleBlur = (e) => {
-    const { name } = e.target;
-
-    // Chỉ validate giá khi blur
+    // Validate giá khuyến mãi khi thay đổi
     if (name === "salePrice" || name === "originalPrice") {
-      validateSalePrice(formData.salePrice, formData.originalPrice);
+      validateSalePrice(
+        name === "salePrice" ? value : formData.salePrice,
+        name === "originalPrice" ? value : formData.originalPrice
+      );
     }
   };
 
   const validateSalePrice = (salePrice, originalPrice) => {
-    if (!salePrice || !originalPrice) {
+    // Nếu chưa nhập gì cả thì không validate
+    if (!salePrice && !originalPrice) {
       setSalePriceError("");
       return true;
     }
@@ -109,24 +109,22 @@ const ProductManager = () => {
     const sale = parseFloat(salePrice);
     const original = parseFloat(originalPrice);
 
-    if (isNaN(sale) || isNaN(original)) {
-      setSalePriceError("Vui lòng nhập số hợp lệ");
-      return false;
-    }
+    // Nếu đã nhập cả 2 giá
+    if (salePrice && originalPrice) {
+      if (isNaN(sale) || isNaN(original)) {
+        setSalePriceError("");
+        return true;
+      }
 
-    if (original <= 0) {
-      setSalePriceError("Giá gốc phải lớn hơn 0");
-      return false;
-    }
+      if (sale < 0) {
+        setSalePriceError("Giá khuyến mãi phải >= 0");
+        return false;
+      }
 
-    if (sale < 0) {
-      setSalePriceError("Giá khuyến mãi phải >= 0");
-      return false;
-    }
-
-    if (sale > original) {
-      setSalePriceError("Giá khuyến mãi phải ≤ giá gốc");
-      return false;
+      if (sale > original) {
+        setSalePriceError("Giá khuyến mãi phải ≤ giá gốc");
+        return false;
+      }
     }
 
     setSalePriceError("");
@@ -147,16 +145,13 @@ const ProductManager = () => {
 
     const form = event.currentTarget;
 
-    const originalPrice = parseFloat(formData.originalPrice);
-    if (!originalPrice || originalPrice <= 0) {
-      setValidated(true);
-      return;
-    }
+    // Validate giá khuyến mãi
     const isSalePriceValid = validateSalePrice(
       formData.salePrice,
       formData.originalPrice
     );
 
+    // Kiểm tra form validity và giá khuyến mãi
     if (form.checkValidity() === false || !isSalePriceValid) {
       setValidated(true);
       return;
@@ -164,13 +159,15 @@ const ProductManager = () => {
 
     setValidated(true);
 
+    // Lọc bỏ ảnh phụ trống
     const cleanedGallery =
       formData.gallery?.filter((img) => img.trim() !== "") || [];
 
     const dataToSave = {
       ...formData,
       gallery: cleanedGallery,
-      quantity: formData.quantity === "" ? 0 : parseInt(formData.quantity) || 0,
+      quantity:
+        formData.quantity === "" ? 0 : parseInt(formData.quantity) || 0,
       soldCount: parseInt(formData.soldCount) || 0,
       originalPrice:
         formData.originalPrice === ""
@@ -182,6 +179,7 @@ const ProductManager = () => {
       updatedAt: new Date().toISOString(),
     };
 
+    // Nếu là thêm mới, tạo ID tăng dần
     if (!currentProduct) {
       try {
         const response = await fetch("http://localhost:5000/products");
@@ -189,7 +187,6 @@ const ProductManager = () => {
 
         const maxId = allProducts.reduce((max, product) => {
           const currentId = parseInt(product.id);
-          if (isNaN(currentId)) return max;
           return currentId > max ? currentId : max;
         }, 0);
 
@@ -491,9 +488,9 @@ const ProductManager = () => {
                     name="originalPrice"
                     value={formData.originalPrice}
                     onChange={handleChange}
-                    onBlur={handleBlur}
                     placeholder="Nhập giá gốc"
                     step="1000"
+                    min="1"
                     required
                   />
                   <Form.Control.Feedback type="invalid">
@@ -511,11 +508,11 @@ const ProductManager = () => {
                     name="salePrice"
                     value={formData.salePrice}
                     onChange={handleChange}
-                    onBlur={handleBlur}
                     placeholder="Nhập giá khuyến mãi"
                     step="1000"
+                    min="0"
                     required
-                    isInvalid={!!salePriceError}
+                    isInvalid={validated && !!salePriceError}
                   />
                   <Form.Control.Feedback type="invalid">
                     {salePriceError || "Vui lòng nhập giá khuyến mãi"}
@@ -539,7 +536,9 @@ const ProductManager = () => {
                     required
                   >
                     <option value="">-- Chọn trình độ --</option>
-                    <option value="Người mới bắt đầu">Người mới bắt đầu</option>
+                    <option value="Người mới bắt đầu">
+                      Người mới bắt đầu
+                    </option>
                     <option value="Trung cấp">Trung cấp</option>
                     <option value="Chuyên nghiệp">Chuyên nghiệp</option>
                   </Form.Select>
@@ -728,7 +727,9 @@ const ProductManager = () => {
                       onChange={(e) =>
                         handleGalleryChange(index, e.target.value)
                       }
-                      placeholder={`/images/products/gallery-${index + 1}.webp`}
+                      placeholder={`/images/products/gallery-${
+                        index + 1
+                      }.webp`}
                     />
                     {formData.gallery?.[index] && (
                       <div className="mt-2">

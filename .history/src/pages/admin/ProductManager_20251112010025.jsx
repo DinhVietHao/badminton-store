@@ -156,14 +156,14 @@ const ProductManager = () => {
       formData.salePrice,
       formData.originalPrice
     );
-
+    
     if (form.checkValidity() === false || !isSalePriceValid) {
       setValidated(true);
       return;
     }
 
     setValidated(true);
-
+    
     const cleanedGallery =
       formData.gallery?.filter((img) => img.trim() !== "") || [];
 
@@ -181,7 +181,7 @@ const ProductManager = () => {
       createdAt: currentProduct?.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-
+    
     if (!currentProduct) {
       try {
         const response = await fetch("http://localhost:5000/products");
@@ -189,6 +189,7 @@ const ProductManager = () => {
 
         const maxId = allProducts.reduce((max, product) => {
           const currentId = parseInt(product.id);
+          // Bỏ qua nếu không phải số hợp lệ
           if (isNaN(currentId)) return max;
           return currentId > max ? currentId : max;
         }, 0);

@@ -101,6 +101,7 @@ const ProductManager = () => {
   };
 
   const validateSalePrice = (salePrice, originalPrice) => {
+    // Nếu chưa nhập đủ cả 2 → không validate
     if (!salePrice || !originalPrice) {
       setSalePriceError("");
       return true;
@@ -109,16 +110,19 @@ const ProductManager = () => {
     const sale = parseFloat(salePrice);
     const original = parseFloat(originalPrice);
 
+    // Kiểm tra có phải số hợp lệ không
     if (isNaN(sale) || isNaN(original)) {
       setSalePriceError("Vui lòng nhập số hợp lệ");
       return false;
     }
 
+    // Kiểm tra giá gốc phải > 0
     if (original <= 0) {
       setSalePriceError("Giá gốc phải lớn hơn 0");
       return false;
     }
 
+    // Kiểm tra giá khuyến mãi
     if (sale < 0) {
       setSalePriceError("Giá khuyến mãi phải >= 0");
       return false;
@@ -129,6 +133,7 @@ const ProductManager = () => {
       return false;
     }
 
+    // Hợp lệ
     setSalePriceError("");
     return true;
   };
@@ -147,16 +152,20 @@ const ProductManager = () => {
 
     const form = event.currentTarget;
 
+    // Kiểm tra giá gốc > 0 trước
     const originalPrice = parseFloat(formData.originalPrice);
     if (!originalPrice || originalPrice <= 0) {
       setValidated(true);
       return;
     }
+
+    // Validate giá khuyến mãi
     const isSalePriceValid = validateSalePrice(
       formData.salePrice,
       formData.originalPrice
     );
 
+    // Kiểm tra form validity và giá khuyến mãi
     if (form.checkValidity() === false || !isSalePriceValid) {
       setValidated(true);
       return;
@@ -164,13 +173,15 @@ const ProductManager = () => {
 
     setValidated(true);
 
+    // Lọc bỏ ảnh phụ trống
     const cleanedGallery =
       formData.gallery?.filter((img) => img.trim() !== "") || [];
 
     const dataToSave = {
       ...formData,
       gallery: cleanedGallery,
-      quantity: formData.quantity === "" ? 0 : parseInt(formData.quantity) || 0,
+      quantity:
+        formData.quantity === "" ? 0 : parseInt(formData.quantity) || 0,
       soldCount: parseInt(formData.soldCount) || 0,
       originalPrice:
         formData.originalPrice === ""
@@ -182,6 +193,7 @@ const ProductManager = () => {
       updatedAt: new Date().toISOString(),
     };
 
+    // Nếu là thêm mới, tạo ID tăng dần
     if (!currentProduct) {
       try {
         const response = await fetch("http://localhost:5000/products");
@@ -189,7 +201,6 @@ const ProductManager = () => {
 
         const maxId = allProducts.reduce((max, product) => {
           const currentId = parseInt(product.id);
-          if (isNaN(currentId)) return max;
           return currentId > max ? currentId : max;
         }, 0);
 
@@ -515,11 +526,17 @@ const ProductManager = () => {
                     placeholder="Nhập giá khuyến mãi"
                     step="1000"
                     required
-                    isInvalid={!!salePriceError}
+                    isInvalid={validated && !!salePriceError}
                   />
                   <Form.Control.Feedback type="invalid">
                     {salePriceError || "Vui lòng nhập giá khuyến mãi"}
                   </Form.Control.Feedback>
+                  {/* Warning realtime */}
+                  {!validated && salePriceError && (
+                    <Form.Text className="text-danger d-block mt-1">
+                      ⚠️ {salePriceError}
+                    </Form.Text>
+                  )}
                 </Form.Group>
               </Col>
             </Row>
@@ -539,7 +556,9 @@ const ProductManager = () => {
                     required
                   >
                     <option value="">-- Chọn trình độ --</option>
-                    <option value="Người mới bắt đầu">Người mới bắt đầu</option>
+                    <option value="Người mới bắt đầu">
+                      Người mới bắt đầu
+                    </option>
                     <option value="Trung cấp">Trung cấp</option>
                     <option value="Chuyên nghiệp">Chuyên nghiệp</option>
                   </Form.Select>
@@ -728,7 +747,9 @@ const ProductManager = () => {
                       onChange={(e) =>
                         handleGalleryChange(index, e.target.value)
                       }
-                      placeholder={`/images/products/gallery-${index + 1}.webp`}
+                      placeholder={`/images/products/gallery-${
+                        index + 1
+                      }.webp`}
                     />
                     {formData.gallery?.[index] && (
                       <div className="mt-2">
