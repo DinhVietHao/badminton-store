@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Card,
@@ -10,66 +11,93 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
-import { useAuth } from "../../contexts/AuthContext";
+import axios from "axios";
+import {
+  setLoading,
+  setUser,
+  setError,
+  clearError,
+  selectAuth,
+} from "../../redux/slices/authSlice";
 
 const LoginPage = () => {
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { user, isAuthenticated, loading, error } = useSelector(selectAuth);
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
+  // Remember me
   useEffect(() => {
     const saved = localStorage.getItem("rememberedUser");
     if (saved) {
       const { email, password, expires } = JSON.parse(saved);
       if (!expires || Date.now() < expires) {
-        setEmail(email);
-        setPassword(password);
+        setFormData({ email, password });
         setRemember(true);
       } else {
-        localStorage.removeItem("rememberedUser"); // Xóa khi hết hạn
+        localStorage.removeItem("rememberedUser");
       }
     }
   }, []);
 
+  // Điều hướng sau khi đăng nhập thành công
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate(`/profile/${user.id}`);
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
+
+  // Xóa lỗi khi unmount
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, [dispatch]);
+
+  // Xử lý thay đổi form đăng nhập
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Xử lý đăng nhập
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
+    dispatch(setLoading(true));
     try {
-      const user = await login(email, password);
+      const { data: users } = await axios.get("http://localhost:5000/users");
+      const foundUser = users.find(
+        (u) => u.email === formData.email && u.password === formData.password
+      );
 
-      if (user && user.id) {
-        // (hết hạn sau 7 ngày)
-        if (remember) {
-          const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
-          localStorage.setItem(
-            "rememberedUser",
-            JSON.stringify({ email, password, expires })
-          );
-        } else {
-          localStorage.removeItem("rememberedUser");
-        }
+      if (!foundUser) {
+        throw new Error("Sai email hoặc mật khẩu!");
+      }
 
-        setTimeout(() => {
-          if (user.role === "admin") {
-            navigate("/admin");
-          } else {
-            navigate(`/profile/${user.id}`);
-          }
-        }, 800);
+      localStorage.setItem("user", JSON.stringify(foundUser));
+      dispatch(setUser(foundUser));
+
+      if (remember) {
+        const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
+        localStorage.setItem(
+          "rememberedUser",
+          JSON.stringify({ ...formData, expires })
+        );
       } else {
-        throw new Error("Không tìm thấy người dùng!");
+        localStorage.removeItem("rememberedUser");
       }
     } catch (err) {
-      setError(err.message || "Đăng nhập thất bại!");
-      setLoading(false);
+      dispatch(setError(err.message || "Đăng nhập thất bại!"));
     }
   };
 
@@ -85,9 +113,10 @@ const LoginPage = () => {
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
+              name="email"
               placeholder="Nhập email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </Form.Group>
@@ -97,9 +126,10 @@ const LoginPage = () => {
             <InputGroup>
               <Form.Control
                 type={showPassword ? "text" : "password"}
+                name="password"
                 placeholder="Nhập mật khẩu"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 required
               />
               <Button

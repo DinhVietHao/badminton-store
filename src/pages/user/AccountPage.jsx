@@ -1,133 +1,114 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import {
-  Container,
-  Table,
-  Button,
-  Row,
-  Col,
-  Card,
-  Alert,
-} from "react-bootstrap";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import { Link, useParams, Navigate } from "react-router-dom";
+import { FaUser, FaLock, FaShoppingBag, FaHeart, FaBell } from "react-icons/fa";
+import { selectUser } from "../../redux/slices/authSlice";
 
 const AccountPage = () => {
-  const { user } = useAuth();
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [profileData, setProfileData] = useState(null);
-  const [message, setMessage] = useState(null);
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
+  const user = useSelector(selectUser);
 
-    // ✅ Nếu là admin, điều hướng đến layout admin
-    if (user.role === "admin") {
-      navigate("/admin/dashboard");
-      return;
-    }
+  if (!user || String(user.id) !== id) {
+    return <Navigate to="/login" replace />;
+  }
 
-    // ✅ Nếu id không khớp, quay lại đúng trang cá nhân
-    if (String(user.id) !== id) {
-      navigate(`/profile/${user.id}`);
-      return;
-    }
-
-    setProfileData(user);
-  }, [user, id, navigate]);
-
-  if (!profileData) return null;
-
-  const orders = []; // TODO: fetch đơn hàng thực từ API sau
+  const menuItems = [
+    {
+      icon: <FaUser />,
+      title: "Thông tin cá nhân",
+      description: "Quản lý thông tin tài khoản của bạn",
+      link: `/profile/${id}/edit`,
+      color: "primary",
+    },
+    {
+      icon: <FaLock />,
+      title: "Bảo mật",
+      description: "Thay đổi mật khẩu và cài đặt bảo mật",
+      link: `/profile/${id}/security`,
+      color: "danger",
+    },
+    {
+      icon: <FaShoppingBag />,
+      title: "Đơn hàng của tôi",
+      description: "Xem lịch sử và trạng thái đơn hàng",
+      link: "/orders",
+      color: "success",
+    },
+    {
+      icon: <FaHeart />,
+      title: "Sản phẩm yêu thích",
+      description: "Danh sách sản phẩm bạn đã lưu",
+      link: `/profile/${id}/favorites`,
+      color: "warning",
+    },
+    {
+      icon: <FaBell />,
+      title: "Thông báo",
+      description: "Cập nhật về đơn hàng và khuyến mãi",
+      link: `/profile/${id}/notifications`,
+      color: "info",
+    },
+  ];
 
   return (
-    <Container className="py-5">
-      <h3 className="mb-3 text-uppercase fw-bold">THÔNG TIN TÀI KHOẢN</h3>
+    <Container className="my-5">
+      <h2 className="mb-4 text-center">Tài khoản của tôi</h2>
 
-      {message && <Alert variant={message.type}>{message.text}</Alert>}
-
-      <p>
-        Xin chào,{" "}
-        <span className="text-success fw-semibold">
-          {profileData.fullname || profileData.username}
-        </span>
-      </p>
-
-      <Row className="mt-4 g-4">
-        <Col md={5}>
-          <Card>
-            <Card.Body>
-              <Card.Title className="fw-bold text-uppercase mb-4">
-                Thông tin khách hàng
-              </Card.Title>
-              <div className="mb-3">
-                <strong>👤 Họ tên:</strong> {profileData.fullname}
-              </div>
-              <div className="mb-3">
-                <strong>📞 Số ĐT:</strong>{" "}
-                {profileData.phone || "Chưa cập nhật"}
-              </div>
-              <div className="mb-3">
-                <strong>📍 Địa chỉ:</strong>{" "}
-                {profileData.address || "Chưa cập nhật"}
-              </div>
-              <Button
-                variant="success"
-                className="fw-semibold text-white"
-                style={{ backgroundColor: "#449D44", border: "none" }}
-                onClick={() => navigate(`/profile/${id}/edit`)}
+      <Row className="mb-4">
+        <Col>
+          <Card className="shadow-sm text-center p-4">
+            <div className="mb-3">
+              <div
+                className="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
+                style={{ width: "80px", height: "80px", fontSize: "2rem" }}
               >
-                Sửa thông tin
-              </Button>
-            </Card.Body>
+                {user.fullName?.charAt(0)?.toUpperCase() || "U"}
+              </div>
+            </div>
+            <h4 className="mb-1">{user.fullName}</h4>
+            <p className="text-muted mb-0">@{user.username}</p>
+            <p className="text-muted">{user.email}</p>
           </Card>
         </Col>
+      </Row>
 
-        <Col md={7}>
-          <Card>
-            <Card.Body>
-              <Card.Title className="fw-bold text-uppercase mb-4">
-                Đơn hàng của bạn
-              </Card.Title>
-              <Table bordered hover responsive>
-                <thead
-                  className="text-center align-middle"
-                  style={{ backgroundColor: "#d9f2d9" }}
+      <Row>
+        {menuItems.map((item, index) => (
+          <Col md={6} key={index} className="mb-3">
+            <Card
+              as={Link}
+              to={item.link}
+              className="shadow-sm h-100 text-decoration-none"
+              style={{
+                transition: "transform 0.2s, box-shadow 0.2s",
+                border: "1px solid #e0e0e0",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
+              }}
+            >
+              <Card.Body className="d-flex align-items-start">
+                <div
+                  className={`bg-${item.color} text-white rounded p-3 me-3`}
+                  style={{ fontSize: "1.5rem" }}
                 >
-                  <tr style={{ backgroundColor: "#449D44", color: "white" }}>
-                    <th>Đơn hàng</th>
-                    <th>Ngày</th>
-                    <th>Địa chỉ</th>
-                    <th>Giá trị</th>
-                    <th>Tình trạng</th>
-                  </tr>
-                </thead>
-                <tbody className="text-center">
-                  {orders.length === 0 ? (
-                    <tr>
-                      <td colSpan="5" className="py-4 text-muted">
-                        Không có đơn hàng nào.
-                      </td>
-                    </tr>
-                  ) : (
-                    orders.map((order, index) => (
-                      <tr key={index}>
-                        <td>{order.id}</td>
-                        <td>{order.date}</td>
-                        <td>{order.address}</td>
-                        <td>{order.total}₫</td>
-                        <td>{order.status}</td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </Table>
-            </Card.Body>
-          </Card>
-        </Col>
+                  {item.icon}
+                </div>
+                <div>
+                  <h5 className="mb-1 text-dark">{item.title}</h5>
+                  <p className="text-muted mb-0 small">{item.description}</p>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
     </Container>
   );

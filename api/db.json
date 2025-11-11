@@ -245,7 +245,7 @@
       "description": "Biệt danh 'Móng vuốt', cây vợt tấn công mạnh mẽ của Victor. Thiết kế khung đặc biệt giúp tăng lực đập, phù hợp với người chơi thích áp đặt lối đánh.",
       "brand": "Victor",
       "status": "IN-STOCK",
-      "quantity": 100,
+      "quantity": 111,
       "soldCount": 0,
       "originalPrice": 4500000,
       "salePrice": 4500000,
@@ -257,7 +257,7 @@
       "weight": "3U",
       "length": "675mm",
       "createdAt": "2025-10-20T10:00:00Z",
-      "updatedAt": "2025-10-23T10:00:00Z",
+      "updatedAt": "2025-11-11T18:40:16.592Z",
       "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-victor-thruster-k-f-c-ltd-gb-6.webp",
       "gallery": [
         "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-victor-thruster-k-f-c-ltd-gb-5.webp",
@@ -310,6 +310,29 @@
       "gallery": [],
       "createdAt": "2025-11-11T17:59:31.135Z",
       "updatedAt": "2025-11-11T17:59:31.135Z"
+    },
+    {
+      "id": "13",
+      "title": "sdfvds",
+      "sku": "dffdsd",
+      "description": "vdc",
+      "brand": "Yonex",
+      "status": "IN-STOCK",
+      "quantity": 111,
+      "soldCount": 0,
+      "originalPrice": 111,
+      "salePrice": 111,
+      "playerLevel": "Người mới bắt đầu",
+      "playType": "Đánh đơn",
+      "playingStyle": "Tấn công",
+      "shaftFlexibility": "Trung bình",
+      "balancePoint": "Cân bằng",
+      "weight": "4U",
+      "length": "675mm",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-astrox-22-lite-bk-rd-chinh-hang_1761954974.webp",
+      "gallery": [],
+      "createdAt": "2025-11-11T18:39:55.182Z",
+      "updatedAt": "2025-11-11T18:39:55.182Z"
     }
   ],
   "users": [
@@ -317,7 +340,7 @@
       "id": "1",
       "username": "admin",
       "password": "Admin123@",
-      "email": "nguyenvana@gmail.com",
+      "email": "ch",
       "fullName": "Shop Admin",
       "avatarUrl": "",
       "role": "admin"
@@ -366,7 +389,7 @@
       "avatarUrl": ""
     },
     {
-      "id": 6,
+      "id": "6",
       "username": "Đinh Việt Hào",
       "email": "dinhviethao2k4@gmail.com",
       "phone": "0946290204",
