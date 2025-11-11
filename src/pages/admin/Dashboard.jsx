@@ -1,12 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Card, Form } from "react-bootstrap";
 import { BoxSeam, PeopleFill, Receipt } from "react-bootstrap-icons";
-import { ProductContext } from "../../contexts/ProductContext";
+import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RevenueChart from "../../components/layouts-admin/RevenueChart";
+import {
+  selectAllProducts,
+  selectProductsLoading,
+} from "../../redux/slices/productSlice";
+import { useFetchProducts } from "../../hooks/useFetchProducts";
 
-// Hàm tạo dữ liệu doanh thu giả lập
 const generateMockData = (start, end) => {
   const data = [];
   const labels = [];
@@ -35,9 +39,10 @@ const generateMockData = (start, end) => {
 };
 
 const Dashboard = () => {
-  const { products, loading } = useContext(ProductContext);
+  useFetchProducts();
+  const products = useSelector(selectAllProducts);
+  const loading = useSelector(selectProductsLoading);
 
-  // Mặc định 6 tháng trước
   const defaultStartDate = new Date();
   defaultStartDate.setMonth(defaultStartDate.getMonth() - 6);
 
@@ -46,7 +51,6 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
   useEffect(() => {
-    // (API thật sẽ gọi ở đây)
     const mockData = generateMockData(startDate, endDate);
     setChartData(mockData);
   }, [startDate, endDate]);

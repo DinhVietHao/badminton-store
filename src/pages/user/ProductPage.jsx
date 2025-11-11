@@ -8,11 +8,11 @@ import {
   Nav,
   Button,
 } from "react-bootstrap";
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import ProductSidebar from "../../components/layouts-user/ProductSidebar";
-import { ProductContext } from "../../contexts/ProductContext";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import { useFetchProducts } from "../../hooks/useFetchProducts";
 
 const INITIAL_FILTERS = {
   search: "",
@@ -36,18 +36,12 @@ const PRICE_OPTIONS = [
 ];
 
 const ProductPage = () => {
-  const {
-    products: allProducts,
-    loading: contextLoading,
-    error: contextError,
-  } = useContext(ProductContext);
+  const { products: allProducts, loading, error } = useFetchProducts();
+  const { addToCart } = useAddToCart();
 
-  // Filter
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState(INITIAL_FILTERS);
   const [isFiltering, setIsFiltering] = useState(false);
-
-  const { addToCart } = useAddToCart();
 
   const filterOptions = useMemo(() => {
     const STATUS_MAP = {
@@ -82,21 +76,20 @@ const ProductPage = () => {
 
   useEffect(() => {
     if (allProducts.length === 0) return;
+
     setIsFiltering(true);
     let products = [...allProducts];
 
-    // Search
     const term = selectedFilters.search.toLowerCase();
     if (term) {
       products = products.filter(
         (p) =>
           p.title.toLowerCase().includes(term) ||
           p.sku.toLowerCase().includes(term) ||
-          p.description.toLowerCase().includes(term)
+          p.description?.toLowerCase().includes(term)
       );
     }
 
-    // Filter by price
     if (selectedFilters.price.length > 0) {
       products = products.filter((p) => {
         const productPrice = p.salePrice || p.originalPrice;
@@ -110,7 +103,6 @@ const ProductPage = () => {
       });
     }
 
-    // 2.3 Filter by other attribute (checkbox)
     const filterByCheckbox = (groupName) => {
       if (selectedFilters[groupName].length > 0) {
         products = products.filter((p) =>
@@ -157,7 +149,7 @@ const ProductPage = () => {
     setSelectedFilters(INITIAL_FILTERS);
   };
 
-  if (contextLoading) {
+  if (loading) {
     return (
       <Container className="text-center mt-5">
         <Spinner animation="border" />
@@ -166,8 +158,8 @@ const ProductPage = () => {
     );
   }
 
-  if (contextError) {
-    return <Alert variant="danger">Lỗi tải dữ liệu: {contextError}</Alert>;
+  if (error) {
+    return <Alert variant="danger">Lỗi tải dữ liệu: {error}</Alert>;
   }
 
   if (!allProducts || allProducts.length === 0) {
