@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Container,
@@ -11,14 +11,28 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import axios from "axios";
+import {
+  updateUser,
+  setLoading,
+  setError,
+  clearError,
+  selectUser,
+  selectAuthLoading,
+  selectAuthError,
+} from "../../redux/slices/authSlice";
 
 const EditProfileInfo = () => {
-  const { user, updateUser, updatePassword } = useAuth();
-  const { id } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const user = useSelector(selectUser);
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
 
   const [formData, setFormData] = useState({
-    fullname: user?.fullname || "",
+    fullname: user?.fullname || user?.fullName || "",
     email: user?.email || "",
     phone: user?.phone || "",
     address: user?.address || "",
@@ -32,46 +46,58 @@ const EditProfileInfo = () => {
     confirmPassword: "",
   });
 
-  const [loading, setLoading] = useState(false);
   const [pwLoading, setPwLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [pwMessage, setPwMessage] = useState(null);
 
-  // Ngăn người khác truy cập sai id
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
   if (!user || String(user.id) !== id) {
     navigate(`/profile/${user?.id}`);
     return null;
   }
 
-  // Cập nhật input thông tin
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Cập nhật input mật khẩu
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPasswordData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Lưu thay đổi thông tin cá nhân
   const handleSave = async () => {
-    setLoading(true);
+    dispatch(setLoading(true));
     setMessage(null);
+
     try {
-      const updatedUser = { ...user, ...formData };
-      await updateUser(updatedUser);
+      const updatedUserData = {
+        ...user,
+        ...formData,
+        fullName: formData.fullname,
+      };
+
+      const response = await axios.put(
+        `http://localhost:5000/users/${user.id}`,
+        updatedUserData
+      );
+
+      localStorage.setItem("user", JSON.stringify(response.data));
+
+      dispatch(updateUser(response.data));
+
       setMessage({ type: "success", text: "Cập nhật thông tin thành công!" });
       setTimeout(() => navigate(`/profile/${id}`), 1000);
-    } catch {
-      setMessage({ type: "danger", text: "Có lỗi xảy ra, vui lòng thử lại!" });
-    } finally {
-      setLoading(false);
+
+      dispatch(setLoading(false));
+    } catch (err) {
+      dispatch(setError("Có lỗi xảy ra, vui lòng thử lại!"));
     }
   };
 
-  // Đổi mật khẩu
   const handlePasswordSave = async () => {
     setPwLoading(true);
     setPwMessage(null);
@@ -83,20 +109,33 @@ const EditProfileInfo = () => {
     }
 
     try {
-      await updatePassword(
-        passwordData.currentPassword,
-        passwordData.newPassword
+      if (user.password !== passwordData.currentPassword) {
+        throw new Error("Mật khẩu hiện tại không đúng.");
+      }
+
+      const updatedUserData = { ...user, password: passwordData.newPassword };
+
+      const response = await axios.put(
+        `http://localhost:5000/users/${user.id}`,
+        updatedUserData
       );
+
+      localStorage.setItem("user", JSON.stringify(response.data));
+
+      dispatch(updateUser(response.data));
+
       setPwMessage({ type: "success", text: "Đổi mật khẩu thành công!" });
       setPasswordData({
         currentPassword: "",
         newPassword: "",
         confirmPassword: "",
       });
-    } catch {
+    } catch (err) {
       setPwMessage({
         type: "danger",
-        text: "Đổi mật khẩu thất bại. Kiểm tra lại mật khẩu hiện tại!",
+        text:
+          err.message ||
+          "Đổi mật khẩu thất bại. Kiểm tra lại mật khẩu hiện tại!",
       });
     } finally {
       setPwLoading(false);
@@ -106,7 +145,6 @@ const EditProfileInfo = () => {
   return (
     <Container className="py-4" style={{ maxWidth: "800px" }}>
       <Card className="p-4 shadow-sm">
-        {/* Nút quay lại */}
         <Button
           variant="secondary"
           className="mb-3 px-4 fw-bold"
@@ -124,8 +162,8 @@ const EditProfileInfo = () => {
         <h4 className="fw-bold text-uppercase mb-4">Chỉnh sửa hồ sơ</h4>
 
         {message && <Alert variant={message.type}>{message.text}</Alert>}
+        {error && <Alert variant="danger">{error}</Alert>}
 
-        {/* 🧍‍♂️ Thông tin cá nhân */}
         <h5 className="fw-bold mb-3 text-success">Thông tin cá nhân</h5>
         <Form>
           <Form.Group className="mb-3">
@@ -238,7 +276,6 @@ const EditProfileInfo = () => {
 
         <hr className="my-4" />
 
-        {/* Đổi mật khẩu */}
         <h5 className="fw-bold mb-3 text-success">Đổi mật khẩu</h5>
         {pwMessage && <Alert variant={pwMessage.type}>{pwMessage.text}</Alert>}
 
