@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router";
 import { useAddToCart } from "../../hooks/useAddToCart";
+import Swal from "sweetalert2";
 
 const HomePage = () => {
   const [images, setImages] = useState([]);
@@ -47,6 +48,23 @@ const HomePage = () => {
       setError(err.message);
     }
   };
+  useEffect(() => {
+    // 🔔 Kiểm tra xem có cảnh báo trái phép nào được gửi từ ProtectedRoute không
+    const warning = sessionStorage.getItem("unauthorizedWarning");
+    if (warning) {
+      Swal.fire({
+        icon: "warning",
+        title: "Không có quyền truy cập",
+        text: warning,
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#f0ad4e",
+        timer: 4000,
+        timerProgressBar: true,
+      });
+      // Xóa cảnh báo để tránh hiển thị lại
+      sessionStorage.removeItem("unauthorizedWarning");
+    }
+  }, []);
 
   useEffect(() => {
     fetchHomePage();
