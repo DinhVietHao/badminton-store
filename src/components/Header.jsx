@@ -18,14 +18,13 @@ import {
   FaSignOutAlt,
   FaSearch,
 } from "react-icons/fa";
+// import { BoxArrowInRight, PersonPlus } from "react-bootstrap-icons";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
   const [search, setSearch] = useState("");
-  const { user, logout } = useAuth() || {}; // lấy từ context nếu có
-  const isLoggedIn = !!user;
-  const userName = user?.name || "Lượng";
+  const { user, logout } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -33,13 +32,14 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    if (logout) logout();
+    logout();
     window.location.href = "/";
   };
 
   const profileLink =
     user?.role === "admin" ? "/admin" : `/profile/${user?.id}`;
-  const profileLabel = user?.role === "admin" ? "Admin Panel" : "Trang cá nhân";
+
+  const profileLabel = user?.role === "admin" ? "Admin Panel" : user?.username;
 
   return (
     <Navbar
@@ -179,30 +179,32 @@ const Header = () => {
               }}
             >
               <FaUser style={{ marginRight: "6px", color: "#449D44" }} />
-              {isLoggedIn ? userName : "Tài khoản"}
+              {user ? profileLabel : "Tài khoản"}
             </Dropdown.Toggle>
 
             <Dropdown.Menu style={{ fontSize: "0.95rem" }}>
-              {isLoggedIn ? (
+              {user ? (
                 <>
-                  <Dropdown.Item as={NavLink} to={profileLink}>
-                    <FaUser style={{ marginRight: 8, color: "#449D44" }} />
+                  {/* Nếu là admin → Admin Panel, còn lại → Trang cá nhân */}
+                  <NavDropdown.Item as={NavLink} to={profileLink}>
+                    <FaUser style={{ marginRight: "8px", color: "#449D44" }} />
                     {profileLabel}
-                  </Dropdown.Item>
-
-                  <Dropdown.Item as={NavLink} to="/orders">
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={NavLink} to={"/orders"}>
+                    <FaShoppingCart
+                      style={{ marginRight: "6px", color: "#e0f039" }}
+                    />
                     Quản lý đơn hàng
-                  </Dropdown.Item>
-
-                  <Dropdown.Divider />
-
-                  <Dropdown.Item
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
                     onClick={handleLogout}
                     style={{ color: "red" }}
                   >
-                    <FaSignOutAlt style={{ marginRight: 8, color: "red" }} />
+                    <FaSignOutAlt
+                      style={{ marginRight: "8px", color: "red" }}
+                    />
                     Đăng xuất
-                  </Dropdown.Item>
+                  </NavDropdown.Item>
                 </>
               ) : (
                 <>
