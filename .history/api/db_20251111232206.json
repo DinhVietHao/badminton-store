@@ -1,0 +1,366 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "title": "Vợt cầu lông VNB V200 Xanh (Chính Hãng)",
+      "sku": "VNB-V200-X",
+      "description": "VNB V200 là mẫu vợt cân bằng, dễ chơi, phù hợp cho người mới bắt đầu hoặc người chơi phong trào. Công nghệ khung tối ưu giúp vợt ổn định và giảm rung.",
+      "brand": "VNB",
+      "status": "IN-STOCK",
+      "quantity": 20,
+      "soldCount": 1,
+      "originalPrice": 890000,
+      "salePrice": 799000,
+      "playerLevel": "Người mới bắt đầu",
+      "playType": "Đánh đơn và đôi",
+      "playingStyle": "Toàn diện",
+      "shaftFlexibility": "Dẻo",
+      "balancePoint": "Cân bằng",
+      "weight": "4U",
+      "length": "675mm",
+      "createdAt": "2025-11-02T10:00:00Z",
+      "updatedAt": "2025-11-11T14:25:44.355Z",
+      "thumbnailUrl": "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang_1758652101.webp",
+      "gallery": [
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-1_1758652130.webp",
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-2_1758652136.webp",
+        "/images/products/vot-cau-long-yonex-astrox-100-game-va-grayish-beige-chinh-hang-3_1758652144.webp"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
+      "sku": "YX-AX100ZZ-KR",
+      "description": "Cây vợt cao cấp hàng đầu của Yonex, nổi tiếng với khả năng tấn công mạnh mẽ và tốc độ tuyệt vời. Phù hợp cho người chơi chuyên nghiệp hoặc người chơi phong trào có cổ tay khỏe.",
+      "brand": "Yonex",
+      "status": "IN-STOCK",
+      "quantity": 89,
+      "soldCount": 11,
+      "originalPrice": 4850000,
+      "salePrice": 4690000,
+      "playerLevel": "Chuyên nghiệp",
+      "playType": "Đánh đơn",
+      "playingStyle": "Tấn công",
+      "shaftFlexibility": "Siêu cứng",
+      "balancePoint": "Nặng đầu",
+      "weight": "4U",
+      "length": "675mm",
+      "createdAt": "2025-10-02T11:00:00Z",
+      "updatedAt": "2025-11-04T17:32:50.144Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-4.webp",
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-3.webp",
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-1.webp"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Vợt Cầu Lông Lining Axforce 90 Max (Rồng)",
+      "sku": "LN-AX90-MAX",
+      "description": "Dòng vợt tấn công cao cấp của Lining, được vận động viên Chen Long sử dụng. Thiết kế nặng đầu, thân cứng giúp tạo ra những cú đập cầu mạnh mẽ.",
+      "brand": "Lining",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 5200000,
+      "salePrice": 5200000,
+      "playerLevel": "Chuyên nghiệp",
+      "playType": "Đánh đơn",
+      "playingStyle": "Tấn công",
+      "shaftFlexibility": "Cứng",
+      "balancePoint": "Nặng đầu",
+      "weight": "3U",
+      "length": "675mm",
+      "createdAt": "2025-10-03T14:30:00Z",
+      "updatedAt": "2025-10-23T14:30:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-7.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-6.webp",
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-5.webp",
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-axforce-90-xanh-dragon-max-chinh-hang-2.webp"
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Vợt Cầu Lông Yonex Arcsaber 11 Pro",
+      "sku": "YX-ARC11-PRO",
+      "description": "Biểu tượng của dòng vợt Arcsaber – cân bằng, kiểm soát cầu tốt, điều hướng chính xác. Phiên bản Pro được nâng cấp công nghệ giúp tăng độ chính xác và cảm giác đánh.",
+      "brand": "Yonex",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 4600000,
+      "salePrice": 4600000,
+      "playerLevel": "Trung cấp",
+      "playType": "Đánh đôi",
+      "playingStyle": "Toàn diện",
+      "shaftFlexibility": "Cứng",
+      "balancePoint": "Cân bằng",
+      "weight": "4U",
+      "length": "675mm",
+      "createdAt": "2025-10-05T09:15:00Z",
+      "updatedAt": "2025-10-25T09:15:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-arcsaber-11-pro-chinh-hang-1.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-arcsaber-11-pro-china-limited-noi-dia-trung-7_1699664393.webp",
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-arcsaber-11-pro-china-limited-noi-dia-trung-4_1699664408.webp"
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Vợt Cầu Lông Victor Auraspeed 90K II",
+      "sku": "VC-ARS90K-II",
+      "description": "Dòng vợt thiên về tốc độ, phản tạt nhanh và phòng thủ linh hoạt. Thích hợp cho người chơi đánh đôi, đặc biệt là vị trí trên lưới.",
+      "brand": "Victor",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 4350000,
+      "salePrice": 4190000,
+      "playerLevel": "Trung cấp",
+      "playType": "Đánh đôi",
+      "playingStyle": "Phòng thủ",
+      "shaftFlexibility": "Trung bình",
+      "balancePoint": "Nhẹ đầu",
+      "weight": "4U",
+      "length": "675mm",
+      "createdAt": "2025-10-08T16:00:00Z",
+      "updatedAt": "2025-10-24T16:00:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang_1761184395.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang-1_1761184400.webp",
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang-2_1761184405.webp",
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-victor-auraspeed-fantome-f-hyq-chinh-hang-3_1761184411.webp"
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Vợt Cầu Lông VNB V88 (Cam Đen)",
+      "sku": "VNB-V88-CD",
+      "description": "VNB V88 là mẫu vợt giá rẻ, bền bỉ, thiết kế đẹp mắt. Vợt dẻo, trợ lực tốt, phù hợp cho học sinh, sinh viên hoặc người mới tập chơi.",
+      "brand": "VNB",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 550000,
+      "salePrice": 550000,
+      "playerLevel": "Người mới bắt đầu",
+      "playType": "Đánh đơn và đôi",
+      "playingStyle": "Toàn diện",
+      "shaftFlexibility": "Dẻo",
+      "balancePoint": "Cân bằng",
+      "weight": "4U",
+      "length": "675mm",
+      "createdAt": "2025-10-10T11:30:00Z",
+      "updatedAt": "2025-10-22T11:30:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-vnb-v88-3.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-vnb-v88-2.webp",
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-vnb-v88-1.webp"
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Vợt Cầu Lông Mizuno Fortius 50 Swift",
+      "sku": "MZ-FT50-SW",
+      "description": "Cây vợt siêu nhẹ (5U) đến từ thương hiệu Mizuno. Fortius 50 Swift linh hoạt, xoay trở nhanh, phù hợp cho nữ hoặc người có cổ tay yếu.",
+      "brand": "Mizuno",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 3100000,
+      "salePrice": 2900000,
+      "playerLevel": "Trung cấp",
+      "playType": "Đánh đôi",
+      "playingStyle": "Phòng thủ",
+      "shaftFlexibility": "Dẻo",
+      "balancePoint": "Nhẹ đầu",
+      "weight": "5U",
+      "length": "675mm",
+      "createdAt": "2025-10-11T08:00:00Z",
+      "updatedAt": "2025-10-21T08:00:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-mizuno-fortius-55-swift-xam-den-xanh-chuoi-chinh-hang_1728702949.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-mizuno-fortius-55-swift-xam-den-xanh-chuoi-chinh-hang-2_1728702956.webp",
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-mizuno-fortius-55-swift-xam-den-xanh-chuoi-chinh-hang-1_1728702963.webp"
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Vợt Cầu Lông Yonex Nanoflare 800 Pro",
+      "sku": "YX-NF800-PRO",
+      "description": "Dòng vợt phòng thủ và phản tạt tốc độ cao mới nhất của Yonex. Khung vợt mỏng, lướt gió nhanh, giúp người chơi phản đòn chớp nhoáng.",
+      "brand": "Yonex",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 4750000,
+      "salePrice": 4750000,
+      "playerLevel": "Chuyên nghiệp",
+      "playType": "Đánh đôi",
+      "playingStyle": "Phòng thủ",
+      "shaftFlexibility": "Cứng",
+      "balancePoint": "Nhẹ đầu",
+      "weight": "4U",
+      "length": "675mm",
+      "createdAt": "2025-10-14T13:00:00Z",
+      "updatedAt": "2025-10-24T13:00:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-nanoflare-800-pro-xach-tay_1724879728.jpg",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-nanoflare-800-pro-xach-tay-1_1710289272.webp",
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-nanoflare-800-pro-xach-tay-2_1710289277.webp",
+        "https://cdn.shopvnb.com/uploads/gallery/vot-cau-long-yonex-nanoflare-800-pro-xach-tay-4_1710289287.webp"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Vợt Cầu Lông Lining Tectonic 7",
+      "sku": "LN-TEC7",
+      "description": "Dòng vợt Tectonic nổi tiếng với khung vợt đặc biệt, giúp tăng cường sức mạnh và tốc độ ở các điểm tấn công. Tectonic 7 là cây vợt cân bằng, trợ lực tốt, phù hợp cả tấn công lẫn phòng thủ.",
+      "brand": "Lining",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 3300000,
+      "salePrice": 3150000,
+      "playerLevel": "Trung cấp",
+      "playType": "Đánh đơn và đôi",
+      "playingStyle": "Toàn diện",
+      "shaftFlexibility": "Trung bình",
+      "balancePoint": "Cân bằng",
+      "weight": "4U",
+      "length": "675mm",
+      "createdAt": "2025-10-16T17:00:00Z",
+      "updatedAt": "2025-10-25T17:00:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-tectonic-7-chinh-hang-1.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-lining-tectonic-7-chinh-hang-1.webp"
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Vợt Cầu Lông Victor Thruster F (Claw)",
+      "sku": "VC-TKF-CLAW",
+      "description": "Biệt danh 'Móng vuốt', cây vợt tấn công mạnh mẽ của Victor. Thiết kế khung đặc biệt giúp tăng lực đập, phù hợp với người chơi thích áp đặt lối đánh.",
+      "brand": "Victor",
+      "status": "IN-STOCK",
+      "quantity": 100,
+      "soldCount": 0,
+      "originalPrice": 4500000,
+      "salePrice": 4500000,
+      "playerLevel": "Chuyên nghiệp",
+      "playType": "Đánh đơn",
+      "playingStyle": "Tấn công",
+      "shaftFlexibility": "Cứng",
+      "balancePoint": "Nặng đầu",
+      "weight": "3U",
+      "length": "675mm",
+      "createdAt": "2025-10-20T10:00:00Z",
+      "updatedAt": "2025-10-23T10:00:00Z",
+      "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-victor-thruster-k-f-c-ltd-gb-6.webp",
+      "gallery": [
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-victor-thruster-k-f-c-ltd-gb-5.webp",
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-victor-thruster-k-f-c-ltd-gb-4.webp",
+        "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-victor-thruster-k-f-c-ltd-gb-3.webp"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "Admin123@",
+      "email": "nguyenvana@gmail.com",
+      "fullName": "Shop Admin",
+      "avatarUrl": "",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "dinhviethao1902",
+      "password": "Hao190204#",
+      "email": "dvhaoce190204@gmail.com",
+      "fullName": "Đinh Việt Hào",
+      "avatarUrl": "",
+      "role": "customer"
+    },
+    {
+      "id": "3",
+      "username": "Dư Triệu Phú",
+      "email": "phudt.ce192043@gmail.com",
+      "phone": "0916161667",
+      "password": "dutrieuphu9A4@",
+      "fullName": "Dư Triệu Phú",
+      "role": "customer",
+      "avatarUrl": "",
+      "address": "ABC",
+      "gender": "male",
+      "birthday": "2025-11-03",
+      "fullname": "Dư Triệu Phú"
+    },
+    {
+      "id": "4",
+      "username": "Minh Kha",
+      "email": "leminhkhafc28@gmail.com",
+      "phone": "0854453340",
+      "password": "123",
+      "fullName": "Minh Kha",
+      "role": "customer",
+      "avatarUrl": ""
+    },
+    {
+      "id": "5",
+      "username": "Minh Kha",
+      "email": "khalmce182100@fpt.edu.vn",
+      "phone": "0854453340",
+      "password": "123",
+      "fullName": "Minh Kha",
+      "role": "customer",
+      "avatarUrl": ""
+    }
+  ],
+  "cart": [],
+  "orders": [
+    {
+      "id": "f865",
+      "userId": 5,
+      "products": [
+        {
+          "productId": 2,
+          "title": "Vợt Cầu Lông Yonex Astrox 100ZZ (Kurenai)",
+          "originalPrice": 4850000,
+          "salePrice": 4690000,
+          "quantity": 1,
+          "thumbnailUrl": "https://cdn.shopvnb.com/uploads/san_pham/vot-cau-long-yonex-astrox-100zz-kurenai-do-new-2021-5.webp"
+        }
+      ],
+      "total": 4690000,
+      "status": "pending",
+      "createdAt": "2025-11-04T17:32:50.133Z",
+      "shippingInfo": {
+        "fullName": "Kha nè",
+        "phone": "0854453340",
+        "address": "abc",
+        "note": ""
+      }
+    }
+  ],
+  "homePage": [
+    {
+      "id": "1",
+      "imageUrl": "/images/banner/1000z-launch-website-banner_1695177885.webp",
+      "alt": "Yonex 1000Z Launch"
+    },
+    {
+      "id": "2",
+      "imageUrl": "/images/banner/victor-axelsen_1759089349.webp",
+      "alt": "Victor Axelsen"
+    },
+    {
+      "id": "3",
+      "imageUrl": "/images/banner/yonex-astrox-99_1757731351.webp",
+      "alt": "Yonex Astrox 99"
+    }
+  ]
+}

@@ -18,10 +18,24 @@ import {
 import toast from "react-hot-toast";
 import { getProductById } from "../../service/productApi";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeItem,
+  setCartItems,
+  setLoading,
+  updateItemQuantity,
+} from "../../redux/slices/cartSlice";
+
+import { APP_CONFIG } from "../../config";
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const {
+    items: cartItems,
+    loading,
+    total,
+  } = useSelector((state) => state.cart);
+
   const [showCheckout, setShowCheckout] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -37,21 +51,22 @@ const CartPage = () => {
       return;
     }
     const fetchCart = async () => {
+      dispatch(setLoading(true));
       try {
         const data = await getCartItems(userId);
         const sorted = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setCartItems(sorted);
+        dispatch(setCartItems(sorted));
       } catch (err) {
         toast.error("Lỗi load giỏ hàng!");
         console.error("Chi tiết lỗi load giỏ hàng:", err);
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
     fetchCart();
-  }, [userId, navigate]);
+  }, [userId, navigate, dispatch]);
 
   const handleUpdateQuantity = async (id, delta) => {
     const item = cartItems.find((i) => i.id === id);
@@ -65,10 +80,7 @@ const CartPage = () => {
         return;
       }
       await updateCartItemQuantity(id, newQuantity);
-
-      setCartItems((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i))
-      );
+      dispatch(updateItemQuantity({ id, newQuantity }));
     } catch (err) {
       console.error(err);
       toast.error("Không thể cập nhật số lượng sản phẩm. Vui lòng thử lại!");
@@ -78,33 +90,25 @@ const CartPage = () => {
   const handleDelete = async (id) => {
     try {
       await deleteCartItem(id);
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
+      dispatch(removeItem(id));
+      setShowDeleteModal(false);
     } catch (err) {
       toast.error("Không thể xóa sản phẩm. Vui lòng thử lại!");
     }
   };
+  const shippingFee = APP_CONFIG.SHIPPING_FEE;
+  const grandTotal = total + shippingFee;
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.salePrice * item.quantity,
-    0
-  );
-
+  if (loading) {
+    return (
+      <Container className="mt-5 text-center">
+        <Spinner animation="border" /> <p>Đang tải dữ liệu...</p>
+      </Container>
+    );
+  }
   return (
     <>
-      {loading ? (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <Button variant="primary" disabled>
-            <Spinner
-              as="span"
-              animation="grow"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />
-            Loading...
-          </Button>
-        </div>
-      ) : cartItems.length === 0 ? (
+      {cartItems.length === 0 ? (
         <div className="text-center">
           <Image src="/images/cartEmpty.png" className="me-3" />
           <p className="text-muted">
@@ -229,7 +233,7 @@ const CartPage = () => {
                 <hr />
                 <div className="d-flex justify-content-between mb-3">
                   <span>Tổng cộng</span>
-                  <strong>{(total + 30000).toLocaleString("vi-VN")}đ</strong>
+                  <strong>{grandTotal.toLocaleString("vi-VN")}đ</strong>
                 </div>
                 <Button
                   variant="success"
@@ -238,17 +242,17 @@ const CartPage = () => {
                   onClick={() => setShowCheckout(true)}
                 >
                   <i className="bi bi-bag-check-fill me-2" />
-                  Mua Hàng
+                  Đặt hàng
                 </Button>
               </div>
             </Col>
           </Row>
           {showCheckout && (
             <CheckoutForm
-              total={total}
+              grandTotal={grandTotal}
               cartItems={cartItems}
-              setCartItems={setCartItems}
-              setShowCheckout={setShowCheckout}
+              show={showCheckout}
+              onHide={() => setShowCheckout(false)}
             />
           )}
 
@@ -259,7 +263,6 @@ const CartPage = () => {
               if (itemToDelete) {
                 handleDelete(itemToDelete.id);
               }
-              setShowDeleteModal(false);
             }}
           />
         </Container>

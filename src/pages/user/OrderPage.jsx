@@ -1,31 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Container, Card, Badge, Spinner, Nav } from "react-bootstrap";
 import "../../styles/OrderPage.css";
 import { Link } from "react-router";
-import { getOrders } from "../../service/orderApi";
+import { getOrdersByUserId } from "../../service/orderApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setOrders } from "../../redux/slices/orderSlice";
+import toast from "react-hot-toast";
 const OrderPage = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { orders, loading } = useSelector((state) => state.order);
 
   const userId = JSON.parse(localStorage.getItem("user"))?.id;
 
   useEffect(() => {
     const fetchOrders = async () => {
+      dispatch(setLoading(true));
       try {
-        const data = await getOrders(userId);
+        const data = await getOrdersByUserId(userId);
         const sorted = data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setOrders(sorted);
+        dispatch(setOrders(sorted));
+        dispatch(setLoading(false));
       } catch (err) {
+        toast.error("Lỗi load đơn hàng!");
         console.error("Lỗi khi fetch orders:", err);
-      } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [userId, dispatch]);
 
   const formatDate = (isoString) => {
     const date = new Date(isoString);
@@ -36,10 +41,8 @@ const OrderPage = () => {
     switch (status) {
       case "pending":
         return <Badge bg="warning">Chờ xác nhận</Badge>;
-      case "shipping":
-        return <Badge bg="info">Đang giao</Badge>;
-      case "done":
-        return <Badge bg="success">Hoàn tất</Badge>;
+      case "confirm":
+        return <Badge bg="success">Đã xác nhận</Badge>;
       default:
         return <Badge bg="secondary">Không xác định</Badge>;
     }
@@ -62,7 +65,7 @@ const OrderPage = () => {
       {orders.length === 0 ? (
         <div className="text-center">
           <img src="/images/empty-order.png" alt="" />
-          <p class="text-muted">Chưa có đơn hàng</p>
+          <p className="text-muted">Chưa có đơn hàng</p>
         </div>
       ) : (
         orders.map((order) => (
@@ -79,7 +82,11 @@ const OrderPage = () => {
 
             <Card.Body>
               {order.products.map((p) => (
-                <Nav.Link as={Link} to={`/orders/${order.id}`}>
+                <Nav.Link
+                  as={Link}
+                  to={`/orders/${order.id}`}
+                  key={p.productId}
+                >
                   <div
                     key={p.productId}
                     className="order-item d-flex align-items-center"

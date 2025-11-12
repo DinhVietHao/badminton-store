@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import {
   Card,
   Form,
@@ -23,6 +23,7 @@ import {
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation(); // ✅ Thêm để theo dõi khi quay lại trang login
 
   const { user, isAuthenticated, loading, error } = useSelector(selectAuth);
 
@@ -33,21 +34,21 @@ const LoginPage = () => {
   const [remember, setRemember] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Remember me
+  // 🕒 Lấy thông tin "Nhớ mật khẩu" từ localStorage
   useEffect(() => {
     const saved = localStorage.getItem("rememberedUser");
     if (saved) {
       const { email, password, expires } = JSON.parse(saved);
-      if (!expires || Date.now() < expires) {
+      if (expires && Date.now() < expires) {
         setFormData({ email, password });
         setRemember(true);
       } else {
         localStorage.removeItem("rememberedUser");
       }
     }
-  }, []);
+  }, [location]); // ✅ thêm location để khi quay lại trang login sau logout vẫn auto điền
 
-  // Điều hướng sau khi đăng nhập thành công
+  // 🔁 Điều hướng sau khi đăng nhập thành công
   useEffect(() => {
     if (isAuthenticated && user) {
       if (user.role === "admin") {
@@ -58,37 +59,37 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, user, navigate]);
 
-  // Xóa lỗi khi unmount
+  // 🧹 Xóa lỗi khi unmount
   useEffect(() => {
     return () => {
       dispatch(clearError());
     };
   }, [dispatch]);
 
-  // Xử lý thay đổi form đăng nhập
+  // ✍️ Cập nhật dữ liệu form
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Xử lý đăng nhập
+  // 🚀 Xử lý đăng nhập
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
+
     try {
       const { data: users } = await axios.get("http://localhost:5000/users");
       const foundUser = users.find(
         (u) => u.email === formData.email && u.password === formData.password
       );
 
-      if (!foundUser) {
-        throw new Error("Sai email hoặc mật khẩu!");
-      }
+      if (!foundUser) throw new Error("Sai email hoặc mật khẩu!");
 
       localStorage.setItem("user", JSON.stringify(foundUser));
       dispatch(setUser(foundUser));
 
+      // 💾 Nếu chọn "Nhớ mật khẩu"
       if (remember) {
-        const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
+        const expires = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 ngày
         localStorage.setItem(
           "rememberedUser",
           JSON.stringify({ ...formData, expires })
