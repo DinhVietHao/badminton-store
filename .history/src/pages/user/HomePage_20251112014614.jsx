@@ -27,7 +27,7 @@ const HomePage = () => {
   const { products, loading } = useFetchProducts();
   const { addToCart } = useAddToCart();
 
-  const featuredProducts = products.slice(0, 32);
+  const featuredProducts = products.slice(0, 30);
 
   useEffect(() => {
     const fetchHomePage = async () => {
@@ -413,7 +413,7 @@ const HomePage = () => {
         </h2>
 
         <div className="row g-4">
-          {featuredProducts.slice(0, showMore ? 32 : 12).map((product) => {
+          {featuredProducts.slice(0, showMore ? 30 : 10).map((product) => {
             const original = Number(product.originalPrice) || 0;
             const sale = Number(product.salePrice) || 0;
             const discountPercent =
@@ -530,27 +530,25 @@ const HomePage = () => {
           })}
         </div>
 
-        {featuredProducts.length > 12 && (
-          <div className="text-center mt-4">
-            {!showMore ? (
-              <Button
-                variant="danger"
-                onClick={() => setShowMore(true)}
-                className="px-4"
-              >
-                Xem thêm ({featuredProducts.length - 12} sản phẩm)
-              </Button>
-            ) : (
-              <Button
-                variant="outline-secondary"
-                onClick={() => setShowMore(false)}
-                className="px-4"
-              >
-                Thu gọn
-              </Button>
-            )}
-          </div>
-        )}
+        <div className="text-center mt-4">
+          {!showMore ? (
+            <Button
+              variant="danger"
+              onClick={() => setShowMore(true)}
+              className="px-4"
+            >
+              Xem thêm
+            </Button>
+          ) : (
+            <Button
+              variant="outline-secondary"
+              onClick={() => setShowMore(false)}
+              className="px-4"
+            >
+              Thu gọn
+            </Button>
+          )}
+        </div>
       </section>
     </div>
   );

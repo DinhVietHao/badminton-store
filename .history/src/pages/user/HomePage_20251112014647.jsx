@@ -27,7 +27,7 @@ const HomePage = () => {
   const { products, loading } = useFetchProducts();
   const { addToCart } = useAddToCart();
 
-  const featuredProducts = products.slice(0, 32);
+  const featuredProducts = products.slice(0, 30);
 
   useEffect(() => {
     const fetchHomePage = async () => {

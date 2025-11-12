@@ -27,7 +27,7 @@ const HomePage = () => {
   const { products, loading } = useFetchProducts();
   const { addToCart } = useAddToCart();
 
-  const featuredProducts = products.slice(0, 32);
+  const featuredProducts = products.slice(0, 30);
 
   useEffect(() => {
     const fetchHomePage = async () => {
@@ -413,7 +413,7 @@ const HomePage = () => {
         </h2>
 
         <div className="row g-4">
-          {featuredProducts.slice(0, showMore ? 32 : 12).map((product) => {
+          {featuredProducts.slice(0, showMore ? 32 : 10).map((product) => {
             const original = Number(product.originalPrice) || 0;
             const sale = Number(product.salePrice) || 0;
             const discountPercent =
