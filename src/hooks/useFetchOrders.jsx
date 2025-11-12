@@ -5,8 +5,9 @@ import { setLoading, setOrders } from "../redux/slices/orderSlice";
 
 export const useFetchOrders = () => {
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.orders.orders);
-  const loading = useSelector((state) => state.orders.loading);
+
+  const orders = useSelector((state) => state.order.orders);
+  const loading = useSelector((state) => state.order.loading);
 
   useEffect(() => {
     const fetchOrders = async () => {

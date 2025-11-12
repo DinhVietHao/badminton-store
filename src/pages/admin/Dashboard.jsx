@@ -323,38 +323,6 @@ const Dashboard = () => {
                     />
                   </div>
 
-                  <div className="mb-4">
-                    <div className="d-flex justify-content-between mb-2">
-                      <span>Đang giao</span>
-                      <strong className="text-info">
-                        {stats.orderStats.shipping}
-                      </strong>
-                    </div>
-                    <ProgressBar
-                      variant="info"
-                      now={
-                        (stats.orderStats.shipping / stats.orderStats.total) *
-                        100
-                      }
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="d-flex justify-content-between mb-2">
-                      <span>Hoàn thành</span>
-                      <strong className="text-success">
-                        {stats.orderStats.completed}
-                      </strong>
-                    </div>
-                    <ProgressBar
-                      variant="success"
-                      now={
-                        (stats.orderStats.completed / stats.orderStats.total) *
-                        100
-                      }
-                    />
-                  </div>
-
                   <hr />
 
                   <div className="d-flex justify-content-between">
