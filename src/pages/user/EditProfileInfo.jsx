@@ -40,15 +40,7 @@ const EditProfileInfo = () => {
     birthday: user?.birthday || "",
   });
 
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
-  const [pwLoading, setPwLoading] = useState(false);
   const [message, setMessage] = useState(null);
-  const [pwMessage, setPwMessage] = useState(null);
 
   useEffect(() => {
     dispatch(clearError());
@@ -62,11 +54,6 @@ const EditProfileInfo = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handlePasswordChange = (e) => {
-    const { name, value } = e.target;
-    setPasswordData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = async () => {
@@ -95,50 +82,6 @@ const EditProfileInfo = () => {
       dispatch(setLoading(false));
     } catch (err) {
       dispatch(setError("Có lỗi xảy ra, vui lòng thử lại!"));
-    }
-  };
-
-  const handlePasswordSave = async () => {
-    setPwLoading(true);
-    setPwMessage(null);
-
-    if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setPwMessage({ type: "danger", text: "Mật khẩu xác nhận không khớp!" });
-      setPwLoading(false);
-      return;
-    }
-
-    try {
-      if (user.password !== passwordData.currentPassword) {
-        throw new Error("Mật khẩu hiện tại không đúng.");
-      }
-
-      const updatedUserData = { ...user, password: passwordData.newPassword };
-
-      const response = await axios.put(
-        `http://localhost:5000/users/${user.id}`,
-        updatedUserData
-      );
-
-      localStorage.setItem("user", JSON.stringify(response.data));
-
-      dispatch(updateUser(response.data));
-
-      setPwMessage({ type: "success", text: "Đổi mật khẩu thành công!" });
-      setPasswordData({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-    } catch (err) {
-      setPwMessage({
-        type: "danger",
-        text:
-          err.message ||
-          "Đổi mật khẩu thất bại. Kiểm tra lại mật khẩu hiện tại!",
-      });
-    } finally {
-      setPwLoading(false);
     }
   };
 
