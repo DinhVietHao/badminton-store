@@ -83,20 +83,6 @@ const AccountPage = () => {
       link: "/orders",
       color: "success",
     },
-    {
-      icon: <FaHeart />,
-      title: "Sản phẩm yêu thích",
-      description: "Danh sách sản phẩm bạn đã lưu",
-      link: `/profile/${id}/favorites`,
-      color: "warning",
-    },
-    {
-      icon: <FaBell />,
-      title: "Thông báo",
-      description: "Cập nhật về đơn hàng và khuyến mãi",
-      link: `/profile/${id}/notifications`,
-      color: "info",
-    },
   ];
 
   return (
@@ -194,13 +180,11 @@ const AccountPage = () => {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 16px rgba(0,0,0,0.15)";
+                e.currentTarget.style.boxShadow = "0 8px 16px rgba(0,0,0,0.15)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 2px 8px rgba(0,0,0,0.1)";
+                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
               }}
             >
               <Card.Body className="d-flex align-items-start">
