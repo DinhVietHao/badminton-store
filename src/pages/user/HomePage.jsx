@@ -1,3 +1,4 @@
+// src/pages/home/HomePage.js
 import { useEffect, useState } from "react";
 import {
   Carousel as BSCarousel,
@@ -15,7 +16,8 @@ import {
   FaCreditCard,
   FaHeadset,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // ✅ thêm useNavigate
+import Swal from "sweetalert2"; // ✅ SweetAlert2
 import { useAddToCart } from "../../hooks/useAddToCart";
 import { useFetchProducts } from "../../hooks/useFetchProducts";
 
@@ -24,10 +26,32 @@ const HomePage = () => {
   const [error, setError] = useState("");
   const [showMore, setShowMore] = useState(false);
 
+  const location = useLocation();
+  const navigate = useNavigate(); // ✅ thêm hook navigate
+
   const { products, loading } = useFetchProducts();
   const { addToCart } = useAddToCart();
 
   const featuredProducts = products.slice(0, 32);
+
+  // ✅ Hiển thị cảnh báo nếu bị redirect từ /admin
+  useEffect(() => {
+    if (location.state?.fromAdmin === true) {
+      Swal.fire({
+        icon: "warning",
+        title: "Truy cập bị từ chối",
+        text: "Bạn cần quyền quản trị viên để truy cập trang này.",
+        confirmButtonText: "Đã hiểu",
+        confirmButtonColor: "#d33",
+      }).then(() => {
+        // 🔁 Sau khi người dùng đóng cảnh báo, quay lại trang chủ
+        navigate("/", { replace: true });
+      });
+
+      // 🧹 Xóa state tránh lặp lại khi F5 hoặc quay lại
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [location.state, navigate]);
 
   useEffect(() => {
     const fetchHomePage = async () => {
@@ -59,6 +83,7 @@ const HomePage = () => {
 
   return (
     <div>
+      {/* --- CAROUSEL --- */}
       <BSCarousel>
         {images.map((img) => (
           <BSCarousel.Item key={img.id}>
@@ -71,6 +96,7 @@ const HomePage = () => {
         ))}
       </BSCarousel>
 
+      {/* --- ƯU ĐIỂM DỊCH VỤ --- */}
       <section className="container my-5">
         <div className="row g-3 text-center">
           <div className="col-6 col-md-3">
@@ -85,6 +111,7 @@ const HomePage = () => {
               <p className="text-muted small mb-0">Thanh toán khi nhận hàng</p>
             </div>
           </div>
+
           <div className="col-6 col-md-3">
             <div className="p-3 border rounded-4 bg-white h-100 shadow-sm hover-shadow">
               <FaWallet size={28} color="#449D44" className="mb-2" />
@@ -99,6 +126,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
+
           <div className="col-6 col-md-3">
             <div className="p-3 border rounded-4 bg-white h-100 shadow-sm hover-shadow">
               <FaCreditCard size={28} color="#449D44" className="mb-2" />
@@ -113,6 +141,7 @@ const HomePage = () => {
               </p>
             </div>
           </div>
+
           <div className="col-6 col-md-3">
             <div className="p-3 border rounded-4 bg-white h-100 shadow-sm hover-shadow">
               <FaHeadset size={28} color="#449D44" className="mb-2" />
