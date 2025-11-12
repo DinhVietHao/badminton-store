@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import {
   Table,
   Button,
@@ -13,21 +13,9 @@ import {
   Col,
   Pagination,
 } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectAllProducts,
-  selectProductsLoading,
-  selectProductsError,
-  setLoading,
-  setProducts,
-  addProduct,
-  updateProduct,
-  removeProduct,
-  setError,
-} from "../../redux/slices/productSlice";
+import { ProductContext } from "../../contexts/ProductContext";
 import { PencilSquare, Trash, PlusCircle, Eye } from "react-bootstrap-icons";
 import { Link } from "react-router";
-import toast from "react-hot-toast";
 
 const fmt = (value) =>
   typeof value === "number" && !Number.isNaN(value)
@@ -40,10 +28,7 @@ const STATUS_MAP = {
 };
 
 const ProductManager = () => {
-  const dispatch = useDispatch();
-  const products = useSelector(selectAllProducts);
-  const loading = useSelector(selectProductsLoading);
-  const error = useSelector(selectProductsError);
+  const { products, loading, error } = useContext(ProductContext);
 
   const [showModal, setShowModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -52,24 +37,6 @@ const ProductManager = () => {
   const [salePriceError, setSalePriceError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const PRODUCTS_PER_PAGE = 10;
-
-  // Fetch products on component mount
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      dispatch(setLoading(true));
-      const response = await fetch("http://localhost:5000/products");
-      if (!response.ok) throw new Error("Không thể tải danh sách sản phẩm");
-      const data = await response.json();
-      dispatch(setProducts(data));
-    } catch (err) {
-      dispatch(setError(err.message));
-      toast.error("Lỗi khi tải danh sách sản phẩm");
-    }
-  };
 
   const handleAdd = () => {
     setCurrentProduct(null);
@@ -185,22 +152,18 @@ const ProductManager = () => {
       setValidated(true);
       return;
     }
-
-    // Validate giá khuyến mãi
     const isSalePriceValid = validateSalePrice(
       formData.salePrice,
       formData.originalPrice
     );
-
-    // Kiểm tra form validity và giá khuyến mãi
+    
     if (form.checkValidity() === false || !isSalePriceValid) {
       setValidated(true);
       return;
     }
 
     setValidated(true);
-
-    // Lọc bỏ ảnh phụ trống
+    
     const cleanedGallery =
       formData.gallery?.filter((img) => img.trim() !== "") || [];
 
@@ -235,7 +198,7 @@ const ProductManager = () => {
         dataToSave.id = String(maxId + 1);
       } catch (err) {
         console.error("Lỗi khi lấy danh sách sản phẩm:", err);
-        toast.error("Không thể tạo ID sản phẩm mới");
+        alert("Không thể tạo ID sản phẩm mới");
         return;
       }
     }
@@ -247,69 +210,40 @@ const ProductManager = () => {
     const method = currentProduct ? "PUT" : "POST";
 
     try {
-      dispatch(setLoading(true));
       const res = await fetch(url, {
         method: method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToSave),
       });
-
       if (!res.ok) throw new Error("Lưu thất bại");
-
-      const savedProduct = await res.json();
-
-      if (currentProduct) {
-        dispatch(updateProduct(savedProduct));
-        toast.success("Cập nhật sản phẩm thành công!");
-      } else {
-        dispatch(addProduct(savedProduct));
-        toast.success("Thêm sản phẩm thành công!");
-      }
-
+      alert("Đã lưu thành công!");
       handleClose();
+      window.location.reload();
     } catch (err) {
       console.error(err);
-      dispatch(setError(err.message));
-      toast.error("Đã xảy ra lỗi khi lưu");
-    } finally {
-      dispatch(setLoading(false));
+      alert("Đã xảy ra lỗi khi lưu");
     }
   };
 
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
       try {
-        dispatch(setLoading(true));
         const res = await fetch(`http://localhost:5000/products/${id}`, {
           method: "DELETE",
         });
-
         if (!res.ok) throw new Error("Xóa thất bại");
-
-        dispatch(removeProduct(id));
-        toast.success("Đã xóa sản phẩm thành công!");
+        alert("Đã xóa thành công!");
+        window.location.reload();
       } catch (err) {
         console.error(err);
-        dispatch(setError(err.message));
-        toast.error("Đã xảy ra lỗi khi xóa");
-      } finally {
-        dispatch(setLoading(false));
+        alert("Đã xảy ra lỗi khi xóa");
       }
     }
   };
 
-  if (loading && products.length === 0) {
-    return (
-      <div className="text-center my-5">
-        <Spinner animation="border" variant="primary" />
-        <p className="mt-2">Đang tải dữ liệu...</p>
-      </div>
-    );
-  }
-
-  if (error && products.length === 0) {
-    return <Alert variant="danger">Lỗi: {error}</Alert>;
-  }
+  if (loading) return <Spinner animation="border" />;
+  if (error)
+    return <Alert variant="danger">Lỗi: {error.message || error}</Alert>;
 
   const pageCount = Math.ceil(products.length / PRODUCTS_PER_PAGE);
   const indexOfLastProduct = currentPage * PRODUCTS_PER_PAGE;
@@ -821,25 +755,9 @@ const ProductManager = () => {
             <Button variant="secondary" onClick={handleClose}>
               Hủy
             </Button>
-            <Button variant="primary" type="submit" disabled={loading}>
-              {loading ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                    className="me-2"
-                  />
-                  Đang xử lý...
-                </>
-              ) : (
-                <>
-                  <PlusCircle className="me-2" />
-                  {currentProduct ? "Cập nhật" : "Thêm mới"}
-                </>
-              )}
+            <Button variant="primary" type="submit">
+              <PlusCircle className="me-2" />
+              {currentProduct ? "Cập nhật" : "Thêm mới"}
             </Button>
           </Modal.Footer>
         </Form>

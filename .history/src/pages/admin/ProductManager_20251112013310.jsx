@@ -253,11 +253,11 @@ const ProductManager = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToSave),
       });
-
+      
       if (!res.ok) throw new Error("Lưu thất bại");
-
+      
       const savedProduct = await res.json();
-
+      
       if (currentProduct) {
         dispatch(updateProduct(savedProduct));
         toast.success("Cập nhật sản phẩm thành công!");
@@ -265,7 +265,7 @@ const ProductManager = () => {
         dispatch(addProduct(savedProduct));
         toast.success("Thêm sản phẩm thành công!");
       }
-
+      
       handleClose();
     } catch (err) {
       console.error(err);
@@ -283,9 +283,9 @@ const ProductManager = () => {
         const res = await fetch(`http://localhost:5000/products/${id}`, {
           method: "DELETE",
         });
-
+        
         if (!res.ok) throw new Error("Xóa thất bại");
-
+        
         dispatch(removeProduct(id));
         toast.success("Đã xóa sản phẩm thành công!");
       } catch (err) {
