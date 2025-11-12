@@ -110,6 +110,7 @@ Badminton Store là một ứng dụng web e-commerce chuyên nghiệp được 
 
 📁 Cấu Trúc Dự Án
 badminton-store/
+│
 ├── api/
 │ └── db.json # Database JSON Server
 │
@@ -120,78 +121,38 @@ badminton-store/
 │ │ └── products/ # Product images
 │ └── index.html
 │
-├── src/
-│ ├── components/ # Reusable components
-│ │ ├── Header.jsx # Main header
-│ │ ├── Footer.jsx # Main footer
-│ │ ├── layouts-admin/ # Admin components
-│ │ │ ├── AdminSidebar.jsx
-│ │ │ ├── OrderDetailModal.jsx
-│ │ │ └── RevenueChart.jsx
-│ │ └── layouts-user/ # User components
-│ │ ├── CheckoutForm.jsx
-│ │ ├── ProductSidebar.jsx
-│ │ └── DeleteConfirmModal.jsx
-│ │
-│ ├── layouts/ # Layout wrappers
-│ │ ├── MainLayout.jsx # User layout
-│ │ └── AdminLayout.jsx # Admin layout
-│ │
-│ ├── pages/ # Page components
-│ │ ├── user/ # User pages
-│ │ │ ├── HomePage.jsx
-│ │ │ ├── ProductPage.jsx
-│ │ │ ├── ProductDetail.jsx
-│ │ │ ├── CartPage.jsx
-│ │ │ ├── LoginPage.jsx
-│ │ │ ├── RegisterPage.jsx
-│ │ │ ├── AccountPage.jsx
-│ │ │ ├── EditProfileInfo.jsx
-│ │ │ ├── OrderPage.jsx
-│ │ │ └── OrderDetailPage.jsx
-│ │ │
-│ │ └── admin/ # Admin pages
-│ │ ├── Dashboard.jsx
-│ │ ├── ProductManager.jsx
-│ │ ├── ProductDetail.jsx
-│ │ ├── OrderManager.jsx
-│ │ └── UserManager.jsx
-│ │
-│ ├── redux/ # Redux setup
-│ │ ├── store.js # Redux store
-│ │ └── slices/ # Redux slices
-│ │ ├── authSlice.js # Authentication
-│ │ ├── productSlice.js # Products
-│ │ ├── orderSlice.js # Orders
-│ │ ├── userSlice.js # Users
-│ │ └── cartSlice.js # Cart
-│ │
-│ ├── hooks/ # Custom hooks
-│ │ ├── useFetchProducts.jsx
-│ │ ├── useFetchProductById.jsx
-│ │ ├── useFetchOrders.jsx
-│ │ ├── useFetchUsers.jsx
-│ │ └── useAddToCart.jsx
-│ │
-│ ├── service/ # API services
-│ │ ├── productApi.js
-│ │ ├── orderApi.js
-│ │ └── cartApi.js
-│ │
-│ ├── utils/ # Utilities
-│ │ └── dashboardStats.js # Dashboard calculations
-│ │
-│ ├── routes/ # Routing
-│ │ └── AppRoutes.jsx
-│ │
-│ ├── styles/ # CSS files
-│ │ ├── global.css
-│ │ ├── homePage.css
-│ │ ├── CartPage.css
-│ │ └── OrderPage.css
-│ │
-│ ├── App.jsx # Root component
-│ └── index.js # Entry point
+└── src/
+├── components/ # Reusable components
+│ ├── Header.jsx # Main header
+│ ├── Footer.jsx # Main footer
+│ ├── layouts-admin/ # Admin components
+│ │ ├── AdminSidebar.jsx
+│ │ ├── OrderDetailModal.jsx
+│ │ └── RevenueChart.jsx
+│ └── layouts-user/ # User components
+│ ├── CheckoutForm.jsx
+│ ├── ProductSidebar.jsx
+│ └── DeleteConfirmModal.jsx
 │
-├── package.json
-└── README.md
+├── layouts/ # Layout wrappers
+│ ├── MainLayout.jsx # User layout
+│ └── AdminLayout.jsx # Admin layout
+│
+├── pages/ # Page components
+│ ├── user/ # User pages
+│ │ ├── HomePage.jsx
+│ │ ├── ProductPage.jsx
+│ │ ├── ProductDetail.jsx
+│ │ ├── CartPage.jsx
+│ │ ├── LoginPage.jsx
+│ │ ├── RegisterPage.jsx
+│ │ ├── AccountPage.jsx
+│ │ ├── EditProfileInfo.jsx
+│ │ ├── OrderPage.jsx
+│ │ └── OrderDetailPage.jsx
+│ │
+│ └── admin/ # Admin pages
+│ ├── Dashboard.jsx
+│ ├── ProductManager.jsx
+│ ├── ProductDetail.jsx
+│ ├── OrderManager.jsx
