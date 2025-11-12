@@ -1,70 +1,197 @@
-# Getting Started with Create React App
+🏸 Badminton Store - E-commerce Platform
+Hệ thống quản lý và bán hàng trực tuyến chuyên về vợt cầu lông và phụ kiện thể thao
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+\*Source code: https://github.com/DinhVietHao/badminton-store.git
 
-## Available Scripts
+🎯 Giới Thiệu
+Badminton Store là một ứng dụng web e-commerce chuyên nghiệp được xây dựng bằng React và Redux Toolkit, cung cấp nền tảng mua sắm trực tuyến cho các sản phẩm vợt cầu lông và phụ kiện thể thao.
 
-In the project directory, you can run:
+✨ Điểm Nổi Bật
 
-### `npm start`
+- Single Page Application (SPA) với React Router v6
+- State Management hiện đại với Redux Toolkit
+- Responsive Design với React Bootstrap
+- Authentication & Authorization đầy đủ
+- Admin Dashboard với biểu đồ thống kê
+- Shopping Cart với real-time updates
+- Advanced Product Filtering và tìm kiếm
+- Tính Năng
+- Người Dùng (Customer)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+🏠 Trang Chính
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Banner slider với sản phẩm nổi bật
+- Hiển thị sản phẩm mới nhất
+- Danh sách sản phẩm bán chạy
+- Thông tin dịch vụ (vận chuyển, bảo hành...)
 
-### `npm test`
+🛍️ Mua Sắm
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Danh sách sản phẩm với pagination
+- Bộ lọc nâng cao:
+  - Theo giá
+  - Theo thương hiệu (Yonex, Lining, Victor, VNB...)
+  - Theo trình độ người chơi
+  - Theo phong cách chơi
+  - Theo trạng thái (còn hàng/hết hàng)
+- Tìm kiếm theo tên, SKU, thương hiệu
+- Chi tiết sản phẩm:
+  - Gallery ảnh sản phẩm
+  - Thông số kỹ thuật đầy đủ
+  - Giá gốc và giá khuyến mãi
+- Đánh giá và mô tả
 
-### `npm run build`
+🛒 Giỏ Hàng
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Thêm/xóa/cập nhật số lượng sản phẩm
+- Tính tổng tiền tự động
+- Kiểm tra số lượng tồn kho
+- Lưu giỏ hàng theo user
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+💳 Thanh Toán
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Form thông tin giao hàng
+- Xác nhận đơn hàng
+- Lịch sử đơn hàng
+- Chi tiết từng đơn hàng
 
-### `npm run eject`
+👤 Quản Lý Tài Khoản
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Đăng ký/Đăng nhập
+- Quên mật khẩu với OTP
+- Cập nhật thông tin cá nhân
+- Đổi mật khẩu
+- Avatar mặc định theo role
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+👨‍💼 Quản Trị Viên (Admin)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Thống kê tổng quan:
+  - Tổng sản phẩm
+  - Tổng đơn hàng
+  - Số lượng người dùng
+  - Doanh thu
+  - Biểu đồ doanh thu theo tháng (Chart.js)
+  - Top 5 sản phẩm bán chạy
+  - Trạng thái đơn hàng (Progress bars)
+  - Tỷ lệ tăng trưởng so với kỳ trước
+- Quản Lý Sản Phẩm
+  - Thêm sản phẩm mới
+  - Sửa thông tin sản phẩm
+  - Xóa sản phẩm
+  - Xem chi tiết
+- Quản lý tồn kho
+  - Danh sách đơn hàng với pagination
+  - Xem chi tiết đơn hàng
+  - Cập nhật trạng thái (chờ xác nhận → đã xác nhận)
+- Quản Lý Người Dùng
+  - Danh sách người dùng
+  - Phân biệt Admin/Customer
+  - Thống kê số lượng
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+🛠️ Công Nghệ Sử Dụng
+\*Fontend
 
-## Learn More
+- React 18.x - UI Library
+- Redux Toolkit - State Management
+- React Router v6 - Routing
+- React Bootstrap - UI Components
+- Bootstrap 5 - CSS Framework
+- React Icons - Icon Library
+- Axios - HTTP Client
+- Chart.js + react-chartjs-2 - Data Visualization
+- React Slick - Carousel Component
+- React DatePicker - Date Picker
+- React Hot Toast - Toast Notifications
+- zxcvbn - Password Strength Meter
+  \*Backend (API)
+- JSON Server - Mock REST API
+- Dev Tools
+- Redux DevTools - State Debugging
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+📁 Cấu Trúc Dự Án
+badminton-store/
+├── api/
+│ └── db.json # Database JSON Server
+│
+├── public/
+│ ├── images/ # Static images
+│ │ ├── banner/ # Homepage banners
+│ │ ├── logo/ # Logo
+│ │ └── products/ # Product images
+│ └── index.html
+│
+├── src/
+│ ├── components/ # Reusable components
+│ │ ├── Header.jsx # Main header
+│ │ ├── Footer.jsx # Main footer
+│ │ ├── layouts-admin/ # Admin components
+│ │ │ ├── AdminSidebar.jsx
+│ │ │ ├── OrderDetailModal.jsx
+│ │ │ └── RevenueChart.jsx
+│ │ └── layouts-user/ # User components
+│ │ ├── CheckoutForm.jsx
+│ │ ├── ProductSidebar.jsx
+│ │ └── DeleteConfirmModal.jsx
+│ │
+│ ├── layouts/ # Layout wrappers
+│ │ ├── MainLayout.jsx # User layout
+│ │ └── AdminLayout.jsx # Admin layout
+│ │
+│ ├── pages/ # Page components
+│ │ ├── user/ # User pages
+│ │ │ ├── HomePage.jsx
+│ │ │ ├── ProductPage.jsx
+│ │ │ ├── ProductDetail.jsx
+│ │ │ ├── CartPage.jsx
+│ │ │ ├── LoginPage.jsx
+│ │ │ ├── RegisterPage.jsx
+│ │ │ ├── AccountPage.jsx
+│ │ │ ├── EditProfileInfo.jsx
+│ │ │ ├── OrderPage.jsx
+│ │ │ └── OrderDetailPage.jsx
+│ │ │
+│ │ └── admin/ # Admin pages
+│ │ ├── Dashboard.jsx
+│ │ ├── ProductManager.jsx
+│ │ ├── ProductDetail.jsx
+│ │ ├── OrderManager.jsx
+│ │ └── UserManager.jsx
+│ │
+│ ├── redux/ # Redux setup
+│ │ ├── store.js # Redux store
+│ │ └── slices/ # Redux slices
+│ │ ├── authSlice.js # Authentication
+│ │ ├── productSlice.js # Products
+│ │ ├── orderSlice.js # Orders
+│ │ ├── userSlice.js # Users
+│ │ └── cartSlice.js # Cart
+│ │
+│ ├── hooks/ # Custom hooks
+│ │ ├── useFetchProducts.jsx
+│ │ ├── useFetchProductById.jsx
+│ │ ├── useFetchOrders.jsx
+│ │ ├── useFetchUsers.jsx
+│ │ └── useAddToCart.jsx
+│ │
+│ ├── service/ # API services
+│ │ ├── productApi.js
+│ │ ├── orderApi.js
+│ │ └── cartApi.js
+│ │
+│ ├── utils/ # Utilities
+│ │ └── dashboardStats.js # Dashboard calculations
+│ │
+│ ├── routes/ # Routing
+│ │ └── AppRoutes.jsx
+│ │
+│ ├── styles/ # CSS files
+│ │ ├── global.css
+│ │ ├── homePage.css
+│ │ ├── CartPage.css
+│ │ └── OrderPage.css
+│ │
+│ ├── App.jsx # Root component
+│ └── index.js # Entry point
+│
+├── package.json
+└── README.md
